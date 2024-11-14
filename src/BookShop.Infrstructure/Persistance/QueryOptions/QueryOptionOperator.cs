@@ -30,6 +30,16 @@ namespace BookShop.Infrastructure.Persistance.QueryOptions
             return queryOption;
         }
 
+
+
+        //public IQueryable<TEntity> ApplyOptions(Action<TQueryOption> queryOptionConfig , IQueryable<TEntity> query)
+        //{
+        //    TQueryOption queryOption = ConfigureQueryOption(queryOptionConfig);
+        //    query = PerformEntityIncludes(queryOption, query);
+        //    return query;
+        //}
+
+
     }
 
 }

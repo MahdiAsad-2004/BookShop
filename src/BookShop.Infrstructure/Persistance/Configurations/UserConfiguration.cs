@@ -21,9 +21,6 @@ namespace BookShop.Infrastructure.Persistance.Configurations
 
 
 
- 
-            builder.HasData(UsersSeed.SuperAdmin);
-
         }
     }
 }

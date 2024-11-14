@@ -40,6 +40,8 @@ namespace BookShop.Infrastructure
 
             AddCurrentUser(services);
 
+            
+
             return services;
         }
 

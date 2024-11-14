@@ -8,6 +8,7 @@ namespace BookShop.Domain.Entities
         public string Text { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
+        public bool IsAccepted { get; set; }
         public Guid? UserId { get; set; }
         public Guid ProductId { get; set; }
         

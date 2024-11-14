@@ -65,7 +65,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             TEntity? entity = await _dbContext.Set<TEntity>().FindAsync(key);
 
             if (entity == null)
-                throw new NotFoundException($"Entity with id ({key} not found)");
+                throw new NotFoundException($"Entity with id '{key}' not found");
             
             await Delete(entity);
         }
@@ -84,7 +84,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
                 .FirstOrDefaultAsync(a => a.Id.Equals(key) && a.IsDeleted == false);
 
             if (entity == null)
-                throw new NotFoundException($"Entity with id ({key} not found)");
+                throw new NotFoundException($"Entity with id '{key}' not found)");
 
             return entity;
         }
@@ -113,7 +113,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             TEntity? entity = await _dbContext.Set<TEntity>().FindAsync(key);
             
             if(entity == null)
-                throw new NotFoundException($"Entity with id ({key}) not found)");
+                throw new NotFoundException($"Entity with id '{key}' not found)");
 
             await SoftDelete(entity);
         }

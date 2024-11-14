@@ -30,7 +30,7 @@ namespace BookShop.Application.Common.Event.Handlers
             await _auditLogRepository.Add(_auditLogMapper.ToAuditLog<TEntity, TKey, EntityUpdatedEvent<TEntity, TKey>>
                 (notification.Entity, notification, AuditType.Update));
 
-            _logger.Information($"Domain Event: EntityUpdatedEvent<{typeof(TEntity).Name}> was handle.");
+            _logger.Information($"Domain Event: EntityUpdatedEvent<{typeof(TEntity).Name}> handled.");
         }
     }
 }

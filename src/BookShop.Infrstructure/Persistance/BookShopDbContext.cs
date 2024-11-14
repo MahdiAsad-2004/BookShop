@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace BookShop.Infrastructure.Persistance
 {
-    internal class BookShopDbContext : DbContext
+    public class BookShopDbContext : DbContext
     {
         #region constructor
 

@@ -31,7 +31,7 @@ namespace BookShop.Application.Common.Event.Handlers
             await _auditLogRepository.Add(_auditLogMapper.ToAuditLog<TEntity,TKey,EntityDeletedEvent<TEntity,TKey>>
                 (notification.Entity ,notification ,AuditType.Delete));
 
-            _logger.Information($"Domain Event: EntityDeletedEvent<{typeof(TEntity).Name}> was handle.");
+            _logger.Information($"Domain Event: EntityDeletedEvent<{typeof(TEntity).Name}> handled.");
         }
     }
 }

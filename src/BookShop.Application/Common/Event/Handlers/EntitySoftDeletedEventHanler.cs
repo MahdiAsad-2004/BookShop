@@ -30,7 +30,7 @@ namespace BookShop.Application.Common.Event.Handlers
             await _auditLogRepository.Add(_auditLogMapper.ToAuditLog<TEntity, TKey, EntitySoftDeletedEvent<TEntity, TKey>>
                 (notification.Entity, notification, AuditType.Update));
 
-            _logger.Information($"Domain Event: EntitySoftDeletedEvent<{typeof(TEntity).Name}> was handle.");
+            _logger.Information($"Domain Event: EntitySoftDeletedEvent<{typeof(TEntity).Name}> handled.");
         }
     }
 }

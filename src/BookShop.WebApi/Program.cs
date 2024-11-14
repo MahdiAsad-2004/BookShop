@@ -1,6 +1,7 @@
 using BookShop.Application;
 using BookShop.Infrastructure;
 using BookShop.Infrastructure.Setting;
+using BookShop.Infrstructure.Persistance.SeedDatas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,11 +24,16 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+Seed seed = new Seed(app.Services);
+await seed.SeedDatas();
 
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
+public partial class Program { }

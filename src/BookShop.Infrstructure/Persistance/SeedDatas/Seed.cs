@@ -22,6 +22,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
             {
                 if(await dbContext.Database.CanConnectAsync())
                 {
+                    if(dbContext.Users.Any() == false)
                     await dbContext.Users.AddAsync(UsersSeed.SuperAdmin);
                     await dbContext.SaveChangesAsync();
                 }

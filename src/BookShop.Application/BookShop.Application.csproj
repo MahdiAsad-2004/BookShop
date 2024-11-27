@@ -13,6 +13,7 @@
     <Folder Include="Features\Book\Queries\" />
     <Folder Include="Features\Product\Commands\" />
     <Folder Include="Features\User\" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

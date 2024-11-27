@@ -9,8 +9,8 @@ namespace BookShop.Domain.Entities
         public string? NormalizedName { get; set; }
 
 
-        public IEnumerable<RoleClaim> RoleClaims { get; set; }
-        public IEnumerable<User_Role> User_Roles { get; set; }
+        public IList<RoleClaim> RoleClaims { get; set; }
+        public IList<User_Role> User_Roles { get; set; }
 
     }
 }

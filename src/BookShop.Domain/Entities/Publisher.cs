@@ -8,8 +8,8 @@ namespace BookShop.Domain.Entities
         public string ImageName { get; set; }
 
 
-        public IEnumerable<Book> Books { get; set; }
-        public IEnumerable<EBook> EBooks { get; set; }
+        public IList<Book> Books { get; set; }
+        public IList<EBook> EBooks { get; set; }
 
 
     }

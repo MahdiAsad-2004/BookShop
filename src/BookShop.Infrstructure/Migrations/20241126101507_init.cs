@@ -1,4 +1,5 @@
 ﻿using System;
+using BookShop.Infrstructure.Persistance.DbFunctions;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -66,10 +67,12 @@ namespace BookShop.Infrstructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DiscountPrice = table.Column<int>(type: "int", nullable: true),
+                    UsedCount = table.Column<int>(type: "int", nullable: false),
+                    MaximumUseCount = table.Column<int>(type: "int", nullable: true),
                     DiscountPercent = table.Column<float>(type: "real", nullable: true),
                     Priority = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -115,6 +118,7 @@ namespace BookShop.Infrstructure.Migrations
                     NumberOfInventory = table.Column<int>(type: "int", nullable: false),
                     SellCount = table.Column<int>(type: "int", nullable: false),
                     ProductType = table.Column<int>(type: "int", nullable: false),
+                    ReviewsAcceptedAverageScore = table.Column<float>(type: "real", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -248,7 +252,7 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product_Dsicounts",
+                name: "Product_Discounts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -264,15 +268,15 @@ namespace BookShop.Infrstructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product_Dsicounts", x => x.Id);
+                    table.PrimaryKey("PK_Product_Discounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_Dsicounts_Discounts_DiscountId",
+                        name: "FK_Product_Discounts_Discounts_DiscountId",
                         column: x => x.DiscountId,
                         principalTable: "Discounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Dsicounts_Products_ProductId",
+                        name: "FK_Product_Discounts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -690,9 +694,9 @@ namespace BookShop.Infrstructure.Migrations
                 columns: new[] { "Id", "CreateBy", "CreateDate", "DeleteDate", "DeletedBy", "IsDeleted", "LastModifiedBy", "LastModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("0f2b828b-a03f-4a8b-ae3a-9a0a56684e3c"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3621), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3660), "GetAuditLogsPermission" },
-                    { new Guid("5f3b2cca-2d5d-40b5-9972-4e9a3d70913e"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3742), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3747), "GetUsersPermission" },
-                    { new Guid("f5e469ea-4c9a-4e9a-938a-cf6d2eec58bd"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3705), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3729), "AddUserPermission" }
+                    { new Guid("b1065e34-eaa1-474d-b0e0-3b7449a64331"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3368), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3389), "GetUsersPermission" },
+                    { new Guid("ced6c73b-57f6-4dd1-a119-cf57bc4d1270"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3349), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3354), "AddUserPermission" },
+                    { new Guid("e6f0a433-f8d9-4ec8-87b4-7e89dae86a6c"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3266), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3305), "GetAuditLogsPermission" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -770,13 +774,13 @@ namespace BookShop.Infrstructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_Dsicounts_DiscountId",
-                table: "Product_Dsicounts",
+                name: "IX_Product_Discounts_DiscountId",
+                table: "Product_Discounts",
                 column: "DiscountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_Dsicounts_ProductId",
-                table: "Product_Dsicounts",
+                name: "IX_Product_Discounts_ProductId",
+                table: "Product_Discounts",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -823,6 +827,13 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_UserTokens_UserId",
                 table: "UserTokens",
                 column: "UserId");
+
+            DbFunctions dbFunctions = new DbFunctions();
+            foreach (var dbFunctionFile in dbFunctions.DbFunctionFiles())
+            {
+                migrationBuilder.Sql(dbFunctionFile.GetFileContent());
+            }
+
         }
 
         /// <inheritdoc />
@@ -847,7 +858,7 @@ namespace BookShop.Infrstructure.Migrations
                 name: "PasswordHistories");
 
             migrationBuilder.DropTable(
-                name: "Product_Dsicounts");
+                name: "Product_Discounts");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

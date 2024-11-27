@@ -297,7 +297,7 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<int?>("DiscountPrice")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -310,6 +310,9 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MaximumUseCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -317,8 +320,11 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("UsedCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -521,32 +527,32 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0f2b828b-a03f-4a8b-ae3a-9a0a56684e3c"),
+                            Id = new Guid("e6f0a433-f8d9-4ec8-87b4-7e89dae86a6c"),
                             CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3621),
+                            CreateDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3266),
                             IsDeleted = false,
                             LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3660),
+                            LastModifiedDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3305),
                             Name = "GetAuditLogsPermission"
                         },
                         new
                         {
-                            Id = new Guid("f5e469ea-4c9a-4e9a-938a-cf6d2eec58bd"),
+                            Id = new Guid("ced6c73b-57f6-4dd1-a119-cf57bc4d1270"),
                             CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3705),
+                            CreateDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3349),
                             IsDeleted = false,
                             LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3729),
+                            LastModifiedDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3354),
                             Name = "AddUserPermission"
                         },
                         new
                         {
-                            Id = new Guid("5f3b2cca-2d5d-40b5-9972-4e9a3d70913e"),
+                            Id = new Guid("b1065e34-eaa1-474d-b0e0-3b7449a64331"),
                             CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3742),
+                            CreateDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3368),
                             IsDeleted = false,
                             LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 14, 14, 46, 13, 52, DateTimeKind.Utc).AddTicks(3747),
+                            LastModifiedDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3389),
                             Name = "GetUsersPermission"
                         });
                 });
@@ -599,6 +605,9 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<int>("ProductType")
                         .HasColumnType("int");
+
+                    b.Property<float?>("ReviewsAcceptedAverageScore")
+                        .HasColumnType("real");
 
                     b.Property<int>("SellCount")
                         .HasColumnType("int");
@@ -653,7 +662,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Product_Dsicounts", (string)null);
+                    b.ToTable("Product_Discounts", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Publisher", b =>

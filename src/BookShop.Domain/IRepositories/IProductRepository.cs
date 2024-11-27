@@ -1,4 +1,5 @@
-﻿using BookShop.Domain.Common.Repository;
+﻿using BookShop.Domain.Common.QueryOption;
+using BookShop.Domain.Common.Repository;
 using BookShop.Domain.Entities;
 using BookShop.Domain.QueryOptions;
 
@@ -14,9 +15,15 @@ namespace BookShop.Domain.IRepositories
         public Task<Product> GetByTitle(string title , ProductQueryOption? queryOption = null);
      
 
-        public Task<Product> Get(Guid id, ProductQueryOption? queryOption = null);
+        public Task<Product> Get(Guid id, ProductQueryOption queryOption);
+
+        public Task<IEnumerable<Product>> GetAll(ProductQueryOption queryOption, Paging? paging = null, ProductSortingOrder? sortingOrder = null );
 
 
+        public Task<Product> GetWithQuery(Guid id, ProductQueryOption? queryOption);
+
+
+        public Task<IEnumerable<Product>> GetAllWithQuery(ProductQueryOption queryOption, Paging? paging = null, ProductSortingOrder? sortingOrder = null);
     }
 
 }

@@ -2,6 +2,9 @@
 using BookShop.Application.Common.Dtos;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Domain.Entities;
+using BookShop.Domain.Enums;
+using BookShop.Domain.Exceptions;
+using BookShop.Domain.Identity;
 using BookShop.Domain.IRepositories;
 using BookShop.Domain.QueryOptions;
 using MediatR;
@@ -13,6 +16,8 @@ namespace BookShop.Application.Features.Product.Queries.GetSummary
     {
         public Guid? Id { get; set; }
         public string? Title { get; set; }
+        public ProductType? ProductType { get; set; } = null;
+    
     }
 
 
@@ -36,7 +41,7 @@ namespace BookShop.Application.Features.Product.Queries.GetSummary
             Domain.Entities.Product? product = null;
             if(request.Id != null)
             {
-                product = await _productRepository.Get(request.Id.Value,new ProductQueryOption
+                product = await _productRepository.GetWithQuery(request.Id.Value,new ProductQueryOption
                 {
                     IncludeDiscounts = true,
                     IncludeReviews = true,
@@ -51,7 +56,8 @@ namespace BookShop.Application.Features.Product.Queries.GetSummary
                 });
             }
             else 
-            {   
+            {
+                throw new NotFoundException("Product not found!");
             }
 
            

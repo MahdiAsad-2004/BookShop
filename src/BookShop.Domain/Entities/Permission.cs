@@ -9,7 +9,7 @@ namespace BookShop.Domain.Entities
 
 
 
-        public IEnumerable<User_Permission> User_Permissions { get; set; }
+        public IList<User_Permission> User_Permissions { get; set; }
 
     }
 }

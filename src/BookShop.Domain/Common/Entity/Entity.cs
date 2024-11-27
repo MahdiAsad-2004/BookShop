@@ -6,14 +6,14 @@ namespace BookShop.Domain.Common.Entity
         //where TId : struct
     {
 
-        public TId Id { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime LastModifiedDate { get; set; }
-        public string CreateBy { get; set; }
-        public string LastModifiedBy { get; set; }
-        public DateTime? DeleteDate { get; set; }
-        public string? DeletedBy { get; set; }
-        public bool IsDeleted { get; set; }
+        public TId Id { get; set; } 
+        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
+        public DateTime LastModifiedDate { get; set; } = DateTime.UtcNow;
+        public string CreateBy { get; set; } = string.Empty;
+        public string LastModifiedBy { get; set; } = string.Empty;
+        public DateTime? DeleteDate { get; set; } = null;
+        public string? DeletedBy { get; set; } = null;
+        public bool IsDeleted { get; set; } = false;
 
 
         private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();

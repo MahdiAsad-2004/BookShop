@@ -21,7 +21,7 @@ namespace BookShop.Domain.Entities
         public Product Product { get; set; }
         public Publisher Publisher { get; set; }
         public Translator? Translator { get; set; }
-        public IEnumerable<Author> Authors { get; set; }
+        public IList<Author> Authors { get; set; }
 
     }
 }

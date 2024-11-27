@@ -24,14 +24,14 @@ namespace BookShop.Domain.Entities
 
 
 
-        public IEnumerable<UserClaim> UserClaims { get; set; }
-        public IEnumerable<User_Role> User_Roles { get; set; }
-        public IEnumerable<AuditLog> AuditLogs { get; set; }
-        public IEnumerable<Favorite> Favorites { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
-        public IEnumerable<PasswordHistory> PasswordHistories { get; set; }
-        public IEnumerable<UserToken> UserTokens { get; set; }
-        public IEnumerable<User_Permission> User_Permissions { get; set; }
+        public IList<UserClaim> UserClaims { get; set; }
+        public IList<User_Role> User_Roles { get; set; }
+        public IList<AuditLog> AuditLogs { get; set; }
+        public IList<Favorite> Favorites { get; set; }
+        public IList<Review> Reviews { get; set; }
+        public IList<PasswordHistory> PasswordHistories { get; set; }
+        public IList<UserToken> UserTokens { get; set; }
+        public IList<User_Permission> User_Permissions { get; set; }
 
     }
 }

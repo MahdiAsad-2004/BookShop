@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.Infrastructure.Persistance.Repositories
 {
-    internal class UserRepository : CrudRepository<User, Guid,UserQueryOption> , IUserRepository
+    internal class UserRepository : CrudRepository<User, Guid> , IUserRepository
     {
         public UserRepository(BookShopDbContext dbContext, ICurrentUser currentUser, IDomainEventPublisher domainEventPublisher)
             : base(dbContext, currentUser, domainEventPublisher)
@@ -41,28 +41,27 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             return user;
         }
 
-        public override Task<IEnumerable<User>> GetAll(Action<UserQueryOption> queryOptionConfig)
-        {
-            var query = _dbSet.AsQueryable();
-            UserQueryOption userQueryOption = _queryOptionOperator.ConfigureQueryOption(queryOptionConfig);
-            query = _queryOptionOperator.PerformEntityIncludes(userQueryOption,query);
+        //public override Task<IEnumerable<User>> GetAll(UserQueryOption queryOption)
+        //{
+        //    var query = _dbSet.AsQueryable();
+        //    query = _queryOptionOperator.PerformEntityIncludes(queryOption,query);
 
-            return Task.FromResult(query.AsEnumerable());
-        }
+        //    return Task.FromResult(query.AsEnumerable());
+        //}
 
-        public override async Task<User> Get(Guid key, Action<UserQueryOption> queryOptionConfig)
-        {
-            var query = _dbSet.AsQueryable();
-            UserQueryOption userQueryOption = _queryOptionOperator.ConfigureQueryOption(queryOptionConfig);
-            query = _queryOptionOperator.PerformEntityIncludes(userQueryOption, query);
+        //public override async Task<User> Get(Guid key, UserQueryOption queryOption)
+        //{
+        //    var query = _dbSet.AsQueryable();
+        //    query = _queryOptionOperator.PerformEntityIncludes(queryOption, query);
        
-            User? user = await query.FirstOrDefaultAsync(a => a.Id == key);
+        //    User? user = await query.FirstOrDefaultAsync(a => a.Id == key);
        
-            if (user == null)
-                throw new NotFoundException($"User with id ({key} not found)");
+        //    if (user == null)
+        //        throw new NotFoundException($"User with id ({key} not found)");
         
-            return user;
-        }
+        //    return user;
+        //}
+
     }
 
     

@@ -11,7 +11,7 @@ namespace BookShop.Infrastructure.Persistance
 
         public BookShopDbContext(DbContextOptions<BookShopDbContext> dbContextOptions) : base(dbContextOptions)
         {
-
+          
         }
 
 
@@ -31,6 +31,7 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<User_Permission> User_Permissions { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Product_Discount> Product_Discounts { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -42,7 +43,13 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<UserClaim> UserClaims { get; set; }
 
 
+
         #endregion
+
+        public class MuDbQuery
+        {
+
+        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,6 +57,8 @@ namespace BookShop.Infrastructure.Persistance
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+
+
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

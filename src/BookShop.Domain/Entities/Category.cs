@@ -10,8 +10,8 @@ namespace BookShop.Domain.Entities
 
 
         public Category? Parent { get; set; }
-        public IEnumerable<Category> Childs { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public IList<Category> Childs { get; set; }
+        public IList<Product> Products { get; set; }
 
     }
 }

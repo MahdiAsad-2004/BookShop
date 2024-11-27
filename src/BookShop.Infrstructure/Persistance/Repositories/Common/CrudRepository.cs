@@ -11,24 +11,24 @@ using System.Collections.Immutable;
 
 namespace BookShop.Infrastructure.Persistance.Repositories.Common
 {
-    internal abstract class CrudRepository<TEntity, TKey> : 
+    internal abstract class CrudRepository<TEntity, TKey> :
         IDisposable,
-        ICrudRepository<TEntity, TKey> 
+        ICrudRepository<TEntity, TKey>
         where TEntity : Entity<TKey>
-        where TKey : struct    
+        where TKey : struct
     {
         #region constructor
 
-        private readonly BookShopDbContext _dbContext;
+        protected readonly BookShopDbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
         protected readonly ICurrentUser _currentUser;
-        private readonly IDomainEventPublisher _domainEventPublisher; 
-        public CrudRepository(BookShopDbContext dbContext, ICurrentUser currentUser,IDomainEventPublisher domainEventPublisher)
+        private readonly IDomainEventPublisher _domainEventPublisher;
+        public CrudRepository(BookShopDbContext dbContext, ICurrentUser currentUser, IDomainEventPublisher domainEventPublisher)
         {
             _dbContext = dbContext;
             _currentUser = currentUser;
             _domainEventPublisher = domainEventPublisher;
-            _dbSet = dbContext.Set<TEntity>();   
+            _dbSet = dbContext.Set<TEntity>();
         }
 
 
@@ -39,13 +39,13 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
 
         public async Task Add(TEntity entity)
         {
-            if(typeof(TKey) == typeof(Guid))
-                entity.Id = (TKey)Convert.ChangeType(Guid.NewGuid(),typeof(TKey));
+            if (typeof(TKey) == typeof(Guid))
+                entity.Id = (TKey)Convert.ChangeType(Guid.NewGuid(), typeof(TKey));
 
             DateTime dateTime = DateTime.UtcNow;
             entity.CreateDate = entity.LastModifiedDate = dateTime;
             entity.CreateBy = _currentUser.GetId();
-            entity.LastModifiedBy = _currentUser.GetId(); 
+            entity.LastModifiedBy = _currentUser.GetId();
             entity.LastModifiedDate = DateTime.UtcNow;
             await _dbContext.Set<TEntity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
 
             if (entity == null)
                 throw new NotFoundException($"Entity with id '{key}' not found");
-            
+
             await Delete(entity);
         }
 
@@ -111,8 +111,8 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
         public async Task SoftDelete(TKey key)
         {
             TEntity? entity = await _dbContext.Set<TEntity>().FindAsync(key);
-            
-            if(entity == null)
+
+            if (entity == null)
                 throw new NotFoundException($"Entity with id '{key}' not found)");
 
             await SoftDelete(entity);
@@ -165,30 +165,62 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             return entity;
         }
 
-       
-    }
 
-
-
-    internal abstract class CrudRepository<TEntity, TKey, TQueryOption> :
-      CrudRepository<TEntity, TKey>,
-      IDisposable,
-      ICrudRepository<TEntity, TKey, TQueryOption>
-      where TEntity : Entity<TKey>
-      where TKey : struct
-      where TQueryOption : IQueryOption<TEntity, TKey>, new()
-    {
+        internal IQueryable<TEntity> ApplyBaseSort<TBaseSort>(IQueryable<TEntity> query, ref bool sorted, TBaseSort baseSort)
+            where TBaseSort : Enum
+        {
+            if (baseSort.ToString().Equals("Newset", StringComparison.OrdinalIgnoreCase) && sorted == false)
+            {
+                sorted = true;
+                query = query.OrderBy(q => q.CreateDate);
+            }
+            if (baseSort.ToString().Equals("Oldest", StringComparison.OrdinalIgnoreCase) && sorted == false)
+            {
+                sorted = true;
+                query = query.OrderByDescending(q => q.CreateDate);
+            }
+            return query;
+        }
         
-        protected readonly QueryOptionOperator<TEntity, TKey, TQueryOption> _queryOptionOperator = new();
-        protected CrudRepository(BookShopDbContext dbContext, ICurrentUser currentUser, IDomainEventPublisher domainEventPublisher) : base(dbContext, currentUser, domainEventPublisher)
-        {}
-
-
-        public abstract Task<TEntity> Get(TKey key, Action<TQueryOption> queryOptionConfig);
-
-        public abstract Task<IEnumerable<TEntity>> GetAll(Action<TQueryOption> configQueryOption);
-
+        internal string? ApplyBaseSort<TBaseSort>(string entityAlias, TBaseSort baseSort)
+            where TBaseSort : Enum
+        {
+            string? sortOrderQuery = null;
+            if (baseSort.ToString().Equals("Newset", StringComparison.OrdinalIgnoreCase) && sortOrderQuery == null)
+            {
+                sortOrderQuery = $"Order By {entityAlias}.CreateDate";
+            }
+            if (baseSort.ToString().Equals("Oldest", StringComparison.OrdinalIgnoreCase) && sortOrderQuery == null)
+            {
+                sortOrderQuery = $"Order By {entityAlias}.CreateDate Desc";
+            }
+            return sortOrderQuery;
+        }
 
     }
+
+
+
+    //internal abstract class CrudRepository<TEntity, TKey, TQueryOption> :
+    //  CrudRepository<TEntity, TKey>,
+    //  IDisposable,
+    //  ICrudRepository<TEntity, TKey, TQueryOption>
+    //  where TEntity : Entity<TKey>
+    //  where TKey : struct
+    //  where TQueryOption : IQueryOption<TEntity, TKey>, new()
+    //{
+
+    //    protected readonly QueryOptionOperator<TEntity, TKey, TQueryOption> _queryOptionOperator = new();
+    //    protected CrudRepository(BookShopDbContext dbContext, ICurrentUser currentUser, IDomainEventPublisher domainEventPublisher) : base(dbContext, currentUser, domainEventPublisher)
+    //    {}
+
+
+    //    public abstract Task<TEntity> Get(TKey key, TQueryOption? queryOption);
+
+
+    //    public abstract Task<IEnumerable<TEntity>> GetAll(TQueryOption? queryOption);
+
+
+    //}
 
 }

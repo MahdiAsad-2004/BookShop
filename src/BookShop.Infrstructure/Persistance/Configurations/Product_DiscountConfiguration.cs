@@ -8,7 +8,7 @@ namespace BookShop.Infrastructure.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Product_Discount> builder)
         {
-            builder.ToTable("Product_Dsicounts");
+            builder.ToTable("Product_Discounts");
             builder.HasOne(a => a.Product).WithMany(a => a.Product_Discounts).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
             builder.HasOne(a => a.Discount).WithMany(a => a.Product_Discounts).HasForeignKey(a => a.DiscountId).HasPrincipalKey(a => a.Id);
 

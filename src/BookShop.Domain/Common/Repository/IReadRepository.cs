@@ -28,9 +28,9 @@ namespace BookShop.Domain.Common.Repository
        where TEntity : Entity<TKey>
        where TQueryOption : IQueryOption<TEntity, TKey>, new()
     {
-        Task<IEnumerable<TEntity>> GetAll(Action<TQueryOption> queryOptionConfig);
+        Task<IEnumerable<TEntity>> GetAll(TQueryOption? queryOption);
 
-        Task<TEntity> Get(TKey key, Action<TQueryOption> queryOptionConfig);
+        Task<TEntity> Get(TKey key, TQueryOption? queryOption);
 
     }
 

@@ -10,5 +10,6 @@ namespace BookShop.Domain.Entities
         public Product Product { get; set; }
         public Discount Discount { get; set; }
     
+
     }
 }

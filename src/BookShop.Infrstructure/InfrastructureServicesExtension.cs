@@ -8,7 +8,6 @@ using BookShop.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using BookShop.Domain.Entities;
 using BookShop.Infrastructure.Identity;
-//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BookShop.Domain.Identity;
 using BookShop.Application.Caching;
@@ -135,6 +134,7 @@ namespace BookShop.Infrastructure
 
 
 
+        
 
         private static void AddCurrentUser(IServiceCollection services)
         {

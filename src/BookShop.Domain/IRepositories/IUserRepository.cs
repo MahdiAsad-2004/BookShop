@@ -7,7 +7,7 @@ namespace BookShop.Domain.IRepositories
 {
     public interface IUserRepository:
         IRepository,
-        IReadRepository<User, Guid ,UserQueryOption>,
+        IReadRepository<User, Guid>,
         IWriteRepository<User, Guid>,
         IDeleteRepository<User, Guid>
     {

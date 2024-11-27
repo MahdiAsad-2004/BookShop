@@ -1,15 +1,17 @@
-﻿using BookShop.Infrastructure.Persistance;
+﻿using BookShop.Domain.Identity;
+using BookShop.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Moq;
 
-namespace BookShop.IntegrationTest.Common
+namespace BookShop.IntegrationTest.Application.Common
 {
 
-    public class TestWebApplicationFactory : WebApplicationFactory<Program>
+    public class TestWebApplicationFactory : WebApplicationFactory<TestProgram>
     {
         private readonly string _connectionString;
         public TestWebApplicationFactory(string connectionString)
@@ -24,6 +26,11 @@ namespace BookShop.IntegrationTest.Common
                 services.RemoveAll<DbContextOptions<BookShopDbContext>>();
 
 
+                services.RemoveAll<ICurrentUser>();
+
+
+                services.AddTransient<ICurrentUser,TestCurrentUser>();
+
 
                 services.AddDbContext<BookShopDbContext>(config =>
                 {
@@ -36,7 +43,7 @@ namespace BookShop.IntegrationTest.Common
 
             });
 
-            
+
         }
 
 

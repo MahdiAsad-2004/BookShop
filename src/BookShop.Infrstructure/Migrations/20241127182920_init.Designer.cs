@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Infrstructure.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20241126101507_init")]
+    [Migration("20241127182920_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -530,32 +530,32 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e6f0a433-f8d9-4ec8-87b4-7e89dae86a6c"),
+                            Id = new Guid("e5774cd8-96e8-44fb-a3e2-897e2c120f72"),
                             CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3266),
+                            CreateDate = new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6750),
                             IsDeleted = false,
                             LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3305),
+                            LastModifiedDate = new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6793),
                             Name = "GetAuditLogsPermission"
                         },
                         new
                         {
-                            Id = new Guid("ced6c73b-57f6-4dd1-a119-cf57bc4d1270"),
+                            Id = new Guid("ea9d968b-3c42-4f5f-a0ec-fd629935c61c"),
                             CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3349),
+                            CreateDate = new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6855),
                             IsDeleted = false,
                             LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3354),
+                            LastModifiedDate = new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6863),
                             Name = "AddUserPermission"
                         },
                         new
                         {
-                            Id = new Guid("b1065e34-eaa1-474d-b0e0-3b7449a64331"),
+                            Id = new Guid("434a8134-765a-4050-a2c3-02720d40c595"),
                             CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3368),
+                            CreateDate = new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6880),
                             IsDeleted = false,
                             LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3389),
+                            LastModifiedDate = new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6886),
                             Name = "GetUsersPermission"
                         });
                 });
@@ -583,9 +583,6 @@ namespace BookShop.Infrstructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("DiscountedPrice")
-                        .HasColumnType("real");
-
                     b.Property<string>("ImageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -608,9 +605,6 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<int>("ProductType")
                         .HasColumnType("int");
-
-                    b.Property<float?>("ReviewsAcceptedAverageScore")
-                        .HasColumnType("real");
 
                     b.Property<int>("SellCount")
                         .HasColumnType("int");

@@ -59,7 +59,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             DeletedBy = p.DeletedBy,
             DescriptionHtml = p.DescriptionHtml,
             DiscountedPrice = p.Product_Discounts != null ?
-                p.GetDscountedPrice(p.Product_Discounts.Select(d => d.Discount).OrderBy(d => d.Priority).FirstOrDefault(d => true)) : 0f,
+                p.GetDiscountedPrice(p.Product_Discounts.Select(d => d.Discount).OrderBy(d => d.Priority).FirstOrDefault(d => true)) : 0f,
             EBook = p.EBook,
             Favorites = p.Favorites,
             Id = p.Id,
@@ -236,7 +236,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
             if (queryOption.StartPrice > 0)
-                query = query.Where(p => p.GetDscountedPrice(p.Product_Discounts.Select(d => d.Discount).OrderBy(d => d.Priority).FirstOrDefault(d => true)) >= queryOption.StartPrice);
+                query = query.Where(p => p.GetDiscountedPrice(p.Product_Discounts.Select(d => d.Discount).OrderBy(d => d.Priority).FirstOrDefault(d => true)) >= queryOption.StartPrice);
             //query = query.Where(q => (q.DiscountedPrice > 0 && q.DiscountedPrice >= queryOption.StartPrice) || q.Price >= queryOption.StartPrice);
             //query = query.Where(q => q.DiscountedPrice >= queryOption.StartPrice);
 
@@ -322,7 +322,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             string acceptedAverageScoreColumn = queryOption.IncludeReviews ? "CAST(ISNULL([r].[AcceptedAverageScore] , 0.0 ) As real)" :
                 "CAST(ISNULL(Null, 0.0 ) As real)";
 
-            string? averageScoreFilterStatement = queryOption.AverageScore > 0 && queryOption.AverageScore <= 5 == false ? null :
+            string? averageScoreFilterStatement = (queryOption.AverageScore != null && queryOption.AverageScore > 0 && queryOption.AverageScore <= 5) == false ? null :
                 $"{acceptedAverageScoreColumn} >= {queryOption.AverageScore} And {acceptedAverageScoreColumn} < {queryOption.AverageScore + 1} And";
 
 

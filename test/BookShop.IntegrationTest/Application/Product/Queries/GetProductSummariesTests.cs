@@ -11,7 +11,7 @@ using BookShop.IntegrationTest.Application.Product.FakeData;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using E = BookShop.Domain.Entities;
 
-namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
+namespace BookShop.IntegrationTest.Application.Product.Queries
 {
     public class GetProductSummariesTests : TestBase
     {
@@ -31,10 +31,10 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             {
                 products.Add(ProductFaker.Create());
             }
-            await _TestDbContext.Add<E.Product , Guid>(products);
+            await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery , List<ProductSummaryDto>>(new GetProductSummariesQuery());
+            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery());
 
 
             //Assert
@@ -51,7 +51,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             int startPrice = 300_000;
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create(price:price));
+                products.Add(ProductFaker.Create(price: price));
                 price += 100_000;
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -67,7 +67,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             Assert.Equal(expectedProductCount, productSummaryDtos.Count);
         }
 
-        
+
 
         [Fact]
         public async Task WithFilter_EndPrice_ShouldReturn_Filterd()
@@ -78,7 +78,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             int endPrice = 400_000;
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create(price:price));
+                products.Add(ProductFaker.Create(price: price));
                 price += 100_000;
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -105,7 +105,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             for (int i = 0; i < 5; i++)
             {
                 productType = Random.Shared.Next(0, 2) == 0 ? ProductType.Book : ProductType.EBook;
-                products.Add(ProductFaker.Create(productType:productType));
+                products.Add(ProductFaker.Create(productType: productType));
 
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -129,8 +129,8 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             List<E.Product> products = new();
             for (int i = 0; i < 5; i++)
             {
-                bool availableChance = Random.Shared.Next(0 , 3) == 0;
-                products.Add(ProductFaker.Create(available:availableChance));
+                bool availableChance = Random.Shared.Next(0, 3) == 0;
+                products.Add(ProductFaker.Create(available: availableChance));
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
 
@@ -181,7 +181,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             List<E.Product> products = new();
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create(price:price));
+                products.Add(ProductFaker.Create(price: price));
                 price += 100_000;
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -221,19 +221,19 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
                 }
                 products.Add(product);
             }
-            await _TestDbContext.Add<E.Product,Guid>(products);
+            await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
             List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
             {
-                
+
             });
 
             //Assert
             foreach (var productSummaryDto in productSummaryDtos)
             {
                 var p = products.First(a => a.Id.ToString() == productSummaryDto.Id);
-                Assert.Equal(p.GetDscountedPrice() , productSummaryDto.DiscountedPrice);
+                Assert.Equal(p.DiscountedPrice, productSummaryDto.DiscountedPrice);
             }
         }
 
@@ -245,12 +245,12 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             int numberOfProductDiscounts = 5;
             Product_Discount product_Discount_NoPercentNoPrice = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create());
             product_Discount_NoPercentNoPrice.Discount.DiscountPercent = product_Discount_NoPercentNoPrice.Discount.DiscountPrice = null;
-            Product_Discount product_Discount_EarlyStartDate = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(startDate:DateTime.UtcNow.AddDays(2)));
-            Product_Discount product_Discount_PastEndDate = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(endDate:DateTime.UtcNow.AddDays(-2)));
-            Product_Discount product_Discount_OverPluseMaxUseCount = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(usedCount:10 , maxUseCount:10));
+            Product_Discount product_Discount_EarlyStartDate = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(startDate: DateTime.UtcNow.AddDays(2)));
+            Product_Discount product_Discount_PastEndDate = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(endDate: DateTime.UtcNow.AddDays(-2)));
+            Product_Discount product_Discount_OverPluseMaxUseCount = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(usedCount: 10, maxUseCount: 10));
             List<Product_Discount> product_Discounts = [product_Discount_EarlyStartDate , product_Discount_NoPercentNoPrice,
             product_Discount_OverPluseMaxUseCount , product_Discount_PastEndDate];
-            List <E.Product> products = new List<E.Product>();
+            List<E.Product> products = new List<E.Product>();
             for (int i = 0; i < numberOfProductDiscounts; i++)
             {
                 product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
@@ -278,7 +278,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             foreach (var productSummaryDto in productSummaryDtos)
             {
                 var p = products.First(a => a.Id.ToString() == productSummaryDto.Id);
-                Assert.Equal(p.GetDscountedPrice(), productSummaryDto.DiscountedPrice);
+                Assert.Equal(p.DiscountedPrice, productSummaryDto.DiscountedPrice);
             }
         }
 
@@ -288,12 +288,12 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
         {
             //Arrange
             int endPriceFIlter = 600_000;
-            E.Product product1 = ProductFaker.Create(price:1_000_000);
-            E.Product product2 = ProductFaker.Create(price:400_000);
-            E.Product product3 = ProductFaker.Create(price:800_000);
-            product1.Product_Discounts = [DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(discountPercent:50))];
+            E.Product product1 = ProductFaker.Create(price: 1_000_000);
+            E.Product product2 = ProductFaker.Create(price: 400_000);
+            E.Product product3 = ProductFaker.Create(price: 800_000);
+            product1.Product_Discounts = [DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(discountPercent: 50))];
             List<Product_Discount> product_Discounts = new List<Product_Discount>();
-            List<E.Product> products = [product1 , product2, product3];
+            List<E.Product> products = [product1, product2, product3];
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
@@ -309,7 +309,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
 
 
         [Fact]
-        public async Task WithReviews_ReviewsAcceptedAverageScore_MustBe_Correct() 
+        public async Task WithReviews_ReviewsAcceptedAverageScore_MustBe_Correct()
         {
             //Arange
             var reviewFaker = new Faker<Review>();
@@ -318,11 +318,11 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             reviewFaker.RuleFor(r => r.Id, (f, a) => Guid.NewGuid());
             reviewFaker.RuleFor(r => r.Text, (f, a) => f.Lorem.Sentence());
             List<E.Product> products = new List<E.Product>();
-            Domain.Entities.Product product;
+            E.Product product;
             for (int i = 0; i < 5; i++)
             {
                 product = ProductFaker.Create();
-                product.Reviews = reviewFaker.GenerateLazy(Random.Shared.Next(0 , 5)).ToList();
+                product.Reviews = reviewFaker.GenerateLazy(Random.Shared.Next(0, 5)).ToList();
                 products.Add(product);
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -336,7 +336,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             foreach (var productSummaryDto in productSummaryDtos)
             {
                 var p = products.First(a => a.Id.ToString() == productSummaryDto.Id);
-                Assert.Equal(p.GetReviewsAcceptedAverageScore(), productSummaryDto.ReviewsAcceptedAverageScore);
+                Assert.Equal(p.ReviewsAcceptedAverageScore, productSummaryDto.ReviewsAcceptedAverageScore);
             }
 
         }
@@ -353,7 +353,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             reviewFaker.RuleFor(r => r.Id, (f, a) => Guid.NewGuid());
             reviewFaker.RuleFor(r => r.Text, (f, a) => f.Lorem.Sentence());
             List<E.Product> products = new List<E.Product>();
-            Domain.Entities.Product product;
+            E.Product product;
             for (int i = 0; i < 5; i++)
             {
                 product = ProductFaker.Create();
@@ -369,8 +369,8 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             });
 
             //Assert
-            int expectedProductsCount = products.Count(a => a.GetReviewsAcceptedAverageScore() >= averageScoreFilter 
-                && a.GetReviewsAcceptedAverageScore() < averageScoreFilter + 1);
+            int expectedProductsCount = products.Count(a => a.ReviewsAcceptedAverageScore >= averageScoreFilter
+                && a.ReviewsAcceptedAverageScore < averageScoreFilter + 1);
             Assert.Equal(expectedProductsCount, productSummaryDtos.Count);
         }
 
@@ -383,8 +383,8 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create(product_Discounts:new List<Product_Discount>());
-                for (int j = 0; j < Random.Shared.Next(0,3); j++)
+                product = ProductFaker.Create(product_Discounts: new List<Product_Discount>());
+                for (int j = 0; j < Random.Shared.Next(0, 3); j++)
                 {
                     product.Product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
                 }
@@ -466,7 +466,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
                 Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
             }
         }
-        
+
 
         [Fact]
         public async Task WithSort_AlphabetAsce_ShouldReturn_Ordered()
@@ -521,7 +521,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             });
 
             //Assert
-            var orderedProducts = products.OrderByDescending(a => a.GetDscountedPrice()).ToArray();
+            var orderedProducts = products.OrderByDescending(a => a.DiscountedPrice).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
                 Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
@@ -553,7 +553,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             });
 
             //Assert
-            var orderedProducts = products.OrderBy(a => a.GetDscountedPrice()).ToArray();
+            var orderedProducts = products.OrderBy(a => a.DiscountedPrice).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
                 Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
@@ -567,7 +567,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummaries
             //Arrange
             List<E.Product> products = new List<E.Product>();
             for (int i = 0; i < 5; i++)
-            {                
+            {
                 products.Add(ProductFaker.Create());
             }
             await _TestDbContext.Add<E.Product, Guid>(products);

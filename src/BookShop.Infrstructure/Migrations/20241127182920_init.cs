@@ -112,13 +112,11 @@ namespace BookShop.Infrstructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    DiscountedPrice = table.Column<float>(type: "real", nullable: true),
                     DescriptionHtml = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfInventory = table.Column<int>(type: "int", nullable: false),
                     SellCount = table.Column<int>(type: "int", nullable: false),
                     ProductType = table.Column<int>(type: "int", nullable: false),
-                    ReviewsAcceptedAverageScore = table.Column<float>(type: "real", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -694,9 +692,9 @@ namespace BookShop.Infrstructure.Migrations
                 columns: new[] { "Id", "CreateBy", "CreateDate", "DeleteDate", "DeletedBy", "IsDeleted", "LastModifiedBy", "LastModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("b1065e34-eaa1-474d-b0e0-3b7449a64331"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3368), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3389), "GetUsersPermission" },
-                    { new Guid("ced6c73b-57f6-4dd1-a119-cf57bc4d1270"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3349), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3354), "AddUserPermission" },
-                    { new Guid("e6f0a433-f8d9-4ec8-87b4-7e89dae86a6c"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3266), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 26, 10, 15, 6, 752, DateTimeKind.Utc).AddTicks(3305), "GetAuditLogsPermission" }
+                    { new Guid("434a8134-765a-4050-a2c3-02720d40c595"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6880), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6886), "GetUsersPermission" },
+                    { new Guid("e5774cd8-96e8-44fb-a3e2-897e2c120f72"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6750), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6793), "GetAuditLogsPermission" },
+                    { new Guid("ea9d968b-3c42-4f5f-a0ec-fd629935c61c"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6855), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6863), "AddUserPermission" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -833,7 +831,6 @@ namespace BookShop.Infrstructure.Migrations
             {
                 migrationBuilder.Sql(dbFunctionFile.GetFileContent());
             }
-
         }
 
         /// <inheritdoc />

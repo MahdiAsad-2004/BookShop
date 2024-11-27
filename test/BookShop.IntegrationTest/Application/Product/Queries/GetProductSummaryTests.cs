@@ -9,7 +9,7 @@ using BookShop.IntegrationTest.Application.Common;
 using BookShop.IntegrationTest.Application.Discount.FakeData;
 using BookShop.IntegrationTest.Application.Product.FakeData;
 
-namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummary
+namespace BookShop.IntegrationTest.Application.Product.Queries
 {
     public class GetProductSummaryTests : TestBase //IClassFixture<ApplicationClassFixture>
     {
@@ -89,7 +89,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummary
                 Id = productId,
             });
 
-            float expectedDiscountedPrice = (float)price - (price * (float)discountPercent / 100f);
+            float expectedDiscountedPrice = price - price * (float)discountPercent / 100f;
             Assert.Equal(productId.ToString(), productSummaryDto.Id);
             Assert.Equal(expectedDiscountedPrice, productSummaryDto.DiscountedPrice);
         }
@@ -103,7 +103,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries.GetSummary
             int discountPrice = Random.Shared.Next(1_000, 900_000);
             Guid productId = Guid.NewGuid();
             Product_Discount product_Discount = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(discountPrice));
-            var product = ProductFaker.Create(productId, price: price , product_Discounts: [product_Discount]);
+            var product = ProductFaker.Create(productId, price: price, product_Discounts: [product_Discount]);
             product.Product_Discounts = [product_Discount];
             await _TestDbContext.Add<Domain.Entities.Product, Guid>(product);
 

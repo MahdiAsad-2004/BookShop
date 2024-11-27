@@ -1,6 +1,7 @@
 ﻿using BookShop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookShop.Infrastructure.Persistance.Configurations
 {
@@ -9,13 +10,18 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable("Products");
+            
+            //Relations
             builder.HasOne(a => a.Book).WithOne(a => a.Product).HasForeignKey<Book>(a => a.ProductId);
             builder.HasOne(a => a.EBook).WithOne(a => a.Product).HasForeignKey<EBook>(a => a.ProductId);
             builder.HasMany(a => a.Favorites).WithOne(a => a.Product);
             builder.HasMany(a => a.Reviews).WithOne(a => a.Product).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
             builder.HasMany(a => a.Product_Discounts).WithOne(a => a.Product).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
             builder.HasMany(a => a.Categories).WithMany(a => a.Products);
-
+            
+            //Ignore Properties
+            builder.Ignore(a => a.DiscountedPrice);
+            builder.Ignore(a => a.ReviewsAcceptedAverageScore);
 
 
 

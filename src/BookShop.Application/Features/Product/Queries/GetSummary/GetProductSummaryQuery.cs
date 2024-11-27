@@ -57,7 +57,7 @@ namespace BookShop.Application.Features.Product.Queries.GetSummary
             }
             else 
             {
-                throw new NotFoundException("Product not found!");
+                throw new NotFoundException("Request is not valid!");
             }
 
            

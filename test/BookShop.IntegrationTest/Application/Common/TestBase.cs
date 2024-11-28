@@ -1,8 +1,11 @@
-﻿using MediatR;
+﻿global using E = BookShop.Domain.Entities;
+using Bogus;
+using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Respawn;
+
 
 namespace BookShop.IntegrationTest.Application.Common
 {
@@ -11,6 +14,7 @@ namespace BookShop.IntegrationTest.Application.Common
     {
         internal readonly TestDbContext _TestDbContext;
         public readonly ApplicationCollectionFixture _applicationCollectionFixture;
+
         public TestBase(ApplicationCollectionFixture applicationCollectionFixture)
         {
             _applicationCollectionFixture = applicationCollectionFixture;

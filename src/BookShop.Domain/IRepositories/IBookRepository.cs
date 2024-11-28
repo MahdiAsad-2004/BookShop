@@ -1,5 +1,6 @@
 ﻿using BookShop.Domain.Common.Repository;
 using BookShop.Domain.Entities;
+using BookShop.Domain.QueryOptions;
 
 namespace BookShop.Domain.IRepositories
 {
@@ -9,5 +10,10 @@ namespace BookShop.Domain.IRepositories
         IWriteRepository<Book, Guid>,
         IDeleteRepository<Book, Guid>
     {
+
+        public Task<Book> Get(Guid id, BookQueryOption queryOption);
+
+
+
     }
 }

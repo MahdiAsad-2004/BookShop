@@ -14,8 +14,8 @@ namespace BookShop.Domain.Entities
         public float? WeightInGram { get; set; }
         public int? Edition { get; set; }   
         public Guid PublisherId { get; set; }
-        public Guid? TranslatorId { get; set; }
-        public Guid? ProductId { get; set; }
+        public Guid? TranslatorId { get; set; }        
+        public Guid ProductId { get; set; }
 
 
         public Product Product { get; set; }

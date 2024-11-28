@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Book\Dtos\" />
-    <Folder Include="Features\Book\Mapping\" />
     <Folder Include="Common\Validation\" />
-    <Folder Include="Features\Book\Queries\" />
     <Folder Include="Features\Product\Commands\" />
     <Folder Include="Features\User\" />
     <Folder Include="NewFolder\" />

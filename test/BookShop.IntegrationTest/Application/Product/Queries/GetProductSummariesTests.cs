@@ -9,7 +9,6 @@ using BookShop.IntegrationTest.Application.Common;
 using BookShop.IntegrationTest.Application.Discount.FakeData;
 using BookShop.IntegrationTest.Application.Product.FakeData;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using E = BookShop.Domain.Entities;
 
 namespace BookShop.IntegrationTest.Application.Product.Queries
 {
@@ -29,7 +28,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             List<E.Product> products = new();
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create());
+                products.Add(ProductFakeData.Create());
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
 
@@ -51,7 +50,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             int startPrice = 300_000;
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create(price: price));
+                products.Add(ProductFakeData.Create(price: price));
                 price += 100_000;
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -78,7 +77,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             int endPrice = 400_000;
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create(price: price));
+                products.Add(ProductFakeData.Create(price: price));
                 price += 100_000;
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -105,7 +104,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             for (int i = 0; i < 5; i++)
             {
                 productType = Random.Shared.Next(0, 2) == 0 ? ProductType.Book : ProductType.EBook;
-                products.Add(ProductFaker.Create(productType: productType));
+                products.Add(ProductFakeData.Create(productType: productType));
 
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -130,7 +129,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             for (int i = 0; i < 5; i++)
             {
                 bool availableChance = Random.Shared.Next(0, 3) == 0;
-                products.Add(ProductFaker.Create(available: availableChance));
+                products.Add(ProductFakeData.Create(available: availableChance));
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
 
@@ -154,7 +153,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             for (int i = 0; i < 5; i++)
             {
                 bool availableChance = Random.Shared.Next(0, 3) == 0;
-                products.Add(ProductFaker.Create(available: availableChance));
+                products.Add(ProductFakeData.Create(available: availableChance));
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
 
@@ -181,7 +180,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             List<E.Product> products = new();
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create(price: price));
+                products.Add(ProductFakeData.Create(price: price));
                 price += 100_000;
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -208,12 +207,12 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             List<E.Product> products = new List<E.Product>();
             for (int i = 0; i < numberOfProductDiscounts; i++)
             {
-                product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
+                product_Discounts.Add(DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create()));
             }
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create();
+                product = ProductFakeData.Create();
                 product.Product_Discounts = new List<Product_Discount>();
                 for (int j = 0; j < Random.Shared.Next(2); j++)
                 {
@@ -243,22 +242,22 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
         {
             //Arrange
             int numberOfProductDiscounts = 5;
-            Product_Discount product_Discount_NoPercentNoPrice = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create());
+            Product_Discount product_Discount_NoPercentNoPrice = DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create());
             product_Discount_NoPercentNoPrice.Discount.DiscountPercent = product_Discount_NoPercentNoPrice.Discount.DiscountPrice = null;
-            Product_Discount product_Discount_EarlyStartDate = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(startDate: DateTime.UtcNow.AddDays(2)));
-            Product_Discount product_Discount_PastEndDate = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(endDate: DateTime.UtcNow.AddDays(-2)));
-            Product_Discount product_Discount_OverPluseMaxUseCount = DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(usedCount: 10, maxUseCount: 10));
+            Product_Discount product_Discount_EarlyStartDate = DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create(startDate: DateTime.UtcNow.AddDays(2)));
+            Product_Discount product_Discount_PastEndDate = DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create(endDate: DateTime.UtcNow.AddDays(-2)));
+            Product_Discount product_Discount_OverPluseMaxUseCount = DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create(usedCount: 10, maxUseCount: 10));
             List<Product_Discount> product_Discounts = [product_Discount_EarlyStartDate , product_Discount_NoPercentNoPrice,
             product_Discount_OverPluseMaxUseCount , product_Discount_PastEndDate];
             List<E.Product> products = new List<E.Product>();
             for (int i = 0; i < numberOfProductDiscounts; i++)
             {
-                product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
+                product_Discounts.Add(DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create()));
             }
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create();
+                product = ProductFakeData.Create();
                 product.Product_Discounts = new List<Product_Discount>();
                 for (int j = 0; j < Random.Shared.Next(2); j++)
                 {
@@ -288,10 +287,10 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
         {
             //Arrange
             int endPriceFIlter = 600_000;
-            E.Product product1 = ProductFaker.Create(price: 1_000_000);
-            E.Product product2 = ProductFaker.Create(price: 400_000);
-            E.Product product3 = ProductFaker.Create(price: 800_000);
-            product1.Product_Discounts = [DiscountFaker.CreateProduct_Discount(DiscountFaker.Create(discountPercent: 50))];
+            E.Product product1 = ProductFakeData.Create(price: 1_000_000);
+            E.Product product2 = ProductFakeData.Create(price: 400_000);
+            E.Product product3 = ProductFakeData.Create(price: 800_000);
+            product1.Product_Discounts = [DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create(discountPercent: 50))];
             List<Product_Discount> product_Discounts = new List<Product_Discount>();
             List<E.Product> products = [product1, product2, product3];
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -312,7 +311,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
         public async Task WithReviews_ReviewsAcceptedAverageScore_MustBe_Correct()
         {
             //Arange
-            var reviewFaker = new Faker<Review>();
+            var reviewFaker = new Faker<E.Review>();
             reviewFaker.RuleFor(r => r.Score, (f, s) => f.Random.Byte(1, 5));
             reviewFaker.RuleFor(r => r.IsAccepted, (f, a) => f.Random.Bool(0.7f));
             reviewFaker.RuleFor(r => r.Id, (f, a) => Guid.NewGuid());
@@ -321,7 +320,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create();
+                product = ProductFakeData.Create();
                 product.Reviews = reviewFaker.GenerateLazy(Random.Shared.Next(0, 5)).ToList();
                 products.Add(product);
             }
@@ -347,7 +346,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
         {
             //Arange
             byte averageScoreFilter = 3;
-            var reviewFaker = new Faker<Review>();
+            var reviewFaker = new Faker<E.Review>();
             reviewFaker.RuleFor(r => r.Score, (f, s) => f.Random.Byte(1, 5));
             reviewFaker.RuleFor(r => r.IsAccepted, (f, a) => f.Random.Bool(0.7f));
             reviewFaker.RuleFor(r => r.Id, (f, a) => Guid.NewGuid());
@@ -356,7 +355,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create();
+                product = ProductFakeData.Create();
                 product.Reviews = reviewFaker.GenerateLazy(Random.Shared.Next(0, 5)).ToList();
                 products.Add(product);
             }
@@ -383,10 +382,10 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create(product_Discounts: new List<Product_Discount>());
+                product = ProductFakeData.Create(product_Discounts: new List<Product_Discount>());
                 for (int j = 0; j < Random.Shared.Next(0, 3); j++)
                 {
-                    product.Product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
+                    product.Product_Discounts.Add(DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create()));
                 }
                 products.Add(product);
             }
@@ -415,10 +414,10 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create(product_Discounts: new List<Product_Discount>());
+                product = ProductFakeData.Create(product_Discounts: new List<Product_Discount>());
                 for (int j = 0; j < Random.Shared.Next(0, 3); j++)
                 {
-                    product.Product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
+                    product.Product_Discounts.Add(DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create()));
                 }
                 products.Add(product);
             }
@@ -448,7 +447,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             for (int i = 0; i < 5; i++)
             {
                 Bogus.DataSets.Commerce commerce = new Bogus.DataSets.Commerce();
-                product = ProductFaker.Create(title: commerce.ProductName());
+                product = ProductFakeData.Create(title: commerce.ProductName());
                 products.Add(product);
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -477,7 +476,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             for (int i = 0; i < 5; i++)
             {
                 Bogus.DataSets.Commerce commerce = new Bogus.DataSets.Commerce();
-                product = ProductFaker.Create(title: commerce.ProductName());
+                product = ProductFakeData.Create(title: commerce.ProductName());
                 products.Add(product);
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
@@ -505,10 +504,10 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create(product_Discounts: new List<Product_Discount>());
+                product = ProductFakeData.Create(product_Discounts: new List<Product_Discount>());
                 for (int j = 0; j < Random.Shared.Next(1, 3); j++)
                 {
-                    product.Product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
+                    product.Product_Discounts.Add(DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create()));
                 }
                 products.Add(product);
             }
@@ -537,10 +536,10 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             E.Product product;
             for (int i = 0; i < 5; i++)
             {
-                product = ProductFaker.Create(product_Discounts: new List<Product_Discount>());
+                product = ProductFakeData.Create(product_Discounts: new List<Product_Discount>());
                 for (int j = 0; j < Random.Shared.Next(1, 3); j++)
                 {
-                    product.Product_Discounts.Add(DiscountFaker.CreateProduct_Discount(DiscountFaker.Create()));
+                    product.Product_Discounts.Add(DiscountFakeData.CreateProduct_Discount(DiscountFakeData.Create()));
                 }
                 products.Add(product);
             }
@@ -568,7 +567,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             List<E.Product> products = new List<E.Product>();
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create());
+                products.Add(ProductFakeData.Create());
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
 
@@ -594,7 +593,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             List<E.Product> products = new List<E.Product>();
             for (int i = 0; i < 5; i++)
             {
-                products.Add(ProductFaker.Create());
+                products.Add(ProductFakeData.Create());
             }
             await _TestDbContext.Add<E.Product, Guid>(products);
 

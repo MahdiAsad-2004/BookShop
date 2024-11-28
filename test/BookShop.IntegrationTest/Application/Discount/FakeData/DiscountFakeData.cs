@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace BookShop.IntegrationTest.Application.Discount.FakeData
 {
-    public class DiscountFaker
+    public class DiscountFakeData
     {
        
         public static Domain.Entities.Discount Create(Guid id, int? priority = null, DateTime? startDate = null, DateTime? endDate = null)

@@ -7,7 +7,7 @@ using System.Data.Common;
 
 namespace BookShop.IntegrationTest.Application.Product.FakeData
 {
-    public static class ProductFaker
+    public static class ProductFakeData
     {
         //public readonly Faker<Domain.Entities.Product> Faker = new Faker<Domain.Entities.Product>();
         private static readonly Lorem lorem = new Lorem();
@@ -15,7 +15,7 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
         static Commerce Commerce = new();
 
 
-        public static Domain.Entities.Product Create()
+        public static E.Product Create()
         {
             Guid id = Guid.NewGuid();   
             string identifire = id.ToString().Substring(0, 3);
@@ -23,10 +23,10 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
             return product;
         }
 
-        public static Domain.Entities.Product Create(Guid id)
+        public static E.Product Create(Guid id)
         {
             string identifire = id.ToString().Substring(0, 3);
-            Domain.Entities.Product product = new Domain.Entities.Product
+            E.Product product = new E.Product
             {
                 Id = id,
                 DescriptionHtml = lorem.Paragraph(),
@@ -40,32 +40,32 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
             return product;
         }
 
-        public static Domain.Entities.Product Create(Guid id, string title)
+        public static E.Product Create(Guid id, string title)
         {
 
             string identifire = id.ToString().Substring(0, 3);
-            Domain.Entities.Product product = Create(id);
+            E.Product product = Create(id);
             product.Title = title;
             return product;
         }
 
 
-        public static Domain.Entities.Product Create(Guid id, int price)
+        public static E.Product Create(Guid id, int price)
         {
-            Domain.Entities.Product product = Create(id);
+            E.Product product = Create(id);
             product.Price = price;
             return product;
         }
 
 
 
-        public static Domain.Entities.Product Create(Guid? id = null, string? title = null, int? price = null,
+        public static E.Product Create(Guid? id = null, string? title = null, int? price = null,
             ProductType? productType = null ,List<Product_Discount>? product_Discounts = null,
-            bool? available = null , int? sellCount = 0)
+            bool? available = null , int? sellCount = 0 , List<E.Review>? reviews = null)
         {
             id = id ?? Guid.NewGuid();
             string identifire = id.ToString().Substring(0, 3);
-            Domain.Entities.Product product = new Domain.Entities.Product
+            E.Product product = new E.Product
             {
                 Id = id.Value,
                 DescriptionHtml = lorem.Paragraph(),
@@ -76,6 +76,7 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
                 NumberOfInventory = available == false ? 0 : Random.Shared.Next(0, 500),
                 SellCount = sellCount > 0 ? sellCount.Value : Random.Shared.Next(0, 100),
                 Product_Discounts = product_Discounts,
+                Reviews = reviews,
             };
             return product;
         }

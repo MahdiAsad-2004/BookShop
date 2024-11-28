@@ -19,7 +19,7 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -135,7 +135,7 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -176,7 +176,7 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -323,7 +323,7 @@ namespace BookShop.Infrstructure.Migrations
                     Edition = table.Column<int>(type: "int", nullable: true),
                     PublisherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -339,7 +339,8 @@ namespace BookShop.Infrstructure.Migrations
                         name: "FK_Books_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Books_Publishers_PublisherId",
                         column: x => x.PublisherId,
@@ -692,9 +693,9 @@ namespace BookShop.Infrstructure.Migrations
                 columns: new[] { "Id", "CreateBy", "CreateDate", "DeleteDate", "DeletedBy", "IsDeleted", "LastModifiedBy", "LastModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("434a8134-765a-4050-a2c3-02720d40c595"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6880), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6886), "GetUsersPermission" },
-                    { new Guid("e5774cd8-96e8-44fb-a3e2-897e2c120f72"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6750), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6793), "GetAuditLogsPermission" },
-                    { new Guid("ea9d968b-3c42-4f5f-a0ec-fd629935c61c"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6855), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 27, 18, 29, 19, 792, DateTimeKind.Utc).AddTicks(6863), "AddUserPermission" }
+                    { new Guid("0df2ea0c-35de-4fb4-a260-0dc5011ea251"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5056), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5060), "GetUsersPermission" },
+                    { new Guid("1bbe3f50-11a6-439f-8115-ad668b21c70b"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5043), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5047), "AddUserPermission" },
+                    { new Guid("1bf58eed-d2a5-4da9-8c30-3b9846ca7910"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(4972), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5008), "GetAuditLogsPermission" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -716,8 +717,7 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_Books_ProductId",
                 table: "Books",
                 column: "ProductId",
-                unique: true,
-                filter: "[ProductId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_PublisherId",

@@ -25,6 +25,7 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
         public DbSet<EBook> EBooks { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<PasswordHistory> PasswordHistories { get; set; }

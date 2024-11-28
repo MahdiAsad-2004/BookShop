@@ -11,7 +11,7 @@ namespace BookShop.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class ProductController : ControllerBase
     {
         #region constructor
 
@@ -25,18 +25,6 @@ namespace BookShop.WebApi.Controllers
         #endregion
 
 
-        [ActionName("get/{id}")]
-        public async Task<IActionResult> Get(Guid guid)
-        {
-            ProductSummaryDto productSummaryDto = await _mediator.Send(new GetProductSummaryQuery
-            {
-                Id = guid,
-                ProductType = ProductType.Book,
-            });
-            return Ok(productSummaryDto);
-        }
-
-
         [ActionName("/")]
         public async Task<IActionResult> GetAll(
             bool? Available = null, int? startPrice = null, int? endPrice = null, byte? score = null,
@@ -47,7 +35,6 @@ namespace BookShop.WebApi.Controllers
                 Available = Available,
                 AverageScore = score,
                 EndPrice = endPrice,
-                ProductType = ProductType.Book,
                 SortingOrder = sort,
                 StartPrice = startPrice,
                 Paging = new Paging(itemCount , pageNumber),

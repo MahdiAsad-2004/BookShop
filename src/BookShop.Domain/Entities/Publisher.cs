@@ -4,7 +4,7 @@ namespace BookShop.Domain.Entities
 {
     public class Publisher : Entity<Guid>
     {
-        public int Title { get; set; }
+        public string Title { get; set; }
         public string ImageName { get; set; }
 
 

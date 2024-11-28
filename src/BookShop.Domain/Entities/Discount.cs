@@ -21,7 +21,7 @@ namespace BookShop.Domain.Entities
 
         #region methods
 
-        public float CalculateDiscountedPrice(int price)
+        public float? CalculateDiscountedPrice(int price)
         {
             if (DiscountPrice != null)
                 return price - DiscountPrice.Value;
@@ -32,9 +32,8 @@ namespace BookShop.Domain.Entities
                 return floatPrice - (floatPrice * DiscountPercent.Value / 100f);
             }
 
-            return price;
+            return null;
         }
-
 
         public bool IsValid()
         {
@@ -52,6 +51,21 @@ namespace BookShop.Domain.Entities
 
             return true;
         }
+
+        public static float? CalculateDiscountedPrice(int price , int? discountedPrice , float? discountedPercent)
+        {
+            if (discountedPrice != null)
+                return price - discountedPrice.Value;
+
+            else if (discountedPercent != null)
+            {
+                float floatPrice = (float)price;
+                return floatPrice - (floatPrice * discountedPercent.Value / 100f);
+            }
+
+            return null;
+        }
+
 
 
         #endregion

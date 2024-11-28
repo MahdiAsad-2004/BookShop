@@ -4,7 +4,7 @@ namespace BookShop.Domain.Entities
 {
     public class Translator : Entity<Guid>
     {
-        public int Name { get; set; }
+        public string Name { get; set; }
         public string ImageName { get; set; }
 
 

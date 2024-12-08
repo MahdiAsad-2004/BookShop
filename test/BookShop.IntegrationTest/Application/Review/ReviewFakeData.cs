@@ -9,24 +9,24 @@ namespace BookShop.IntegrationTest.Application.Review
 
         
 
-        public static E.Review Create()
+        private static void SetRules()
         {
             _reviewFaker.RuleFor(r => r.Score, (f, s) => f.Random.Byte(1, 5));
             _reviewFaker.RuleFor(r => r.IsAccepted, (f, a) => f.Random.Bool(0.7f));
             _reviewFaker.RuleFor(r => r.Id, (f, a) => Guid.NewGuid());
             _reviewFaker.RuleFor(r => r.Text, (f, a) => f.Lorem.Sentence());
-            return _reviewFaker.Generate();
         }
 
 
-
+        public static E.Review Create()
+        {
+            SetRules();
+            return _reviewFaker.Generate();
+        }
 
         public static List<E.Review> CreateBetween(int min , int max)
         {
-            _reviewFaker.RuleFor(r => r.Score, (f, s) => f.Random.Byte(1, 5));
-            _reviewFaker.RuleFor(r => r.IsAccepted, (f, a) => f.Random.Bool(0.7f));
-            _reviewFaker.RuleFor(r => r.Id, (f, a) => Guid.NewGuid());
-            _reviewFaker.RuleFor(r => r.Text, (f, a) => f.Lorem.Sentence());
+            SetRules();
             return _reviewFaker.GenerateBetween(min, max);
         }
 

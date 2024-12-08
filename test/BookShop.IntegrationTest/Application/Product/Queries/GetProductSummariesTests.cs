@@ -1,6 +1,9 @@
 ﻿using Bogus;
+using BookShop.Application.Common.Dtos;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Application.Features.Product.Queries.GetSummaries;
+using BookShop.Domain.Common.Entity;
+using BookShop.Domain.Common.QueryOption;
 using BookShop.Domain.Entities;
 using BookShop.Domain.Enums;
 using BookShop.Domain.QueryOptions;
@@ -8,7 +11,6 @@ using BookShop.Infrstructure.Persistance.DbFunctions;
 using BookShop.IntegrationTest.Application.Common;
 using BookShop.IntegrationTest.Application.Discount.FakeData;
 using BookShop.IntegrationTest.Application.Product.FakeData;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookShop.IntegrationTest.Application.Product.Queries
 {
@@ -33,11 +35,11 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery());
-
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(
+                new GetProductSummariesQuery());
 
             //Assert
-            Assert.Equal(products.Count, productSummaryDtos.Count);
+            Assert.Equal(products.Count, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -56,14 +58,16 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
-            {
-                StartPrice = startPrice,
-            });
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(
+                new GetProductSummariesQuery
+                {
+                    StartPrice = startPrice,
+                }
+            );
 
             //Asset
             int expectedProductCount = products.Count(a => a.Price >= startPrice);
-            Assert.Equal(expectedProductCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -83,14 +87,14 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 EndPrice = endPrice
             });
 
             //Asset
             int expectedProductCount = products.Count(a => a.Price <= endPrice);
-            Assert.Equal(expectedProductCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -110,14 +114,14 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 ProductType = productTypeFilter,
             });
 
             //Asset
             int expectedProductsTypeCount = products.Count(a => a.ProductType == productTypeFilter);
-            Assert.Equal(expectedProductsTypeCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductsTypeCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -134,14 +138,14 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 Available = true
             });
 
             //Asset
             int expectedProductsCount = products.Count(a => a.NumberOfInventory > 0);
-            Assert.Equal(expectedProductsCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductsCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -158,14 +162,14 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 Available = false
             });
 
             //Asset
             int expectedProductsCount = products.Count(a => a.NumberOfInventory <= 0);
-            Assert.Equal(expectedProductsCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductsCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -186,7 +190,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 StartPrice = startPriceFilter,
                 EndPrice = endPriceFilter,
@@ -194,7 +198,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
 
             //Asset
             int expectedProductsCount = products.Count(a => a.FinalPrice() >= startPriceFilter && a.FinalPrice() <= endPriceFilter);
-            Assert.Equal(expectedProductsCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductsCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -223,13 +227,13 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
 
             });
 
             //Assert
-            foreach (var productSummaryDto in productSummaryDtos)
+            foreach (var productSummaryDto in paginatedProductSummaries.Dtos)
             {
                 var p = products.First(a => a.Id.ToString() == productSummaryDto.Id);
                 Assert.Equal(p.DiscountedPrice, productSummaryDto.DiscountedPrice);
@@ -268,13 +272,13 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
 
             });
 
             //Assert
-            foreach (var productSummaryDto in productSummaryDtos)
+            foreach (var productSummaryDto in paginatedProductSummaries.Dtos)
             {
                 var p = products.First(a => a.Id.ToString() == productSummaryDto.Id);
                 Assert.Equal(p.DiscountedPrice, productSummaryDto.DiscountedPrice);
@@ -296,14 +300,14 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 EndPrice = endPriceFIlter,
             });
 
             //Asset
             int expectedProductCount = products.Count(a => a.FinalPrice() <= endPriceFIlter);
-            Assert.Equal(expectedProductCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -327,12 +331,12 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
             });
 
             //Assert
-            foreach (var productSummaryDto in productSummaryDtos)
+            foreach (var productSummaryDto in paginatedProductSummaries.Dtos)
             {
                 var p = products.First(a => a.Id.ToString() == productSummaryDto.Id);
                 Assert.Equal(p.ReviewsAcceptedAverageScore, productSummaryDto.ReviewsAcceptedAverageScore);
@@ -362,7 +366,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 AverageScore = averageScoreFilter
             });
@@ -370,7 +374,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             //Assert
             int expectedProductsCount = products.Count(a => a.ReviewsAcceptedAverageScore >= averageScoreFilter
                 && a.ReviewsAcceptedAverageScore < averageScoreFilter + 1);
-            Assert.Equal(expectedProductsCount, productSummaryDtos.Count);
+            Assert.Equal(expectedProductsCount, paginatedProductSummaries.Dtos.Count);
         }
 
 
@@ -392,7 +396,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.HighestPrice
             });
@@ -401,7 +405,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderByDescending(a => a.FinalPrice()).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -424,7 +428,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.LowestPrice
             });
@@ -433,7 +437,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderBy(a => a.FinalPrice()).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -453,7 +457,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.AlphabetDesc
             });
@@ -462,7 +466,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderByDescending(a => a.Title).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -482,7 +486,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.AlphabetAsce
             });
@@ -491,7 +495,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderBy(a => a.Title).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -514,7 +518,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.HighestDiscount
             });
@@ -523,7 +527,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderByDescending(a => a.DiscountedPrice).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -546,7 +550,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.LowestDiscount
             });
@@ -555,7 +559,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderBy(a => a.DiscountedPrice).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -572,7 +576,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.HighestSellCount
             });
@@ -581,7 +585,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderByDescending(a => a.SellCount).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
@@ -598,7 +602,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             await _TestDbContext.Add<E.Product, Guid>(products);
 
             //Act
-            List<ProductSummaryDto> productSummaryDtos = await SendRequest<GetProductSummariesQuery, List<ProductSummaryDto>>(new GetProductSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
             {
                 SortingOrder = ProductSortingOrder.LowestSellCount
             });
@@ -607,13 +611,29 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             var orderedProducts = products.OrderBy(a => a.SellCount).ToArray();
             for (int i = 0; i < orderedProducts.Count(); i++)
             {
-                Assert.Equal(orderedProducts[i].Id.ToString(), productSummaryDtos[i].Id);
+                Assert.Equal(orderedProducts[i].Id.ToString(), paginatedProductSummaries.Dtos[i].Id);
             }
         }
 
 
+        [Fact]
+        public async Task WithPaging_ShouldReturn_Paginated()
+        {
+            //Arrange
+            int pageNumber = Random.Shared.Next(1, 3);
+            int itemCount = 2;
+            List<E.Product> products = ProductFakeData.CreateBetween(5, 8);
+            await _TestDbContext.Add<E.Product, Guid>(products);
 
+            //Act
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(new GetProductSummariesQuery
+            {
+                Paging = new Paging(pageNumber, itemCount)
+            });
 
+            //Asset
+            Assert.Equal(products.Skip((pageNumber - 1) * itemCount).Take(itemCount).Count(), paginatedProductSummaries.Dtos.Count);
+        }
 
 
 

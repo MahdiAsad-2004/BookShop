@@ -13,7 +13,7 @@ using System.Data;
 using BookShop.Application.Extensions;
 using System.Linq.Expressions;
 using System.Data.Common;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using BookShop.Domain.Common.Entity;
 
 namespace BookShop.Infrastructure.Persistance.Repositories
 {
@@ -173,8 +173,6 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
         public async Task<Product> Get(Guid id, ProductQueryOption? queryOption)
         {
-
-
             var query = _dbSet.AsQueryable();
 
             if (queryOption != null)
@@ -226,7 +224,6 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
 
-
         public async Task<IEnumerable<Product>> GetAll(ProductQueryOption queryOption, Paging? paging = null, ProductSortingOrder? productSortingOrder = null)
         {
             paging = paging ?? new Paging();
@@ -264,25 +261,16 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
 
-        public async Task<IEnumerable<Product>> GetAllWithQuery(ProductQueryOption queryOption, Paging? paging = null, ProductSortingOrder? sortingOrder = null)
+        public async Task<PaginatedEntities<Product>> GetAllWithQuery(ProductQueryOption queryOption, Paging? paging = null, ProductSortingOrder? sortingOrder = null)
         {
-            string? orderByQuery = null;
+            #region paging
+            string? pagingQuery = paging == null ? null :
+                $"OFFSET ({paging.PageNumber} - 1) * {paging.ItemsInPage} ROWS FETCH NEXT {paging.ItemsInPage} ROWS ONLY";
+            #endregion
 
-            string? startPriceFilterStatement = queryOption.StartPrice > 0 ?
-            $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) >= {queryOption.StartPrice} And" : null;
 
-            string? endPriceFilterStatement = queryOption.EndPrice > 0 ?
-               $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) <= {queryOption.EndPrice} And" : null;
-
-            string? productTypeFilterStatement = queryOption.ProductType != null ?
-             $"[p].[ProductType] = {(int)queryOption.ProductType.Value} And" : null;
-
-            string? productIsAvailableFilterStatement = queryOption.Available != null ?
-                (queryOption.Available.Value ? "[p].[NumberOfInventory] > 0 And" : "[p].[NumberOfInventory] <= 0 And")
-                : null;
-
+            #region joins
             string? ValidDiscountsCTE = queryOption.IncludeDiscounts == false ? null : """
-
                 WITH ValidDiscounts As 
                 (
                 	SELECT 
@@ -299,21 +287,21 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 		(d.EndDate Is Null Or d.EndDate > GETDATE()) And
                 		(d.DiscountPrice Is Not Null Or d.DiscountPercent Is Not Null)
                 )    
-
                 """;
 
             string? validDicountsJoin = queryOption.IncludeDiscounts == false ? null : """
-                
                 LEFT JOIN 
                     ValidDiscounts vd ON p.Id = vd.ProductId AND vd.PrioritySortOrder = 1
                 """;
 
             string? productsWithReviewAverageScoreJoin = queryOption.IncludeDiscounts == false ? null : """
-                
                 LEFT JOIN 
                     (Select * From dbo.GetProductsWithReviewsAverageScore()) As [r] On [r].[ProductId] = [p].[Id]
                 """;
+            #endregion
 
+
+            #region columns
             string discountePriceColumn = queryOption.IncludeDiscounts == false ? "dbo.CalculateDiscounterPrice(P.Price , Null, Null)" :
                 "dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent)";
 
@@ -321,13 +309,31 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             string acceptedAverageScoreColumn = queryOption.IncludeReviews ? "CAST(ISNULL([r].[AcceptedAverageScore] , 0.0 ) As real)" :
                 "CAST(ISNULL(Null, 0.0 ) As real)";
+            #endregion
 
-            string? averageScoreFilterStatement = (queryOption.AverageScore != null && queryOption.AverageScore > 0 && queryOption.AverageScore <= 5) == false ? null :
+
+            #region filters
+            string? startPriceFilter = queryOption.StartPrice > 0 ?
+                $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) >= {queryOption.StartPrice} And" : null;
+
+            string? endPriceFilter = queryOption.EndPrice > 0 ?
+               $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) <= {queryOption.EndPrice} And" : null;
+
+            string? productTypeFilter = queryOption.ProductType == null ? null :
+                $"[p].[ProductType] = {(int)queryOption.ProductType.Value} And";
+
+            string? productIsAvailableFilter = queryOption.Available != null ?
+                (queryOption.Available.Value ? "[p].[NumberOfInventory] > 0 And" : "[p].[NumberOfInventory] <= 0 And") : null;
+
+            string? averageScoreFilter = (queryOption.AverageScore != null && queryOption.AverageScore > 0 && queryOption.AverageScore <= 5) == false ? null :
                 $"{acceptedAverageScoreColumn} >= {queryOption.AverageScore} And {acceptedAverageScoreColumn} < {queryOption.AverageScore + 1} And";
+            #endregion
 
+
+            #region sort
+            string? orderByQuery = null;
 
             if (sortingOrder != null)
-            {
                 switch (sortingOrder.Value)
                 {
                     case ProductSortingOrder.Newest:
@@ -338,58 +344,63 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
                     case ProductSortingOrder.HighestPrice:
                         orderByQuery = $"Order By {finalPriceColumn} Desc"; break;
-                    
+
                     case ProductSortingOrder.LowestPrice:
                         orderByQuery = $"Order By {finalPriceColumn}"; break;
-                    
+
                     case ProductSortingOrder.HighestDiscount:
-                        orderByQuery = $"Order By {discountePriceColumn} Desc";  break;
-                    
+                        orderByQuery = $"Order By {discountePriceColumn} Desc"; break;
+
                     case ProductSortingOrder.LowestDiscount:
                         orderByQuery = $"Order By {discountePriceColumn}"; break;
-                    
+
                     case ProductSortingOrder.HighestSellCount:
                         orderByQuery = $"Order By [p].[SellCount] Desc"; break;
-                    
+
                     case ProductSortingOrder.LowestSellCount:
                         orderByQuery = $"Order By [p].[SellCount]"; break;
-                    
+
                     case ProductSortingOrder.AlphabetDesc:
                         orderByQuery = $"Order By [p].[Title] Desc"; break;
-                    
+
                     case ProductSortingOrder.AlphabetAsce:
                         orderByQuery = $"Order By [p].[Title]"; break;
-                    
+
                     default:
                         break;
                 }
 
-            }
+            if (orderByQuery == null && paging != null)
+                orderByQuery = "Order By Id";
+            #endregion
+
 
             string queryString = $"""
-
                 {ValidDiscountsCTE}
                 SELECT 
                     p.Id ,p.Title , p.Price , P.DescriptionHtml , P.ImageName , P.NumberOfInventory , P.SellCount , P.ProductType,
                     [P].[CreateDate] , [P].LastModifiedDate , [P].[CreateBy] , P.LastModifiedBy , P.DeleteDate , P.DeletedBy , P.IsDeleted,
                     {discountePriceColumn} As [DiscountedPrice],
                     {finalPriceColumn} As [FinalPrice] ,
-                    {acceptedAverageScoreColumn} As [ReviewsAcceptedAverageScore]
+                    {acceptedAverageScoreColumn} As [ReviewsAcceptedAverageScore],
+                    COUNT(*) OVER() AS [TotalItemCount]
                 FROM 
                     Products p
                 {validDicountsJoin}
                 {productsWithReviewAverageScoreJoin}
                 Where   
                     1 = 1 And
-                    {startPriceFilterStatement} {endPriceFilterStatement} {productTypeFilterStatement} 
-                    {productIsAvailableFilterStatement} {averageScoreFilterStatement}
+                    {startPriceFilter} {endPriceFilter} {productTypeFilter} 
+                    {productIsAvailableFilter} {averageScoreFilter}
                 {orderByQuery}
+                {pagingQuery}
                 """;
 
             queryString = queryString.RemoveLastOccurrenceOfWord("And");
 
-            List<Product> products = new List<Product>();
             Product product;
+            int totalItemCount = -1;
+            List<Product> products = new List<Product>();
             using (var conn = _dbContext.Database.GetDbConnection())
             {
                 await conn.OpenAsync();
@@ -398,12 +409,16 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
+                    if(totalItemCount < 0)
+                    {
+                        totalItemCount = reader.GetInt32("TotalItemCount");
+                    }
                     product = ReadProductFromDbData(reader);
                     products.Add(product);
                 }
             }
 
-            return products;
+            return new PaginatedEntities<Product>(products , paging , totalItemCount);
         }
 
 

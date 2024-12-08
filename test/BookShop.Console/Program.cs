@@ -11,43 +11,52 @@ using Microsoft.Extensions.DependencyInjection;
 Console.WriteLine("Hello, World!");
 
 
-TestRepo testRepo = new TestRepo();
-TestEntity testEntity = new TestEntity();
-
-testRepo.SetId(testEntity);
-
-public class TestEntity : Entity<Guid>
-{
-}
-public class TestRepo : GenericRepo<TestEntity, Guid>
-{
-}
-public class GenericRepo<TEntity,TKey> 
-    where TEntity : Entity<TKey> 
-    where TKey : struct 
-{
-
-    public void SetId(TEntity entity)
-    {
-        Console.WriteLine($"Before Set, Id: {entity.Id}");
-
-        if (typeof(TKey) == typeof(Guid))
-            entity.Id = (TKey)Convert.ChangeType(Guid.NewGuid(), typeof(TKey));
-
-        if (typeof(TKey) == typeof(byte))
-            entity.Id = (TKey)Convert.ChangeType(100, typeof(TKey));
-        
-        if (typeof(TKey) == typeof(int))
-            entity.Id = (TKey)Convert.ChangeType(200, typeof(TKey));
-
-        if (typeof(TKey) == typeof(long))
-            entity.Id = (TKey)Convert.ChangeType(300, typeof(TKey));
-
-        Console.WriteLine($"After Set, Id: {entity.Id}");
-    }
+//var x = Math.Ceiling((decimal)92 / 10);
+//int y = 92 / 10;
+//Console.WriteLine(x);
+//Console.WriteLine(y);
 
 
-}
+
+
+
+//TestRepo testRepo = new TestRepo();
+//TestEntity testEntity = new TestEntity();
+
+//testRepo.SetId(testEntity);
+
+//public class TestEntity : Entity<Guid>
+//{
+//}
+//public class TestRepo : GenericRepo<TestEntity, Guid>
+//{
+//}
+//public class GenericRepo<TEntity,TKey> 
+//    where TEntity : Entity<TKey> 
+//    where TKey : struct 
+//{
+
+//    public void SetId(TEntity entity)
+//    {
+//        Console.WriteLine($"Before Set, Id: {entity.Id}");
+
+//        if (typeof(TKey) == typeof(Guid))
+//            entity.Id = (TKey)Convert.ChangeType(Guid.NewGuid(), typeof(TKey));
+
+//        if (typeof(TKey) == typeof(byte))
+//            entity.Id = (TKey)Convert.ChangeType(100, typeof(TKey));
+
+//        if (typeof(TKey) == typeof(int))
+//            entity.Id = (TKey)Convert.ChangeType(200, typeof(TKey));
+
+//        if (typeof(TKey) == typeof(long))
+//            entity.Id = (TKey)Convert.ChangeType(300, typeof(TKey));
+
+//        Console.WriteLine($"After Set, Id: {entity.Id}");
+//    }
+
+
+//}
 
 
 

@@ -20,6 +20,11 @@ namespace BookShop.Application.Features.Book.Mapping
                     b.Product.Reviews != null && b.Product.Reviews.Any(r => r.IsAccepted) ? (float)b.Product.Reviews.Where(s => s.IsAccepted).Average(s => s.Score) : 0f))
                 .ForMember(m => m.Title, a => a.MapFrom(b => b.Product.Title));
                 
+            
+            CreateMap<Domain.Entities.Book , BookSummaryDto>()
+                .ForMember(m => m.DiscountPercentage, a => a.MapFrom(b => b.Product.DiscountedPrice > 0 ? 
+                    (b.Product.Price - b.Product.DiscountedPrice) * 100f / b.Product.Price : null))
+                .ForMember(m => m.ProductId , a => a.MapFrom(b => b.ProductId));
 
 
         }

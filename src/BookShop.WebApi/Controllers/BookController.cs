@@ -1,9 +1,7 @@
 ﻿using BookShop.Application.Common.Dtos;
-using BookShop.Application.Features.Product.Dtos;
-using BookShop.Application.Features.Product.Queries.GetSummaries;
-using BookShop.Application.Features.Product.Queries.GetSummary;
+using BookShop.Application.Features.Book.Dtos;
+using BookShop.Application.Features.Book.Queries.GetSummaries;
 using BookShop.Domain.Common.QueryOption;
-using BookShop.Domain.Enums;
 using BookShop.Domain.QueryOptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +10,12 @@ namespace BookShop.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class BookController : ControllerBase
     {
         #region constructor
 
         private readonly IMediator _mediator;
-        public ProductController(IMediator mediator)
+        public BookController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -29,9 +27,9 @@ namespace BookShop.WebApi.Controllers
         [ActionName("/")]
         public async Task<IActionResult> GetAll(
             bool? Available = null, int? startPrice = null, int? endPrice = null, byte? score = null,
-            int? itemCount = null, int? pageNumber = null , ProductSortingOrder? sort = null)
+            int? itemCount = null, int? pageNumber = null , BookSortingOrder? sort = null)
         {
-            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await _mediator.Send(new GetProductSummariesQuery
+            PaginatedDtos<BookSummaryDto> paginatedBookSummaries = await _mediator.Send(new GetBookSummariesQuery
             {
                 Available = Available,
                 AverageScore = score,
@@ -40,7 +38,7 @@ namespace BookShop.WebApi.Controllers
                 StartPrice = startPrice,
                 Paging = new Paging(itemCount , pageNumber),
             });
-            return Ok(paginatedProductSummaries);
+            return Ok(paginatedBookSummaries);
         }
 
 

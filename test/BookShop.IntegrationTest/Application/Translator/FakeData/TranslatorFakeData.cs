@@ -9,11 +9,16 @@ namespace BookShop.IntegrationTest.Application.Translator.FakeData
         private static readonly Faker<E.Translator> _translatorFaker = new Faker<E.Translator>();
 
 
-        public static E.Translator Create()
+        private static void SetRules()
         {
             _translatorFaker.RuleFor(a => a.Id, (a, b) => Guid.NewGuid());
             _translatorFaker.RuleFor(a => a.ImageName, (a, b) => a.Person.Avatar);
             _translatorFaker.RuleFor(a => a.Name, (a, b) => a.Person.FullName);
+        }
+
+        public static E.Translator Create()
+        {
+            SetRules();
             return _translatorFaker.Generate();
         }
 

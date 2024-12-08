@@ -1,16 +1,16 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
+using BookShop.Application.Common.Dtos;
 using BookShop.Application.Features.Product.Dtos;
+using BookShop.Domain.Common.Entity;
 using BookShop.Domain.Common.QueryOption;
 using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 using BookShop.Domain.QueryOptions;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BookShop.Application.Features.Product.Queries.GetSummaries
 {
-    public class GetProductSummariesQuery : IRequest<List<ProductSummaryDto>>
+    public class GetProductSummariesQuery : IRequest<PaginatedDtos<ProductSummaryDto>>
     {
         public ProductSortingOrder? SortingOrder { get; set; } = null;
         public Paging? Paging { get; set; } = null;
@@ -24,7 +24,7 @@ namespace BookShop.Application.Features.Product.Queries.GetSummaries
     }
 
 
-    public class GetProductSummariesQueryHandler : IRequestHandler<GetProductSummariesQuery, List<ProductSummaryDto>>
+    internal class GetProductSummariesQueryHandler : IRequestHandler<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>
     {
         #region constructor
 
@@ -38,9 +38,9 @@ namespace BookShop.Application.Features.Product.Queries.GetSummaries
 
         #endregion
 
-        public async Task<List<ProductSummaryDto>> Handle(GetProductSummariesQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedDtos<ProductSummaryDto>> Handle(GetProductSummariesQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetAllWithQuery(
+            PaginatedEntities<Domain.Entities.Product> paginatedProducts = await _productRepository.GetAllWithQuery(
                 new ProductQueryOption 
                 { 
                     IncludeDiscounts = true,
@@ -54,9 +54,9 @@ namespace BookShop.Application.Features.Product.Queries.GetSummaries
                 sortingOrder: request.SortingOrder,
                 paging: request.Paging);
 
-            var productSummaryDtos = _mapper.Map<List<ProductSummaryDto>>(products.ToList());
+            var productSummaryDtos = _mapper.Map<List<ProductSummaryDto>>(paginatedProducts.Entites.ToList());
 
-            return productSummaryDtos;
+            return new PaginatedDtos<ProductSummaryDto>(productSummaryDtos , paginatedProducts.Paging , paginatedProducts.TotalItemCount);
         }
 
     }

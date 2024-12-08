@@ -17,11 +17,26 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
 
         public static E.Product Create()
         {
-            Guid id = Guid.NewGuid();   
+            Guid id = Guid.NewGuid();
             string identifire = id.ToString().Substring(0, 3);
             var product = Create(id);
             return product;
         }
+
+        public static List<E.Product> CreateBetween(int min, int max)
+        {
+            List<E.Product> products = new List<E.Product>();
+
+            if (min <= 0 || min > max)
+                return products;
+
+            for (int i = 1; i < Random.Shared.Next(min, max + 1); i++)
+            {
+                products.Add(Create());
+            }
+            return products;
+        }
+
 
         public static E.Product Create(Guid id)
         {
@@ -60,8 +75,8 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
 
 
         public static E.Product Create(Guid? id = null, string? title = null, int? price = null,
-            ProductType? productType = null ,List<Product_Discount>? product_Discounts = null,
-            bool? available = null , int? sellCount = 0 , List<E.Review>? reviews = null)
+            ProductType? productType = null, List<Product_Discount>? product_Discounts = null,
+            bool? available = null, int? sellCount = 0, List<E.Review>? reviews = null)
         {
             id = id ?? Guid.NewGuid();
             string identifire = id.ToString().Substring(0, 3);

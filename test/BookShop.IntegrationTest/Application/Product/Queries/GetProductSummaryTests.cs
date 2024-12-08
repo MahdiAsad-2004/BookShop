@@ -1,5 +1,4 @@
-﻿
-using Bogus;
+﻿using Bogus;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Application.Features.Product.Queries.GetSummary;
 using BookShop.Domain.Common.Entity;
@@ -121,7 +120,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
 
 
         [Fact]
-        public async Task ById_WithDiscount_WithPriority_ShouldReturn_MostPriorityDiscount()
+        public async Task ById_WithDiscount_WithPriority_ShouldReturn_MostPriorityValidDiscount()
         {
             //Arange
             int price = 1_000_000;
@@ -142,7 +141,7 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
                 Id = productId,
             });
 
-            Domain.Entities.Discount mostPriorityDiscount = product_Discounts.Select(a => a.Discount).OrderBy(a => a.Priority).First();
+            Domain.Entities.Discount mostPriorityDiscount = product_Discounts.Select(a => a.Discount).Where(a => a.IsValid()).OrderBy(a => a.Priority).First();
             float expectedDiscountedPrice = (float)price - mostPriorityDiscount.DiscountPrice.Value;
             Assert.Equal(productId.ToString(), productSummaryDto.Id);
             Assert.Equal(expectedDiscountedPrice, productSummaryDto.DiscountedPrice);

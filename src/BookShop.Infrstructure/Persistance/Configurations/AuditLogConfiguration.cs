@@ -9,8 +9,15 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<AuditLog> builder)
         {
             builder.ToTable("AuditLogs");
-            builder.HasOne(a => a.User).WithMany(a => a.AuditLogs).HasForeignKey(a => a.UserId);
+            
+            //relations
+            builder.HasOne(a => a.User).WithMany(a => a.AuditLogs).HasForeignKey(a => a.UserId).HasPrincipalKey(a => a.Id).OnDelete(DeleteBehavior.Restrict);
+
+            //properties
+            builder.Property(a => a.EntityTypeFullName).HasColumnType("VarChar(100)");
+
 
         }
+
     }
 }

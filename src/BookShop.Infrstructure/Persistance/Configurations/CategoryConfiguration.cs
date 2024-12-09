@@ -8,10 +8,16 @@ namespace BookShop.Infrastructure.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("Categorys");
+            builder.ToTable("Categories");
+
+            //relations
             builder.HasMany(a => a.Childs).WithOne(a => a.Parent).HasForeignKey(a => a.ParentId);
-            builder.HasMany(a => a.Products).WithMany(a => a.Categories);
-            
+            builder.HasMany(a => a.Product_Categories).WithOne(a => a.Category).HasForeignKey(a => a.CategoryId);
+
+            //properties
+            builder.Property(a => a.Title).HasColumnType("NVarChar(30)");
+            builder.Property(a => a.ImageName).HasColumnType("VarChar(50)");
+
         }
     }
 }

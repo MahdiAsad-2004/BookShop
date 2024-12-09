@@ -9,8 +9,13 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<PasswordHistory> builder)
         {
             builder.ToTable("PasswordHistories");
-            builder.HasOne(a => a.User).WithMany(a => a.PasswordHistories).HasForeignKey(a => a.UserId);
             
+            //relations
+            builder.HasOne(a => a.User).WithMany(a => a.PasswordHistories).HasForeignKey(a => a.UserId);
+
+            //properties
+            builder.Property(a => a.PasswordHash).HasColumnType("VarChar(300)");
+        
         }
     }
 }

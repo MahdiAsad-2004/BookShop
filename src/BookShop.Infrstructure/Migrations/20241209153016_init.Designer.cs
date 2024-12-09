@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Infrstructure.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20241128154053_init")]
+    [Migration("20241209153016_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -66,7 +66,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -78,18 +78,18 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("EntityTypeFullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -120,7 +120,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -129,25 +129,25 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.HasKey("Id");
 
@@ -165,7 +165,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -177,7 +177,7 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<int?>("Edition")
                         .HasColumnType("int");
@@ -190,7 +190,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -208,7 +208,7 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Shabak")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(20)");
 
                     b.Property<Guid?>("TranslatorId")
                         .HasColumnType("uniqueidentifier");
@@ -236,7 +236,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -245,18 +245,18 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -266,13 +266,13 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categorys", (string)null);
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Discount", b =>
@@ -283,7 +283,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -292,7 +292,7 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<float?>("DiscountPercent")
                         .HasColumnType("real");
@@ -308,7 +308,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -318,7 +318,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -342,7 +342,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -351,7 +351,7 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<int?>("Edition")
                         .HasColumnType("int");
@@ -367,7 +367,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -411,7 +411,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -420,14 +420,14 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -455,7 +455,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -464,21 +464,21 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(100)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -498,7 +498,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -507,57 +507,25 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Permissions", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("1bf58eed-d2a5-4da9-8c30-3b9846ca7910"),
-                            CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(4972),
-                            IsDeleted = false,
-                            LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5008),
-                            Name = "GetAuditLogsPermission"
-                        },
-                        new
-                        {
-                            Id = new Guid("1bbe3f50-11a6-439f-8115-ad668b21c70b"),
-                            CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5043),
-                            IsDeleted = false,
-                            LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5047),
-                            Name = "AddUserPermission"
-                        },
-                        new
-                        {
-                            Id = new Guid("0df2ea0c-35de-4fb4-a260-0dc5011ea251"),
-                            CreateBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            CreateDate = new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5056),
-                            IsDeleted = false,
-                            LastModifiedBy = "8826c891-6e75-48a3-b347-0d7e21113f21",
-                            LastModifiedDate = new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5060),
-                            Name = "GetUsersPermission"
-                        });
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Product", b =>
@@ -568,7 +536,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -577,22 +545,22 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("DescriptionHtml")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(Max)");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -611,11 +579,58 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Product_Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Product_Categories", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Product_Discount", b =>
@@ -626,7 +641,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -635,7 +650,7 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<Guid>("DiscountId")
                         .HasColumnType("uniqueidentifier");
@@ -645,7 +660,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -670,7 +685,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -679,25 +694,25 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.HasKey("Id");
 
@@ -712,7 +727,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -721,10 +736,10 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
@@ -734,13 +749,13 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -750,7 +765,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(200)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -772,11 +787,11 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -785,24 +800,24 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.HasKey("Id");
 
@@ -817,7 +832,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -826,14 +841,14 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -843,11 +858,11 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.HasKey("Id");
 
@@ -864,7 +879,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -873,25 +888,25 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.HasKey("Id");
 
@@ -909,11 +924,11 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -922,25 +937,25 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("ImageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -953,36 +968,36 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(30)");
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.Property<string>("NormalizedUsername")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("NVarChar(100)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(11)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(30)");
 
                     b.HasKey("Id");
 
@@ -997,7 +1012,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -1006,28 +1021,28 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.HasKey("Id");
 
@@ -1044,7 +1059,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -1053,29 +1068,29 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LoginProvider")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<string>("TokenName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<string>("TokenValue")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(50)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -1095,7 +1110,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -1104,14 +1119,14 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -1139,7 +1154,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -1148,14 +1163,14 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VarChar(36)");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -1173,21 +1188,6 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("User_Roles", (string)null);
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("CategoryProduct");
                 });
 
             modelBuilder.Entity("AuthorBook", b =>
@@ -1225,7 +1225,7 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasOne("BookShop.Domain.Entities.User", "User")
                         .WithMany("AuditLogs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1247,7 +1247,8 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.HasOne("BookShop.Domain.Entities.Translator", "Translator")
                         .WithMany("Books")
-                        .HasForeignKey("TranslatorId");
+                        .HasForeignKey("TranslatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Product");
 
@@ -1279,7 +1280,8 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.HasOne("BookShop.Domain.Entities.Translator", "Translator")
                         .WithMany("EBooks")
-                        .HasForeignKey("TranslatorId");
+                        .HasForeignKey("TranslatorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Product");
 
@@ -1316,6 +1318,25 @@ namespace BookShop.Infrstructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Product_Category", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Category", "Category")
+                        .WithMany("Product_Categories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.Product", "Product")
+                        .WithMany("Product_Categories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Product_Discount", b =>
@@ -1392,7 +1413,7 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasOne("BookShop.Domain.Entities.Permission", "Permission")
                         .WithMany("User_Permissions")
                         .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BookShop.Domain.Entities.User", "User")
@@ -1425,24 +1446,11 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("BookShop.Domain.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookShop.Domain.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BookShop.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Childs");
+
+                    b.Navigation("Product_Categories");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Discount", b =>
@@ -1462,6 +1470,8 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("EBook");
 
                     b.Navigation("Favorites");
+
+                    b.Navigation("Product_Categories");
 
                     b.Navigation("Product_Discounts");
 

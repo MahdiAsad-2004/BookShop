@@ -9,8 +9,14 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Translator> builder)
         {
             builder.ToTable("Translators");
-            builder.HasMany(a => a.Books).WithOne(a => a.Translator).HasForeignKey(a => a.TranslatorId);
-            builder.HasMany(a => a.EBooks).WithOne(a => a.Translator).HasForeignKey(a => a.TranslatorId);
+            
+            //Relations
+            builder.HasMany(a => a.Books).WithOne(a => a.Translator).HasForeignKey(a => a.TranslatorId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(a => a.EBooks).WithOne(a => a.Translator).HasForeignKey(a => a.TranslatorId).OnDelete(DeleteBehavior.Restrict);
+
+            //Properties
+            builder.Property(a => a.Name).HasColumnType("NVarChar(30)");
+            builder.Property(a => a.ImageName).HasColumnType("VarChar(50)");
 
         }
     }

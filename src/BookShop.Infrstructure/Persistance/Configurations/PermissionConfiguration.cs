@@ -12,27 +12,16 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
             builder.ToTable("Permissions");
-            builder.HasMany(a => a.User_Permissions).WithOne(a => a.Permission).HasForeignKey(a => a.PermissionId);
+            
+            //relations
+            builder.HasMany(a => a.User_Permissions).WithOne(a => a.Permission).HasForeignKey(a => a.PermissionId).OnDelete(DeleteBehavior.Restrict);
+
+            //properties
+            builder.Property(a => a.Name).HasColumnType("VarChar(30)");
 
 
 
-
-
-            foreach (var permissionName in Permissions.GetAll())
-            {
-                builder.HasData(new Permission
-                {
-                    Name = permissionName,
-                    CreateBy = UsersSeed.SuperAdmin.Id.ToString(),
-                    CreateDate = DateTime.UtcNow,
-                    DeleteDate = null,
-                    DeletedBy = null,
-                    Id = Guid.NewGuid(),
-                    IsDeleted = false,
-                    LastModifiedBy = UsersSeed.SuperAdmin.Id.ToString(),
-                    LastModifiedDate = DateTime.UtcNow,
-                });
-            }
+            
 
 
         }

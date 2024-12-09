@@ -9,8 +9,14 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<RoleClaim> builder)
         {
             builder.ToTable("RoleClaims");
-            builder.HasOne(a => a.Role).WithMany(a => a.RoleClaims).HasForeignKey(a => a.RoleId);
             
+            //Relations
+            builder.HasOne(a => a.Role).WithMany(a => a.RoleClaims).HasForeignKey(a => a.RoleId).HasPrincipalKey(a => a.Id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Properties
+            builder.Property(a => a.Type).HasColumnType("VarChar(50)");
+            builder.Property(a => a.Value).HasColumnType("VarChar(50)");
 
 
         }

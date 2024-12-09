@@ -148,7 +148,8 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                     .ThenInclude(a => a.Product_Discounts)
                         .ThenInclude(a => a.Discount)
                 .Include(a => a.Product)
-                    .ThenInclude(a => a.Categories)
+                    .ThenInclude(a => a.Product_Categories)
+                        .ThenInclude(a => a.Category)
                 .Include(a => a.Publisher)
                 .Include(a => a.Translator)
                 .Include(a => a.Authors);

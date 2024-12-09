@@ -17,11 +17,15 @@ namespace BookShop.Infrastructure.Persistance.Configurations
             builder.HasMany(a => a.Favorites).WithOne(a => a.Product);
             builder.HasMany(a => a.Reviews).WithOne(a => a.Product).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
             builder.HasMany(a => a.Product_Discounts).WithOne(a => a.Product).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
-            builder.HasMany(a => a.Categories).WithMany(a => a.Products);
-            
-            //Ignore Properties
+            builder.HasMany(a => a.Product_Categories).WithOne(a => a.Product).HasForeignKey(a => a.ProductId);
+
+
+            //Properties
             builder.Ignore(a => a.DiscountedPrice);
             builder.Ignore(a => a.ReviewsAcceptedAverageScore);
+            builder.Property(a => a.Title).HasColumnType("NVarChar(30)");
+            builder.Property(a => a.ImageName).HasColumnType("VarChar(50)");
+            builder.Property(a => a.DescriptionHtml).HasColumnType("VarChar(Max)");
 
 
 

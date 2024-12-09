@@ -16,15 +16,22 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
 
         public async Task SeedDatas()
         {
-            using var scope = _serviceProvider.CreateScope();    
+            using var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetService<BookShopDbContext>();
-            if(dbContext != null) 
+            if (dbContext != null)
             {
-                if(await dbContext.Database.CanConnectAsync())
+                if (await dbContext.Database.CanConnectAsync())
                 {
-                    if(dbContext.Users.Any() == false)
-                    await dbContext.Users.AddAsync(UsersSeed.SuperAdmin);
-                    await dbContext.SaveChangesAsync();
+                    if (dbContext.Users.Any() == false)
+                    {
+                        await dbContext.Users.AddAsync(UsersSeed.SuperAdmin);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if (dbContext.Permissions.Any() == false)
+                    {
+                        await dbContext.Permissions.AddRangeAsync(PermissionsSeed.GetPermissions(UsersSeed.SuperAdmin.Id));
+                        await dbContext.SaveChangesAsync();
+                    }
                 }
             }
 

@@ -9,9 +9,12 @@ namespace BookShop.Infrastructure.Persistance.Configurations
         public void Configure(EntityTypeBuilder<Discount> builder)
         {
             builder.ToTable("Discounts");
-            builder.HasMany(a => a.Product_Discounts).WithOne(a => a.Discount).HasForeignKey(a => a.DiscountId).HasPrincipalKey(a => a.Id);
             
+            //relations
+            builder.HasMany(a => a.Product_Discounts).WithOne(a => a.Discount).HasForeignKey(a => a.DiscountId).HasPrincipalKey(a => a.Id);
 
+            //properties
+            builder.Property(a => a.Name).HasColumnType("VarChar(30)");
 
         }
     }

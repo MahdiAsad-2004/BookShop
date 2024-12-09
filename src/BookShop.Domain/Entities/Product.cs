@@ -50,9 +50,9 @@ namespace BookShop.Domain.Entities
 
         public Book? Book { get; set; }
         public EBook? EBook { get; set; }
-        public IList<Category> Categories { get; set; }
         public IList<Favorite> Favorites { get; set; }
         public IList<Review> Reviews { get; set; }
+        public IList<Product_Category> Product_Categories { get; set; }
         public IList<Product_Discount> Product_Discounts { get; set; }
 
 

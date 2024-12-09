@@ -52,7 +52,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
         {
             Title = p.Title,
             Book = p.Book,
-            Categories = p.Categories,
+            Product_Categories = p.Product_Categories,
             CreateBy = p.CreateBy,
             CreateDate = p.CreateDate,
             DeleteDate = p.DeleteDate,

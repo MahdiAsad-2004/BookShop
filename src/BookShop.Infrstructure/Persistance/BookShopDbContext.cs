@@ -1,4 +1,5 @@
-﻿using BookShop.Domain.Entities;
+﻿using BookShop.Domain.Common.Entity;
+using BookShop.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -33,6 +34,7 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<User_Permission> User_Permissions { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Product_Discount> Product_Discounts { get; set; }
+        public DbSet<Product_Category> Product_Categories { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -43,20 +45,24 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<UserToken> UserTokens { get; set; }
         public DbSet<UserClaim> UserClaims { get; set; }
 
-
-
         #endregion
-
-        public class MuDbQuery
-        {
-
-        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (property.ClrType == typeof(string) && property.Name.EndsWith("By"))
+                    {
+                        property.SetColumnType("VarChar(36)");
+                    }
+                }
+            }
         }
 
 

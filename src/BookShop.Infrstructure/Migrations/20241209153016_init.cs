@@ -1,10 +1,7 @@
 ﻿using System;
-using BookShop.Infrstructure.Persistance.DbFunctions;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
-
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace BookShop.Infrstructure.Migrations
 {
@@ -19,14 +16,14 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "NVarChar(30)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -35,28 +32,28 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categorys",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categorys", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categorys_Categorys_ParentId",
+                        name: "FK_Categories_Categories_ParentId",
                         column: x => x.ParentId,
-                        principalTable: "Categorys",
+                        principalTable: "Categories",
                         principalColumn: "Id");
                 });
 
@@ -65,7 +62,7 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "VarChar(30)", nullable: false),
                     DiscountPrice = table.Column<int>(type: "int", nullable: true),
                     UsedCount = table.Column<int>(type: "int", nullable: false),
                     MaximumUseCount = table.Column<int>(type: "int", nullable: true),
@@ -75,10 +72,10 @@ namespace BookShop.Infrstructure.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -91,13 +88,13 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "VarChar(30)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -110,19 +107,19 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    DescriptionHtml = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescriptionHtml = table.Column<string>(type: "VarChar(Max)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
                     NumberOfInventory = table.Column<int>(type: "int", nullable: false),
                     SellCount = table.Column<int>(type: "int", nullable: false),
                     ProductType = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -135,14 +132,14 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -155,15 +152,15 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "VarChar(30)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    NormalizedName = table.Column<string>(type: "VarChar(30)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -176,14 +173,14 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "NVarChar(30)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -196,28 +193,28 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NormalizedUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "NVarChar(30)", nullable: false),
+                    Username = table.Column<string>(type: "VarChar(30)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "VarChar(11)", nullable: false),
+                    Email = table.Column<string>(type: "VarChar(30)", nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "VarChar(30)", nullable: false),
+                    NormalizedUsername = table.Column<string>(type: "VarChar(30)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "NVarChar(100)", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    SecurityStamp = table.Column<string>(type: "VarChar(50)", nullable: true),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -226,24 +223,33 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CategoryProduct",
+                name: "Product_Categories",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsMain = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryProduct", x => new { x.CategoriesId, x.ProductsId });
+                    table.PrimaryKey("PK_Product_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CategoryProduct_Categorys_CategoriesId",
-                        column: x => x.CategoriesId,
-                        principalTable: "Categorys",
+                        name: "FK_Product_Categories_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoryProduct_Products_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_Product_Categories_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -258,10 +264,10 @@ namespace BookShop.Infrstructure.Migrations
                     DiscountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -286,15 +292,15 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    Value = table.Column<string>(type: "VarChar(50)", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -317,7 +323,7 @@ namespace BookShop.Infrstructure.Migrations
                     Cover = table.Column<int>(type: "int", nullable: false),
                     Cutting = table.Column<int>(type: "int", nullable: false),
                     Language = table.Column<int>(type: "int", nullable: false),
-                    Shabak = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Shabak = table.Column<string>(type: "VarChar(20)", nullable: true),
                     PublishYear = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WeightInGram = table.Column<float>(type: "real", nullable: true),
                     Edition = table.Column<int>(type: "int", nullable: true),
@@ -326,10 +332,10 @@ namespace BookShop.Infrstructure.Migrations
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -351,7 +357,8 @@ namespace BookShop.Infrstructure.Migrations
                         name: "FK_Books_Translators_TranslatorId",
                         column: x => x.TranslatorId,
                         principalTable: "Translators",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -370,10 +377,10 @@ namespace BookShop.Infrstructure.Migrations
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -394,7 +401,8 @@ namespace BookShop.Infrstructure.Migrations
                         name: "FK_EBooks_Translators_TranslatorId",
                         column: x => x.TranslatorId,
                         principalTable: "Translators",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -406,14 +414,14 @@ namespace BookShop.Infrstructure.Migrations
                     AuditType = table.Column<int>(type: "int", nullable: false),
                     NewObject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OldObject = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EntityTypeFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EntityTypeFullName = table.Column<string>(type: "VarChar(100)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -424,7 +432,7 @@ namespace BookShop.Infrstructure.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -436,10 +444,10 @@ namespace BookShop.Infrstructure.Migrations
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -464,14 +472,14 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "NVarChar(100)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -491,18 +499,18 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Score = table.Column<byte>(type: "tinyint", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Text = table.Column<string>(type: "NVarChar(200)", nullable: false),
+                    Name = table.Column<string>(type: "NVarChar(30)", nullable: true),
+                    Email = table.Column<string>(type: "VarChar(30)", nullable: true),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -530,10 +538,10 @@ namespace BookShop.Infrstructure.Migrations
                     PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -544,7 +552,7 @@ namespace BookShop.Infrstructure.Migrations
                         column: x => x.PermissionId,
                         principalTable: "Permissions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_Permissions_Users_UserId",
                         column: x => x.UserId,
@@ -562,10 +570,10 @@ namespace BookShop.Infrstructure.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -590,15 +598,15 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    Value = table.Column<string>(type: "VarChar(50)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -617,16 +625,16 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TokenName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TokenValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    TokenName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    TokenValue = table.Column<string>(type: "VarChar(50)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -688,16 +696,6 @@ namespace BookShop.Infrstructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Permissions",
-                columns: new[] { "Id", "CreateBy", "CreateDate", "DeleteDate", "DeletedBy", "IsDeleted", "LastModifiedBy", "LastModifiedDate", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("0df2ea0c-35de-4fb4-a260-0dc5011ea251"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5056), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5060), "GetUsersPermission" },
-                    { new Guid("1bbe3f50-11a6-439f-8115-ad668b21c70b"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5043), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5047), "AddUserPermission" },
-                    { new Guid("1bf58eed-d2a5-4da9-8c30-3b9846ca7910"), "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(4972), null, null, false, "8826c891-6e75-48a3-b347-0d7e21113f21", new DateTime(2024, 11, 28, 15, 40, 52, 757, DateTimeKind.Utc).AddTicks(5008), "GetAuditLogsPermission" }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AuditLogs_UserId",
                 table: "AuditLogs",
@@ -730,13 +728,8 @@ namespace BookShop.Infrstructure.Migrations
                 column: "TranslatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryProduct_ProductsId",
-                table: "CategoryProduct",
-                column: "ProductsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Categorys_ParentId",
-                table: "Categorys",
+                name: "IX_Categories_ParentId",
+                table: "Categories",
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
@@ -770,6 +763,16 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_PasswordHistories_UserId",
                 table: "PasswordHistories",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Categories_CategoryId",
+                table: "Product_Categories",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Categories_ProductId",
+                table: "Product_Categories",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_Discounts_DiscountId",
@@ -825,12 +828,6 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_UserTokens_UserId",
                 table: "UserTokens",
                 column: "UserId");
-
-            DbFunctions dbFunctions = new DbFunctions();
-            foreach (var dbFunctionFile in dbFunctions.DbFunctionFiles())
-            {
-                migrationBuilder.Sql(dbFunctionFile.GetFileContent());
-            }
         }
 
         /// <inheritdoc />
@@ -846,13 +843,13 @@ namespace BookShop.Infrstructure.Migrations
                 name: "AuthorEBook");
 
             migrationBuilder.DropTable(
-                name: "CategoryProduct");
-
-            migrationBuilder.DropTable(
                 name: "Favorites");
 
             migrationBuilder.DropTable(
                 name: "PasswordHistories");
+
+            migrationBuilder.DropTable(
+                name: "Product_Categories");
 
             migrationBuilder.DropTable(
                 name: "Product_Discounts");
@@ -885,7 +882,7 @@ namespace BookShop.Infrstructure.Migrations
                 name: "EBooks");
 
             migrationBuilder.DropTable(
-                name: "Categorys");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Discounts");

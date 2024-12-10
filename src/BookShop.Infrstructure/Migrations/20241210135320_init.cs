@@ -1,4 +1,5 @@
 ﻿using System;
+using BookShop.Infrstructure.Persistance.DbFunctions;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -103,31 +104,6 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    DescriptionHtml = table.Column<string>(type: "VarChar(Max)", nullable: false),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
-                    NumberOfInventory = table.Column<int>(type: "int", nullable: false),
-                    SellCount = table.Column<int>(type: "int", nullable: false),
-                    ProductType = table.Column<int>(type: "int", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Publishers",
                 columns: table => new
                 {
@@ -199,7 +175,7 @@ namespace BookShop.Infrstructure.Migrations
                     Email = table.Column<string>(type: "VarChar(30)", nullable: false),
                     NormalizedEmail = table.Column<string>(type: "VarChar(30)", nullable: false),
                     NormalizedUsername = table.Column<string>(type: "VarChar(30)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "NVarChar(100)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "VarChar(300)", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
@@ -223,13 +199,18 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product_Categories",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsMain = table.Column<bool>(type: "bit", nullable: false),
+                    Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    DescriptionHtml = table.Column<string>(type: "VarChar(Max)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    NumberOfInventory = table.Column<int>(type: "int", nullable: false),
+                    SellCount = table.Column<int>(type: "int", nullable: false),
+                    ProductType = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
@@ -240,51 +221,13 @@ namespace BookShop.Infrstructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_Categories_Categories_CategoryId",
+                        name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_Categories_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Product_Discounts",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DiscountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product_Discounts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Product_Discounts_Discounts_DiscountId",
-                        column: x => x.DiscountId,
-                        principalTable: "Discounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_Discounts_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,97 +255,6 @@ namespace BookShop.Infrstructure.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NumberOfPages = table.Column<int>(type: "int", nullable: false),
-                    Cover = table.Column<int>(type: "int", nullable: false),
-                    Cutting = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    Shabak = table.Column<string>(type: "VarChar(20)", nullable: true),
-                    PublishYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WeightInGram = table.Column<float>(type: "real", nullable: true),
-                    Edition = table.Column<int>(type: "int", nullable: true),
-                    PublisherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Books_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Books_Publishers_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "Publishers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Books_Translators_TranslatorId",
-                        column: x => x.TranslatorId,
-                        principalTable: "Translators",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EBooks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    NumberOfPages = table.Column<int>(type: "int", nullable: false),
-                    Language = table.Column<int>(type: "int", nullable: false),
-                    FileFormat = table.Column<int>(type: "int", nullable: false),
-                    PublishYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VolumeInMegabyte = table.Column<float>(type: "real", nullable: false),
-                    Edition = table.Column<int>(type: "int", nullable: true),
-                    PublisherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EBooks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EBooks_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_EBooks_Publishers_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "Publishers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EBooks_Translators_TranslatorId",
-                        column: x => x.TranslatorId,
-                        principalTable: "Translators",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -436,43 +288,11 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Favorites",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Favorites", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Favorites_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Favorites_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PasswordHistories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PasswordHash = table.Column<string>(type: "NVarChar(100)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "VarChar(300)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -491,42 +311,6 @@ namespace BookShop.Infrstructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Score = table.Column<byte>(type: "tinyint", nullable: false),
-                    Text = table.Column<string>(type: "NVarChar(200)", nullable: false),
-                    Name = table.Column<string>(type: "NVarChar(30)", nullable: true),
-                    Email = table.Column<string>(type: "VarChar(30)", nullable: true),
-                    IsAccepted = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reviews", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -649,6 +433,197 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NumberOfPages = table.Column<int>(type: "int", nullable: false),
+                    Cover = table.Column<int>(type: "int", nullable: false),
+                    Cutting = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<int>(type: "int", nullable: false),
+                    Shabak = table.Column<string>(type: "VarChar(20)", nullable: true),
+                    PublishYear = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WeightInGram = table.Column<float>(type: "real", nullable: true),
+                    Edition = table.Column<int>(type: "int", nullable: true),
+                    PublisherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Books_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_Publishers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "Publishers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_Translators_TranslatorId",
+                        column: x => x.TranslatorId,
+                        principalTable: "Translators",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EBooks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NumberOfPages = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<int>(type: "int", nullable: false),
+                    FileFormat = table.Column<int>(type: "int", nullable: false),
+                    PublishYear = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VolumeInMegabyte = table.Column<float>(type: "real", nullable: false),
+                    Edition = table.Column<int>(type: "int", nullable: true),
+                    PublisherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EBooks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EBooks_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EBooks_Publishers_PublisherId",
+                        column: x => x.PublisherId,
+                        principalTable: "Publishers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EBooks_Translators_TranslatorId",
+                        column: x => x.TranslatorId,
+                        principalTable: "Translators",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product_Discounts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DiscountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product_Discounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_Discounts_Discounts_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Product_Discounts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Score = table.Column<byte>(type: "tinyint", nullable: false),
+                    Text = table.Column<string>(type: "NVarChar(200)", nullable: false),
+                    Name = table.Column<string>(type: "NVarChar(30)", nullable: true),
+                    Email = table.Column<string>(type: "VarChar(30)", nullable: true),
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AuthorBook",
                 columns: table => new
                 {
@@ -765,16 +740,6 @@ namespace BookShop.Infrstructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_Categories_CategoryId",
-                table: "Product_Categories",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_Categories_ProductId",
-                table: "Product_Categories",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Product_Discounts_DiscountId",
                 table: "Product_Discounts",
                 column: "DiscountId");
@@ -783,6 +748,11 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_Product_Discounts_ProductId",
                 table: "Product_Discounts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ProductId",
@@ -828,6 +798,14 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_UserTokens_UserId",
                 table: "UserTokens",
                 column: "UserId");
+
+            DbFunctions dbFunctions = new DbFunctions();
+            foreach (var dbFunctionFile in dbFunctions.DbFunctionFiles())
+            {
+                dbFunctionFile.AddToMigration(migrationBuilder);   
+            }
+
+
         }
 
         /// <inheritdoc />
@@ -847,9 +825,6 @@ namespace BookShop.Infrstructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "PasswordHistories");
-
-            migrationBuilder.DropTable(
-                name: "Product_Categories");
 
             migrationBuilder.DropTable(
                 name: "Product_Discounts");
@@ -882,9 +857,6 @@ namespace BookShop.Infrstructure.Migrations
                 name: "EBooks");
 
             migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "Discounts");
 
             migrationBuilder.DropTable(
@@ -904,6 +876,9 @@ namespace BookShop.Infrstructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Translators");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

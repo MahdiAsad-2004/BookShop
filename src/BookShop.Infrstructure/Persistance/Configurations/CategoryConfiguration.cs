@@ -12,7 +12,8 @@ namespace BookShop.Infrastructure.Persistance.Configurations
 
             //relations
             builder.HasMany(a => a.Childs).WithOne(a => a.Parent).HasForeignKey(a => a.ParentId);
-            builder.HasMany(a => a.Product_Categories).WithOne(a => a.Category).HasForeignKey(a => a.CategoryId);
+            builder.HasMany(a => a.Products).WithOne(a => a.Category).HasForeignKey(a => a.CategoryId).OnDelete(DeleteBehavior.Restrict);
+            //builder.HasMany(a => a.Product_Categories).WithOne(a => a.Category).HasForeignKey(a => a.CategoryId);
 
             //properties
             builder.Property(a => a.Title).HasColumnType("NVarChar(30)");

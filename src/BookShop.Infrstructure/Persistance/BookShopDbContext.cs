@@ -34,7 +34,7 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<User_Permission> User_Permissions { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Product_Discount> Product_Discounts { get; set; }
-        public DbSet<Product_Category> Product_Categories { get; set; }
+        //public DbSet<Product_Category> Product_Categories { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Role> Roles { get; set; }

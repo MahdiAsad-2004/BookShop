@@ -11,7 +11,9 @@ namespace BookShop.Domain.Entities
 
         public Category? Parent { get; set; }
         public IList<Category> Childs { get; set; }
-        public IList<Product_Category> Product_Categories { get; set; }
+        public IList<Product> Products { get; set; }
+       
+        // public IList<Product_Category> Product_Categories { get; set; }
 
     }
 

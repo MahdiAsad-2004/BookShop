@@ -18,6 +18,7 @@ namespace BookShop.Domain.QueryOptions
         public byte? Product_AverageScore { get; init; } = null;
         public DateTime? StartPublishYear { get; init; } = null;
         public DateTime? EndPublishYear { get; init; } = null;
+        public Guid? CategoryId { get; init; } = null;
     }
 
 

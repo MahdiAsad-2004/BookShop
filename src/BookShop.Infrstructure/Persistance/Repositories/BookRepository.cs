@@ -50,6 +50,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 ReviewsAcceptedAverageScore = reader.GetFieldValue<float>("p_ReviewsAcceptedAverageScore"),
                 SellCount = reader.GetFieldValue<int>("p_SellCount"),
                 Title = reader.GetFieldValue<string>("p_Title"),
+                CategoryId = reader.IsDBNull("p_CategoryId") ? null : reader.GetFieldValue<Guid>("p_CategoryId"),
             };
             return new Book
             {
@@ -148,7 +149,6 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                     .ThenInclude(a => a.Product_Discounts)
                         .ThenInclude(a => a.Discount)
                 .Include(a => a.Product)
-                    .ThenInclude(a => a.Product_Categories)
                         .ThenInclude(a => a.Category)
                 .Include(a => a.Publisher)
                 .Include(a => a.Translator)
@@ -174,7 +174,6 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             #region joins
             string? productValidDiscountsCTE = queryOption.IncludeDiscounts == false || queryOption.IncludeProduct == false ? null : """
-
                 WITH ValidDiscounts As 
                 (
                 	SELECT 
@@ -190,9 +189,24 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 		(d.EndDate Is Null Or d.EndDate > GETDATE()) And
                 		(d.EndDate Is Null Or d.EndDate > GETDATE()) And
                 		(d.DiscountPrice Is Not Null Or d.DiscountPercent Is Not Null)
-                )    
-
+                ),    
                 """;
+
+            string? categoryCTE = queryOption.CategoryId == null ? null :
+                $"""
+                WITH CategoryIds As
+                (
+                    SELECT Id FROM Categories 
+                    WHERE Categories.ParentId = '{queryOption.CategoryId}' Or Categories.Id = '{queryOption.CategoryId}'
+                ),
+                """;
+
+            string CTES = $"{productValidDiscountsCTE}{categoryCTE}";
+            if (productValidDiscountsCTE != null && categoryCTE != null)
+            {
+                CTES = TextExtensions.RemoveLastOccurrenceOfWord(CTES, "WITH");
+            }
+            CTES = TextExtensions.RemoveLastOccurrenceOfWord(CTES, ",");
 
             string? productValidDicountsJoin = queryOption.IncludeDiscounts == false || queryOption.IncludeProduct == false ? null : """
                 LEFT JOIN 
@@ -205,6 +219,10 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             string? productsWithReviewAverageScoreJoin = queryOption.IncludeReviews == false || queryOption.IncludeProduct == false ? null : """
                 LEFT JOIN 
                     (Select * From dbo.GetProductsWithReviewsAverageScore()) As [r] On [r].[ProductId] = [p].[Id]
+                """;
+            string? categoryIdsJoin = queryOption.CategoryId == null ? null : """
+                INNER JOIN
+                    CategoryIds On p.CategoryId = CategoryIds.Id
                 """;
             #endregion
 
@@ -222,7 +240,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             string? productColumns = queryOption.IncludeProduct == false ? null : $"""
                     p.Id As [p_Id] ,p.Title As [p_Title], p.Price As [p_Price] , P.DescriptionHtml As [p_DescriptionHtml] , P.ImageName As [p_ImageName],
-                    P.NumberOfInventory As [p_NumberOfInventory], P.SellCount As [p_SellCount], P.ProductType As [p_ProductType],
+                    P.NumberOfInventory As [p_NumberOfInventory], P.SellCount As [p_SellCount], P.ProductType As [p_ProductType],[p].CategoryId As [p_CategoryId],
                     [P].[CreateDate] As [p_CreateDate], [P].LastModifiedDate As [p_LastModifiedDate], [P].[CreateBy] As [p_CreateBy],
                     P.LastModifiedBy As [p_LastModifiedBy], P.DeleteDate As [p_DeleteDate], P.DeletedBy As [p_DeletedBy], P.IsDeleted As [p_IsDeleted],
                     {discountePriceColumn} As [p_DiscountedPrice],
@@ -312,7 +330,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             string queryString = $"""
 
-                {productValidDiscountsCTE}
+                {CTES}
                 SELECT
                 
                     b.Id , b.NumberOfPages, b.Cover , b.Cutting , b.Language , b.Shabak , b.PublishYear , b.WeightInGram,
@@ -325,6 +343,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 {productsJoin}
                 {productValidDicountsJoin}
                 {productsWithReviewAverageScoreJoin}
+                {categoryIdsJoin}
                 Where   
                     1 = 1 And
                     {productStartPriceFilter} {productEndPriceFilter} {productIsAvailableFilter} {productAverageScoreFilter}

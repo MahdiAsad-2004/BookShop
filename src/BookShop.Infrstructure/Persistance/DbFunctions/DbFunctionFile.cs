@@ -1,4 +1,8 @@
-﻿namespace BookShop.Infrstructure.Persistance.DbFunctions
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
+
+namespace BookShop.Infrstructure.Persistance.DbFunctions
 {
     public class DbFunctionFile
     {
@@ -13,6 +17,12 @@
             string filePath = Path.Combine(DbFunctions.FunctionsSqlFilePath, FileName);
             return File.ReadAllText(filePath);
         }
+
+        public void AddToMigration(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql(GetFileContent());
+        } 
+
 
     }
 

@@ -76,7 +76,7 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
 
         public static E.Product Create(Guid? id = null, string? title = null, int? price = null,
             ProductType? productType = null, List<Product_Discount>? product_Discounts = null,
-            bool? available = null, int? sellCount = 0, List<E.Review>? reviews = null)
+            bool? available = null, int? sellCount = 0, List<E.Review>? reviews = null , E.Category? category = null)
         {
             id = id ?? Guid.NewGuid();
             string identifire = id.ToString().Substring(0, 3);
@@ -92,6 +92,8 @@ namespace BookShop.IntegrationTest.Application.Product.FakeData
                 SellCount = sellCount > 0 ? sellCount.Value : Random.Shared.Next(0, 100),
                 Product_Discounts = product_Discounts,
                 Reviews = reviews,
+                Category = category,
+                CategoryId = category?.Id,
             };
             return product;
         }

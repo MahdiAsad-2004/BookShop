@@ -7,16 +7,17 @@ namespace BookShop.Domain.Entities
     {
         public string Title { get; set; }
         public int Price { get; set; }
-        //public float? DiscountedPrice { get; set; }
-        private float? _DiscountedPrice;
         public string DescriptionHtml { get; set; }
         public string ImageName { get; set; }
         public int NumberOfInventory { get; set; }
         public int SellCount { get; set; }
         public ProductType ProductType { get; set; }
+        public Guid? CategoryId { get; set; }
+
 
         private float? _ReviewsAcceptedAverageScore;
-        //public float? ReviewsAcceptedAverageScore { get; set; }
+
+        private float? _DiscountedPrice;
 
 
         #region computed columns
@@ -30,7 +31,7 @@ namespace BookShop.Domain.Entities
                     return GetDscountedPrice();
                 return _DiscountedPrice;
             }
-            set { _DiscountedPrice = value; }
+            init { _DiscountedPrice = value; }
         }
 
         // Computed Column
@@ -42,7 +43,7 @@ namespace BookShop.Domain.Entities
                     return GetReviewsAcceptedAverageScore();
                 return _ReviewsAcceptedAverageScore;
             }
-            set { _ReviewsAcceptedAverageScore = value; }
+            init { _ReviewsAcceptedAverageScore = value; }
         }
 
         #endregion
@@ -50,12 +51,49 @@ namespace BookShop.Domain.Entities
 
         public Book? Book { get; set; }
         public EBook? EBook { get; set; }
+        public Category? Category { get; set; }
         public IList<Favorite> Favorites { get; set; }
         public IList<Review> Reviews { get; set; }
-        public IList<Product_Category> Product_Categories { get; set; }
+        //public IList<Product_Category> Product_Categories { get; set; }
         public IList<Product_Discount> Product_Discounts { get; set; }
 
 
+
+
+
+
+
+
+
+        public Product() {}
+        public Product(Product product , float? discountedPrice)
+        {
+            this.Book = product.Book;
+            this.Category = product.Category;
+            this.CategoryId = product.CategoryId;
+            this.CreateBy = product.CreateBy;
+            this.CreateDate = product.CreateDate;
+            this.DeleteDate = product.DeleteDate;
+            this.DescriptionHtml = product.DescriptionHtml;
+            this.DiscountedPrice = discountedPrice;
+            this.EBook = product.EBook;
+            this.Favorites = product.Favorites;
+            this.Id = product.Id;
+            this.ImageName = product.ImageName;
+            this.IsDeleted = product.IsDeleted;
+            this.LastModifiedBy = product.LastModifiedBy;
+            this.LastModifiedDate = product.LastModifiedDate;
+            this.NumberOfInventory = product.NumberOfInventory;
+            this.Price = product.Price;
+            this.ProductType = product.ProductType;
+            this.Product_Discounts = product.Product_Discounts;
+            this.Reviews = product.Reviews;
+            this.ReviewsAcceptedAverageScore = product.ReviewsAcceptedAverageScore;
+            this.SellCount = product.SellCount;
+            this.Title = product.Title;
+
+
+        }
 
 
         public float FinalPrice()

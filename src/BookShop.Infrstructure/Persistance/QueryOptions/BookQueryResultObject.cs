@@ -16,12 +16,12 @@ namespace BookShop.Infrstructure.Persistance.QueryOptions
         public Book MapToBook()
         {
             Book book = Book;
-            book.Product = Product;
+            book.Product = new Product(Product ,MostPriorityValidDiscount?.CalculateDiscountedPrice(Product.Price));
             book.Publisher = Publisher;
             book.Translator = Translator;
             book.Authors = Authors;
             book.Product.Reviews = Reviews;
-            book.Product.DiscountedPrice = MostPriorityValidDiscount?.CalculateDiscountedPrice(Product.Price);
+            //book.Product.DiscountedPrice = MostPriorityValidDiscount?.CalculateDiscountedPrice(Product.Price);
 
             return book;
         }

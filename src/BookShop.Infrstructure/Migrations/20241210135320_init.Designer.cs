@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Infrstructure.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20241209153016_init")]
+    [Migration("20241210135320_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -478,7 +478,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("NVarChar(100)");
+                        .HasColumnType("VarChar(300)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -534,6 +534,9 @@ namespace BookShop.Infrstructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("CreateBy")
                         .IsRequired()
                         .HasColumnType("VarChar(36)");
@@ -583,54 +586,9 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
-                });
-
-            modelBuilder.Entity("BookShop.Domain.Entities.Product_Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("VarChar(36)");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("VarChar(36)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("VarChar(36)");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Product_Categories", (string)null);
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Product_Discount", b =>
@@ -980,7 +938,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("NVarChar(100)");
+                        .HasColumnType("VarChar(300)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -1320,23 +1278,14 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BookShop.Domain.Entities.Product_Category", b =>
+            modelBuilder.Entity("BookShop.Domain.Entities.Product", b =>
                 {
                     b.HasOne("BookShop.Domain.Entities.Category", "Category")
-                        .WithMany("Product_Categories")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookShop.Domain.Entities.Product", "Product")
-                        .WithMany("Product_Categories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Product_Discount", b =>
@@ -1450,7 +1399,7 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     b.Navigation("Childs");
 
-                    b.Navigation("Product_Categories");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Discount", b =>
@@ -1470,8 +1419,6 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("EBook");
 
                     b.Navigation("Favorites");
-
-                    b.Navigation("Product_Categories");
 
                     b.Navigation("Product_Discounts");
 

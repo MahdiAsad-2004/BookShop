@@ -28,6 +28,7 @@ namespace BookShop.Application.Features.Book.Queries.GetSummaries
         public Guid? TranslatorId { get; set; }
         public DateTime? StartPublishYear { get; set; }
         public DateTime? EndPublishYear { get; set; }
+        public Guid? CategoryId { get; set; }
 
     }
 
@@ -60,6 +61,7 @@ namespace BookShop.Application.Features.Book.Queries.GetSummaries
                     Product_StartPrice = request.StartPrice,
                     StartPublishYear = request.StartPublishYear,
                     EndPublishYear = request.EndPublishYear,
+                    CategoryId = request.CategoryId,
                 },
             request.Paging,
             request.SortingOrder

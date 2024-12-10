@@ -17,7 +17,8 @@ namespace BookShop.Infrastructure.Persistance.Configurations
             builder.HasMany(a => a.Favorites).WithOne(a => a.Product);
             builder.HasMany(a => a.Reviews).WithOne(a => a.Product).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
             builder.HasMany(a => a.Product_Discounts).WithOne(a => a.Product).HasForeignKey(a => a.ProductId).HasPrincipalKey(a => a.Id);
-            builder.HasMany(a => a.Product_Categories).WithOne(a => a.Product).HasForeignKey(a => a.ProductId);
+            //builder.HasMany(a => a.Product_Categories).WithOne(a => a.Product).HasForeignKey(a => a.ProductId);
+            builder.HasOne(a => a.Category).WithMany(a => a.Products).HasForeignKey(a => a.CategoryId).OnDelete(DeleteBehavior.Restrict);
 
 
             //Properties

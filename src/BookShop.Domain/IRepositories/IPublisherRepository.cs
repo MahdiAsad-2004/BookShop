@@ -9,5 +9,10 @@ namespace BookShop.Domain.IRepositories
         IWriteRepository<Publisher, Guid>,
         IDeleteRepository<Publisher, Guid>
     {
+
+        Task<bool> IsExist(Guid id);
+
+
+
     }
 }

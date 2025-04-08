@@ -6,7 +6,7 @@ namespace BookShop.Domain.Entities
     public class EBook : Entity<Guid> 
     {
         public int NumberOfPages { get; set; }
-        public Languages Language { get; set; }
+        public Language Language { get; set; }
         public EBookFileFormat FileFormat { get; set; }
         public DateTime PublishYear { get; set; }
         public float VolumeInMegabyte { get; set; }
@@ -20,7 +20,7 @@ namespace BookShop.Domain.Entities
         public Product Product { get; set; }
         public Publisher Publisher { get; set; }
         public Translator? Translator { get; set; }
-        public IList<Author> Authors { get; set; }
+        public IList<Author_EBook> Author_EBooks { get; set; }
      
     }
 }

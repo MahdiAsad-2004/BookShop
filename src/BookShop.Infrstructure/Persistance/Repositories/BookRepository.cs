@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Common.Dtos;
+using BookShop.Application.Common.Event;
 using BookShop.Application.Extensions;
 using BookShop.Domain.Common.Entity;
 using BookShop.Domain.Common.Event;
@@ -11,7 +12,9 @@ using BookShop.Domain.IRepositories;
 using BookShop.Domain.QueryOptions;
 using BookShop.Infrastructure.Persistance.Repositories.Common;
 using BookShop.Infrstructure.Persistance.QueryOptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Data;
 using System.Data.Common;
 
@@ -19,8 +22,8 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 {
     internal class BookRepository : CrudRepository<Book, Guid>, IBookRepository
     {
-        private readonly Product _product = new Product();
-        private readonly Book _book = new Book();
+        //private readonly Product _product = new Product();
+        //private readonly Book _book = new Book();
 
         public BookRepository(BookShopDbContext dbContext, ICurrentUser currentUser, IDomainEventPublisher domainEventPublisher)
             : base(dbContext, currentUser, domainEventPublisher)
@@ -40,7 +43,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 DeletedBy = reader.IsDBNull("p_DeletedBy") ? null : reader.GetFieldValue<string>("p_DeletedBy"),
                 DescriptionHtml = reader.GetFieldValue<string>("p_DescriptionHtml"),
                 DiscountedPrice = reader.IsDBNull("p_DiscountedPrice") ? null : reader.GetFieldValue<float>("p_DiscountedPrice"),
-                ImageName = reader.GetFieldValue<string>("p_ImageName"),
+                ImageName = reader.GetFieldValue<string?>("p_ImageName"),
                 IsDeleted = reader.GetFieldValue<bool>("p_IsDeleted"),
                 LastModifiedBy = reader.GetFieldValue<string>("p_LastModifiedBy"),
                 LastModifiedDate = reader.GetFieldValue<DateTime>("p_LastModifiedDate"),
@@ -62,7 +65,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 DeleteDate = reader.IsDBNull("DeleteDate") ? null : reader.GetFieldValue<DateTime>("DeleteDate"),
                 DeletedBy = reader.IsDBNull("DeletedBy") ? null : reader.GetFieldValue<string>("DeletedBy"),
                 IsDeleted = reader.GetFieldValue<bool>("IsDeleted"),
-                Language = reader.GetFieldValue<Languages>("Language"),
+                Language = reader.GetFieldValue<Language>("Language"),
                 Edition = reader.IsDBNull("Edition") ? null : reader.GetInt32("Edition"),
                 LastModifiedBy = reader.GetFieldValue<string>("LastModifiedBy"),
                 LastModifiedDate = reader.GetFieldValue<DateTime>("LastModifiedDate"),
@@ -102,7 +105,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 Reviews = queryOption.IncludeReviews == false ? null : _dbContext.Reviews.Where(a => a.ProductId == book.ProductId).ToList(),
                 Publisher = queryOption.IncludePublisher == false ? null : _dbContext.Publishers.First(a => a.Id == book.PublisherId),
                 Translator = queryOption.IncludeTranslator == false ? null : _dbContext.Translators.FirstOrDefault(a => a.Id == book.TranslatorId),
-                Authors = queryOption.IncludeAuthors == false ? null : _dbContext.Authors.ToList(),
+                Author_Books = queryOption.IncludeAuthors == false ? null : book.Author_Books.ToArray(),
                 MostPriorityValidDiscount = queryOption.IncludeDiscounts == false ? null : _dbContext.Product_Discounts
                     .Where(pd => pd.ProductId == book.ProductId)
                     .Join(_dbContext.Discounts,
@@ -118,12 +121,12 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                             UsedCount = d.UsedCount,
                             MaximumUseCount = d.MaximumUseCount,
                         })
-                    .Where
-                    (d =>
-                        (d.StartDate == null || d.StartDate <= DateTime.Now) &&
-                        (d.EndDate == null || d.EndDate >= DateTime.Now) &&
-                        (d.MaximumUseCount == null || d.MaximumUseCount > d.UsedCount) &&
-                        (d.DiscountPercent != null || d.DiscountPrice != null)
+                        .Where(
+                            d =>
+                                (d.StartDate == null || d.StartDate <= DateTime.Now) &&
+                                (d.EndDate == null || d.EndDate >= DateTime.Now) &&
+                                (d.MaximumUseCount == null || d.MaximumUseCount > d.UsedCount) &&
+                                (d.DiscountPercent != null || d.DiscountPrice != null)
                     )
                     .OrderBy(d => d.Priority)
                     .FirstOrDefault()
@@ -152,7 +155,8 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                         .ThenInclude(a => a.Category)
                 .Include(a => a.Publisher)
                 .Include(a => a.Translator)
-                .Include(a => a.Authors);
+                .Include(a => a.Author_Books)
+                    .ThenInclude(a => a.Author);
 
             Book? book = await query.FirstOrDefaultAsync(a => a.Id == id);
 
@@ -194,10 +198,13 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             string? categoryCTE = queryOption.CategoryId == null ? null :
                 $"""
-                WITH CategoryIds As
+                WITH CategoryIds AS 
                 (
-                    SELECT Id FROM Categories 
-                    WHERE Categories.ParentId = '{queryOption.CategoryId}' Or Categories.Id = '{queryOption.CategoryId}'
+                    SELECT Id FROM Categories
+                    WHERE Id = '{queryOption.CategoryId}'
+                    UNION ALL
+                    SELECT c.Id FROM Categories c
+                    INNER JOIN CategoryIds rc ON c.ParentId = rc.Id
                 ),
                 """;
 
@@ -223,6 +230,10 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             string? categoryIdsJoin = queryOption.CategoryId == null ? null : """
                 INNER JOIN
                     CategoryIds On p.CategoryId = CategoryIds.Id
+                """;
+            string? authorIdsJoin = queryOption.AuthorId == null ? null : $"""
+                INNER JOIN 
+                    Author_Books On [b].[Id] = Author_Books.[BookId]
                 """;
             #endregion
 
@@ -251,14 +262,17 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
             #region filters
+            string? productTitleFilter = string.IsNullOrEmpty(queryOption.Product_Title) ? null :
+                $"[p].[Title] LIKE '%{queryOption.Product_Title}%' And";
+
             string? productStartPriceFilter = queryOption.Product_StartPrice > 0 && queryOption.IncludeProduct ?
-           $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) >= {queryOption.Product_StartPrice} And" : null;
+                $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) >= {queryOption.Product_StartPrice} And" : null;
 
             string? productEndPriceFilter = queryOption.Product_EndPrice > 0 && queryOption.IncludeProduct ?
                $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) <= {queryOption.Product_EndPrice} And" : null;
 
-            string? productIsAvailableFilter = queryOption.Product_Available != null && queryOption.IncludeProduct ?
-                (queryOption.Product_Available.Value ? "[p].[NumberOfInventory] > 0 And" : "[p].[NumberOfInventory] <= 0 And") : null;
+            string? productIsAvailableFilter = queryOption.Product_IsAvailable != null && queryOption.IncludeProduct ?
+                (queryOption.Product_IsAvailable.Value ? "[p].[NumberOfInventory] > 0 And" : "[p].[NumberOfInventory] <= 0 And") : null;
 
             string? productAverageScoreFilter =
                 (queryOption.Product_AverageScore != null && queryOption.Product_AverageScore > 0 && queryOption.Product_AverageScore <= 5) && queryOption.IncludeProduct ?
@@ -269,6 +283,24 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             string? endPublishYearFilter = queryOption.EndPublishYear == null || queryOption.StartPublishYear < DateTime.Now ? null :
                 $"[b].[PublishYear] <= '{queryOption.EndPublishYear.Value}' And";
+
+            string? coverFilter = queryOption.Cover == null ? null :
+                $"[b].[Cover] = {(int)queryOption.Cover} And";
+
+            string? languageFilter = queryOption.Language == null ? null :
+                $"[b].[Language] = {(int)queryOption.Language} And";
+
+            string? cuttingFilter = queryOption.Cutting == null ? null :
+                $"[b].[Cutting] = {(int)queryOption.Cutting} And";
+
+            string? authorFilter = queryOption.AuthorId == null ? null :
+                $"Author_Books.[AuthorId] = '{queryOption.AuthorId}' And";
+
+            string? publisherFilter = queryOption.PublisherId == null ? null :
+                $"[b].[PublisherId] = '{queryOption.PublisherId}' And";
+
+            string? translatorFilter = queryOption.TranslatorId == null ? null :
+                $"[b].[TranslatorId] = '{queryOption.TranslatorId}' And";
             #endregion
 
 
@@ -324,7 +356,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 }
             }
             if (orderByQuery == null && paging != null)
-                orderByQuery = "Order By Id";
+                orderByQuery = "Order By [b].[Id]";
             #endregion
 
 
@@ -344,10 +376,12 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 {productValidDicountsJoin}
                 {productsWithReviewAverageScoreJoin}
                 {categoryIdsJoin}
+                {authorIdsJoin}
                 Where   
                     1 = 1 And
                     {productStartPriceFilter} {productEndPriceFilter} {productIsAvailableFilter} {productAverageScoreFilter}
-                    {startPublishYearFilter} {endPublishYearFilter}
+                    {startPublishYearFilter} {endPublishYearFilter} {coverFilter} {languageFilter} {cuttingFilter} {authorFilter}
+                    {publisherFilter} {translatorFilter} {productTitleFilter}
                 {orderByQuery}
                 {pagingQuery}
                 """;
@@ -357,7 +391,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             Book book;
             int totalItemCount = -1;
             List<Book> books = new List<Book>();
-            using (var conn = _dbContext.Database.GetDbConnection())
+            using (var conn = new SqlConnection(_dbContext.Database.GetConnectionString()))
             {
                 await conn.OpenAsync();
                 var command = conn.CreateCommand();
@@ -372,13 +406,50 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                     book = ReadBookFromDbData(reader);
                     books.Add(book);
                 }
+                await conn.CloseAsync();
             }
 
             return new PaginatedEntities<Book>(books, paging, totalItemCount);
         }
 
 
-
+        public async Task Add(Book book, Product product,Guid[] authorIds)
+        {
+            DateTime dateTime = DateTime.UtcNow;
+            product.Id = Guid.NewGuid();
+            product.CreateDate = product.LastModifiedDate = dateTime;
+            product.CreateBy = product.LastModifiedBy = _currentUser.GetId();
+            //---------------------------------------------------------------------
+            book.Id = Guid.NewGuid();
+            book.CreateDate = book.LastModifiedDate = dateTime;
+            book.CreateBy = book.LastModifiedBy = _currentUser.GetId();
+            //---------------------------------------------------------------------
+            List<Author_Book>? author_Books = null;
+            if(author_Books != null)
+            {
+                author_Books = new List<Author_Book>();
+                foreach (Guid authorId in authorIds)
+                {
+                    author_Books.Add(new Author_Book
+                    {
+                        CreateBy = _currentUser.GetId(),
+                        CreateDate = dateTime,
+                        LastModifiedBy = _currentUser.GetId(),
+                        LastModifiedDate = dateTime,
+                        AuthorId = authorId,
+                        Book = book,
+                        BookId = book.Id,
+                        Id = Guid.NewGuid(),
+                    });
+                }
+            }
+            //---------------------------------------------------------------------
+            book.Product = product;
+            book.Author_Books = author_Books!;
+            await _dbContext.Books.AddAsync(book);
+            await _dbContext.SaveChangesAsync();
+            await book.PublishAllDomainEventsAndClear(_domainEventPublisher);
+        }
 
 
     }

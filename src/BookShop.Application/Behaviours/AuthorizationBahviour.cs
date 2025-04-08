@@ -9,7 +9,7 @@ using System.Reflection;
 namespace BookShop.Application.Behaviours
 {
     public class AuthorizationBahviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : ICashableRequest
+        where TRequest : IRequest<TResponse>
         where TResponse : class
     {
 
@@ -33,10 +33,10 @@ namespace BookShop.Application.Behaviours
             string[]? requiredPermissionNames = typeof(TRequest).GetCustomAttribute<RequiredPermission>()?.GetRequiredPermissions();
 
             if (requiredPermissionNames != null)
-                if (await _permissionChecker.HasPermission(requiredPermissionNames))
+                if (await _permissionChecker.HasPermission(requiredPermissionNames) == false)
                 {
                     _logger.Information($"{nameof(request)} request is unauthorized (for required permissions).");
-                    throw new UnauthorizeException("You does not have required permission for this operation");
+                    throw new UnauthorizeException("User does not have required permission for this operation");
                 }
 
             _logger.Information($"{nameof(request)} request is authorized");

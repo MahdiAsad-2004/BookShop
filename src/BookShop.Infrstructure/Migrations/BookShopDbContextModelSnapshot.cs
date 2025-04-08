@@ -22,36 +22,6 @@ namespace BookShop.Infrstructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<Guid>("AuthorsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BooksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AuthorsId", "BooksId");
-
-                    b.HasIndex("BooksId");
-
-                    b.ToTable("AuthorBook");
-                });
-
-            modelBuilder.Entity("AuthorEBook", b =>
-                {
-                    b.Property<Guid>("AuthorsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EBooksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AuthorsId", "EBooksId");
-
-                    b.HasIndex("EBooksId");
-
-                    b.ToTable("AuthorEBook");
-                });
-
             modelBuilder.Entity("BookShop.Domain.Entities.AuditLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -128,8 +98,10 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("VarChar(36)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
@@ -149,6 +121,94 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Author_Book", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Author_Books", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Author_EBook", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<Guid>("EBookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("EBookId");
+
+                    b.ToTable("Author_EBooks", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Book", b =>
@@ -245,7 +305,6 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
@@ -549,10 +608,9 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("DescriptionHtml")
                         .IsRequired()
-                        .HasColumnType("VarChar(Max)");
+                        .HasColumnType("NVarChar(Max)");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
@@ -896,7 +954,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("VarChar(30)");
+                        .HasColumnType("VarChar(100)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -927,7 +985,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
-                        .HasColumnType("VarChar(30)");
+                        .HasColumnType("VarChar(100)");
 
                     b.Property<string>("NormalizedUsername")
                         .IsRequired()
@@ -1145,36 +1203,6 @@ namespace BookShop.Infrstructure.Migrations
                     b.ToTable("User_Roles", (string)null);
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.HasOne("BookShop.Domain.Entities.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookShop.Domain.Entities.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuthorEBook", b =>
-                {
-                    b.HasOne("BookShop.Domain.Entities.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookShop.Domain.Entities.EBook", null)
-                        .WithMany()
-                        .HasForeignKey("EBooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BookShop.Domain.Entities.AuditLog", b =>
                 {
                     b.HasOne("BookShop.Domain.Entities.User", "User")
@@ -1184,6 +1212,44 @@ namespace BookShop.Infrstructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Author_Book", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Author", "Author")
+                        .WithMany("Author_Books")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.Book", "Book")
+                        .WithMany("Author_Books")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Author_EBook", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Author", "Author")
+                        .WithMany("Author_EBooks")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.EBook", "EBook")
+                        .WithMany("Author_EBooks")
+                        .HasForeignKey("EBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("EBook");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Book", b =>
@@ -1392,6 +1458,18 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BookShop.Domain.Entities.Author", b =>
+                {
+                    b.Navigation("Author_Books");
+
+                    b.Navigation("Author_EBooks");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("Author_Books");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Childs");
@@ -1402,6 +1480,11 @@ namespace BookShop.Infrstructure.Migrations
             modelBuilder.Entity("BookShop.Domain.Entities.Discount", b =>
                 {
                     b.Navigation("Product_Discounts");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.EBook", b =>
+                {
+                    b.Navigation("Author_EBooks");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Permission", b =>

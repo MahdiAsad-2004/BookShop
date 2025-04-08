@@ -10,6 +10,8 @@ namespace BookShop.Domain.QueryOptions
 
         public bool IncludeDiscounts = false;
 
+        public string? Title = null;
+        
         public int? StartPrice = null;
         
         public int? EndPrice = null;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Features.Book.Dtos;
 using BookShop.Domain.Entities;
 using BookShop.Domain.IRepositories;
@@ -7,9 +8,16 @@ using MediatR;
 
 namespace BookShop.Application.Features.Book.Queries.GetDetail
 {
-    public class GetBookDetailQuery : IRequest<BookDetailDto>
+    public class GetBookDetailQuery : CachableRequest<BookDetailDto>
     {
         public Guid Id { get; init; }
+        public override TimeSpan CacheExpireTime { get; } = TimeSpan.FromMinutes(10);
+        public override string GetCacheKey()
+        {
+            if (string.IsNullOrEmpty(_CacheKey))
+                _CacheKey = $"{nameof(GetBookDetailQuery)}-{Id}";
+            return _CacheKey;
+        }
     }
 
     internal class GetBookDetailQueryHandler : IRequestHandler<GetBookDetailQuery, BookDetailDto>

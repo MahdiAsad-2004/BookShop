@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿global using E = BookShop.Domain.Entities;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Serilog;
@@ -10,6 +11,9 @@ using System.Diagnostics;
 using BookShop.Application.Behaviours;
 using BookShop.Application.Behaviours.PreProcessors;
 using MediatR.Pipeline;
+using BookShop.Application.Common.Rule;
+using MediatR;
+using BookShop.Application.Features.Book.Commands.Create;
 
 namespace BookShop.Application
 {
@@ -25,9 +29,10 @@ namespace BookShop.Application
             {
                 config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
                 config.AddRequestPreProcessor(typeof(IRequestPreProcessor<>),typeof(LoggingPreProcessor<>));
-                config.AddRequestPreProcessor(typeof(IRequestPreProcessor<>),typeof(ValidationPreProcessor<>));
-                config.AddOpenBehavior(typeof(CacheBahviour<,>));
+                //config.AddRequestPreProcessor(typeof(IRequestPreProcessor<>),typeof(ValidationPreProcessor<>));
+                config.AddOpenBehavior(typeof(ValidationBahviour<,>));
                 config.AddOpenBehavior(typeof(AuthorizationBahviour<,>));
+                config.AddOpenBehavior(typeof(CacheBahviour<,>));
             });
 
             services.AddAutoMapper(config => 
@@ -41,7 +46,7 @@ namespace BookShop.Application
             });
 
             AddMappers(services);
-
+            AddBussinessRules(services);
 
             return services;
         }
@@ -61,6 +66,17 @@ namespace BookShop.Application
                     services.AddScoped(type);
                 }
             }            
+        }
+
+        private static void AddBussinessRules(IServiceCollection services)
+        {
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                if (type.Name.EndsWith("Rule") && type.BaseType?.GetGenericTypeDefinition() == typeof(BussinessRule<>))
+                {
+                    services.AddScoped(type.BaseType , type);
+                }
+            }
         }
 
 

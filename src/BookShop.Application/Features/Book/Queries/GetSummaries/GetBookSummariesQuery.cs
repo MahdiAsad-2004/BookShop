@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookShop.Application.Common.Dtos;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Features.Book.Dtos;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Domain.Common.Entity;
@@ -12,23 +13,33 @@ using MediatR;
 
 namespace BookShop.Application.Features.Book.Queries.GetSummaries
 {
-    public class GetBookSummariesQuery : IRequest<PaginatedDtos<BookSummaryDto>>
+    public class GetBookSummariesQuery : CachableRequest<PaginatedDtos<BookSummaryDto>>
     {
-        public BookSortingOrder? SortingOrder { get; set; } = null;
-        public Paging? Paging { get; set; } = null;
-        public int? StartPrice { get; set; }
-        public int? EndPrice { get; set; }
-        public string? Title { get; set; }
-        public bool? Available { get; set; }
-        public byte? AverageScore { get; set; }
-        public Cover Cover { get; set; }
-        public Cutting Cutting { get; set; }
-        public Languages Language { get; set; }
-        public Guid PublisherId { get; set; }
-        public Guid? TranslatorId { get; set; }
-        public DateTime? StartPublishYear { get; set; }
-        public DateTime? EndPublishYear { get; set; }
-        public Guid? CategoryId { get; set; }
+        public BookSortingOrder? SortingOrder { get; init; }
+        public Paging? Paging { get; init; } 
+        public int? StartPrice { get; init; }
+        public int? EndPrice { get; init; }
+        public string? Title { get; init; }
+        public bool? IsAvailable { get; init; }
+        public byte? AverageScore { get; init; }
+        public Cover? Cover { get; init; }
+        public Cutting? Cutting { get; init; }
+        public Language? Language { get; init; }
+        public DateTime? StartPublishYear { get; init; }
+        public DateTime? EndPublishYear { get; init; }
+        public Guid? PublisherId { get; init; }
+        public Guid? TranslatorId { get; init; }
+        public Guid? CategoryId { get; init; }
+        public Guid? AuthorId { get; init; }
+        public override TimeSpan CacheExpireTime => TimeSpan.FromMinutes(30);
+        public override string GetCacheKey()
+        {
+            if (string.IsNullOrEmpty(_CacheKey))
+                _CacheKey = RequestCacheKey.GetKey<GetBookSummariesQuery, PaginatedDtos<BookSummaryDto>>(this);
+            return _CacheKey;
+        }
+
+        //public string CacheKey => RequestCacheKey.GetKey<GetBookSummariesQuery,PaginatedDtos<BookSummaryDto>>(this);
 
     }
 
@@ -55,13 +66,20 @@ namespace BookShop.Application.Features.Book.Queries.GetSummaries
                     IncludeDiscounts = true,
                     IncludeProduct = true,
                     IncludeReviews = true,
-                    Product_Available = request.Available,
+                    Product_Title = request.Title,
+                    Product_IsAvailable = request.IsAvailable,
                     Product_AverageScore = request.AverageScore,
                     Product_EndPrice = request.EndPrice,
                     Product_StartPrice = request.StartPrice,
                     StartPublishYear = request.StartPublishYear,
                     EndPublishYear = request.EndPublishYear,
                     CategoryId = request.CategoryId,
+                    Cover = request.Cover,
+                    Cutting = request.Cutting,
+                    Language = request.Language,
+                    PublisherId = request.PublisherId,
+                    TranslatorId = request.TranslatorId,
+                    AuthorId = request.AuthorId,
                 },
             request.Paging,
             request.SortingOrder

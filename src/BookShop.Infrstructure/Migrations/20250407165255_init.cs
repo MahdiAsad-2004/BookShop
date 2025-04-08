@@ -18,7 +18,8 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "NVarChar(30)", nullable: false),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
@@ -38,7 +39,7 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -172,8 +173,8 @@ namespace BookShop.Infrstructure.Migrations
                     Name = table.Column<string>(type: "NVarChar(30)", nullable: false),
                     Username = table.Column<string>(type: "VarChar(30)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "VarChar(11)", nullable: false),
-                    Email = table.Column<string>(type: "VarChar(30)", nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "VarChar(30)", nullable: false),
+                    Email = table.Column<string>(type: "VarChar(100)", nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "VarChar(100)", nullable: false),
                     NormalizedUsername = table.Column<string>(type: "VarChar(30)", nullable: false),
                     PasswordHash = table.Column<string>(type: "VarChar(300)", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
@@ -205,8 +206,8 @@ namespace BookShop.Infrstructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    DescriptionHtml = table.Column<string>(type: "VarChar(Max)", nullable: false),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    DescriptionHtml = table.Column<string>(type: "NVarChar(Max)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: true),
                     NumberOfInventory = table.Column<int>(type: "int", nullable: false),
                     SellCount = table.Column<int>(type: "int", nullable: false),
                     ProductType = table.Column<int>(type: "int", nullable: false),
@@ -624,48 +625,64 @@ namespace BookShop.Infrstructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorBook",
+                name: "Author_Books",
                 columns: table => new
                 {
-                    AuthorsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BooksId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorBook", x => new { x.AuthorsId, x.BooksId });
+                    table.PrimaryKey("PK_Author_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuthorBook_Authors_AuthorsId",
-                        column: x => x.AuthorsId,
+                        name: "FK_Author_Books_Authors_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuthorBook_Books_BooksId",
-                        column: x => x.BooksId,
+                        name: "FK_Author_Books_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorEBook",
+                name: "Author_EBooks",
                 columns: table => new
                 {
-                    AuthorsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EBooksId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EBookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "VarChar(36)", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "VarChar(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorEBook", x => new { x.AuthorsId, x.EBooksId });
+                    table.PrimaryKey("PK_Author_EBooks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuthorEBook_Authors_AuthorsId",
-                        column: x => x.AuthorsId,
+                        name: "FK_Author_EBooks_Authors_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuthorEBook_EBooks_EBooksId",
-                        column: x => x.EBooksId,
+                        name: "FK_Author_EBooks_EBooks_EBookId",
+                        column: x => x.EBookId,
                         principalTable: "EBooks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -677,14 +694,24 @@ namespace BookShop.Infrstructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorBook_BooksId",
-                table: "AuthorBook",
-                column: "BooksId");
+                name: "IX_Author_Books_AuthorId",
+                table: "Author_Books",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorEBook_EBooksId",
-                table: "AuthorEBook",
-                column: "EBooksId");
+                name: "IX_Author_Books_BookId",
+                table: "Author_Books",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Author_EBooks_AuthorId",
+                table: "Author_EBooks",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Author_EBooks_EBookId",
+                table: "Author_EBooks",
+                column: "EBookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_ProductId",
@@ -799,10 +826,11 @@ namespace BookShop.Infrstructure.Migrations
                 table: "UserTokens",
                 column: "UserId");
 
+
             DbFunctions dbFunctions = new DbFunctions();
             foreach (var dbFunctionFile in dbFunctions.DbFunctionFiles())
             {
-                dbFunctionFile.AddToMigration(migrationBuilder);   
+                dbFunctionFile.AddToMigration(migrationBuilder);
             }
 
 
@@ -815,10 +843,10 @@ namespace BookShop.Infrstructure.Migrations
                 name: "AuditLogs");
 
             migrationBuilder.DropTable(
-                name: "AuthorBook");
+                name: "Author_Books");
 
             migrationBuilder.DropTable(
-                name: "AuthorEBook");
+                name: "Author_EBooks");
 
             migrationBuilder.DropTable(
                 name: "Favorites");

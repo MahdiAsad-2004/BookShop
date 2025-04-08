@@ -1,14 +1,74 @@
 ﻿// See https://aka.ms/new-console-template for more information
-
-
+using Bogus;
+using BookShop.Application.Common.Rule;
+using BookShop.Application.Features.Book.Commands.Create;
+using BookShop.Application.Features.Book.Queries.GetSummaries;
 using BookShop.Domain.Common.Entity;
 using BookShop.Domain.Entities;
 using BookShop.Infrastructure.Persistance;
+using BookShop.IntegrationTest.Application.Translator.FakeData;
+using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.WebEncoders.Testing;
+using Newtonsoft.Json;
+using System.Buffers.Text;
+using System.Collections;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
+
+
+
+
+//GetBookSummariesQuery getBookSummariesQuery = new GetBookSummariesQuery();
+
+//JsonSerializerSettings settings = new JsonSerializerSettings()
+//{
+//    NullValueHandling = NullValueHandling.Ignore,
+//};
+//settings.NullValueHandling = NullValueHandling.Ignore;
+//var myJson = JsonConvert.SerializeObject(getBookSummariesQuery, settings);
+//Console.WriteLine(myJson);
+//string strr = Convert.ToBase64String(Encoding.UTF8.GetBytes(myJson));
+//Console.WriteLine(); 
+//Console.WriteLine(strr);
+
+
+
+
+
+
+
+
+
+
+
+//string plainText = "HTTPS://BookShop.IR/books/title?fdsfsfsdfsd&dgsigjiojg&ssdlfjl?=dsjfljsdfljfG464HDFH6DHDFFF89DFJDLKsdfsfshfdsofijifsfhuifiuhqxmohifuhoixogxuynguyxngs";
+//var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+
+//string ascciEncodedString = Convert.ToBase64String(plainTextBytes);
+
+//var b2 = Encoding.UTF8.GetBytes(ascciEncodedString);
+
+//string e2 = Convert.ToBase64String(b2);
+
+//var b3 = Encoding.UTF8.GetBytes(e2);
+
+//string e3 = Convert.ToBase64String(b3);
+
+//Console.WriteLine(ascciEncodedString);
+//Console.WriteLine();
+//Console.WriteLine(e2);
+//Console.WriteLine();
+//Console.WriteLine(e3);
+
+
+
 
 
 //var x = Math.Ceiling((decimal)92 / 10);

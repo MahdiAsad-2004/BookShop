@@ -5,7 +5,7 @@ namespace BookShop.Domain.Entities
     public class Category : Entity<Guid>
     {
         public string Title { get; set; }
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
         public Guid? ParentId { get; set; }
 
 

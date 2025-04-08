@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace BookShop.Domain.Enums
 {
-    public enum Languages
+    public enum Language
     {
         [Description("فارسی")]
         Persian,

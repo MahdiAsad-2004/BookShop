@@ -11,7 +11,7 @@
             _permissionName = permissionName;
         }
 
-        public RequiredPermission(string[] permissionNames)
+        public RequiredPermission(params string[] permissionNames)
         {
             _permissionNames = permissionNames;
         }

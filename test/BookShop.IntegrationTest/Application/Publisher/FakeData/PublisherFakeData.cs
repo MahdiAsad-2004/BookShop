@@ -11,8 +11,8 @@ namespace BookShop.IntegrationTest.Application.Publisher.FakeData
         private static void SetRules()
         {
             _publisherFaker.RuleFor(a => a.Id, (a, b) => Guid.NewGuid());
-            _publisherFaker.RuleFor(a => a.ImageName, (a, b) => a.Image.PlaceImgUrl(category: "company"));
-            _publisherFaker.RuleFor(a => a.Title, (a, b) => a.Company.CompanyName());
+            _publisherFaker.RuleFor(a => a.ImageName, (a, b) => a.Image.PicsumUrl());
+            _publisherFaker.RuleFor(a => a.Title, (a, b) => a.Company.CompanyName(0));
         }
 
         public static E.Publisher Create()

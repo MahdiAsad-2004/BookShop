@@ -8,12 +8,14 @@ using BookShop.IntegrationTest.Application.Discount.FakeData;
 using BookShop.IntegrationTest.Application.Review;
 using BookShop.IntegrationTest.Application.Author.FakeData;
 using BookShop.IntegrationTest.Application.Translator.FakeData;
+using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest.Application.Book.Queries
 {
     public class GetBookDetailTests : TestBase
     {
-        public GetBookDetailTests(ApplicationCollectionFixture applicationCollectionFixture) : base(applicationCollectionFixture)
+        public GetBookDetailTests(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
+            : base(applicationCollectionFixture,testOutputHelper)
         {}
 
 
@@ -105,7 +107,7 @@ namespace BookShop.IntegrationTest.Application.Book.Queries
         public async Task WithAuthors_AuthorsCount_MustBe_Correct()
         {
             //Arrange
-            E.Book book = BookFakeData.Create(authors:AuthorFakeData.CreateBetween(0,3));
+            E.Book book = BookFakeData.Create(author_Books:AuthorFakeData.CreateBetween(0,3,true).ToArray());
             await _TestDbContext.Add<E.Book, Guid>(book);
 
             //Act
@@ -116,7 +118,7 @@ namespace BookShop.IntegrationTest.Application.Book.Queries
 
             //Assert
             Assert.Equal(book.Id.ToString(), bookDetailDto.Id);
-            Assert.Equal(book.Authors.Count, bookDetailDto.Authors.Count);
+            Assert.Equal(book.Author_Books.Select(a => a.Author).Count(), bookDetailDto.Authors.Count);
         }
         
 
@@ -161,7 +163,26 @@ namespace BookShop.IntegrationTest.Application.Book.Queries
 
 
 
+        [Fact]
+        public async Task ShouldReturn_From_Cache()
+        {
+            //Arrange
+            E.Book book = BookFakeData.Create(Guid.NewGuid());
+            await _TestDbContext.Add<E.Book, Guid>(book);
+            await SendRequest<GetBookDetailQuery, BookDetailDto>(new GetBookDetailQuery
+            {
+                Id = book.Id,
+            });
 
+            //Act
+            BookDetailDto? bookDetailDto = await GetFromCache<GetBookDetailQuery, BookDetailDto>(new GetBookDetailQuery
+            {
+                Id = book.Id,
+            });
+                
+            //Assert
+            Assert.Equal(bookDetailDto?.Id,book.Id.ToString());
+        }
 
 
 

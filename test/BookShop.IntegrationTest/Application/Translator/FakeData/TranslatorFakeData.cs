@@ -12,7 +12,7 @@ namespace BookShop.IntegrationTest.Application.Translator.FakeData
         private static void SetRules()
         {
             _translatorFaker.RuleFor(a => a.Id, (a, b) => Guid.NewGuid());
-            _translatorFaker.RuleFor(a => a.ImageName, (a, b) => a.Person.Avatar);
+            _translatorFaker.RuleFor(a => a.ImageName, (a, b) => a.Person.Avatar.Substring(50));
             _translatorFaker.RuleFor(a => a.Name, (a, b) => a.Person.FullName);
         }
 
@@ -20,6 +20,12 @@ namespace BookShop.IntegrationTest.Application.Translator.FakeData
         {
             SetRules();
             return _translatorFaker.Generate();
+        }
+
+        public static List<E.Translator> CreateBetween(int min , int max)
+        {
+            SetRules();
+            return _translatorFaker.GenerateBetween(min, max);
         }
 
     }

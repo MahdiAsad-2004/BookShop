@@ -26,6 +26,13 @@ namespace BookShop.Domain.IRepositories
 
 
         public Task<PaginatedEntities<Product>> GetAllWithQuery(ProductQueryOption queryOption, Paging? paging = null, ProductSortingOrder? sortingOrder = null);
+
+
+        public Task<bool> IsExist(string title);
+    
+        public Task<bool> IsExist(string title,Guid exceptId);
+
+
     }
 
 }

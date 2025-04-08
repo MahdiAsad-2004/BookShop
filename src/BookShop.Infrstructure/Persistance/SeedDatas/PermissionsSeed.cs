@@ -11,7 +11,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
         public static List<Permission> GetPermissions(Guid adminId)
         {
             List<Permission> permissions = new List<Permission>();  
-            foreach (var permissionName in Permissions.GetAll())
+            foreach (var permissionName in PermissionConstants.GetAll())
             {
                 permissions.Add(new Permission
                 {

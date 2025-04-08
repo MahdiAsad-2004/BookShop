@@ -1,15 +1,19 @@
 ﻿
 using AutoMapper;
+using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Application.Features.Book.Dtos;
+using BookShop.Domain.Entities;
+using BookShop.Domain.Enums;
+using MediatR;
 
 namespace BookShop.Application.Features.Book.Mapping
 {
-    public class BookMapper : Profile
+    public class BookMapperProfile : Profile
     {
-        public BookMapper()
+        public BookMapperProfile()
         {
             CreateMap<Domain.Entities.Book, BookDetailDto>()
-                .ForMember(m => m.Authors, a => a.MapFrom(b => b.Authors.ToList()))
+                .ForMember(m => m.Authors, a => a.MapFrom(b => b.Author_Books.Select(a => a.Author).ToList()))
                 .ForMember(m => m.DescriptionHtml, a => a.MapFrom(b => b.Product.DescriptionHtml))
                 .ForMember(m => m.DiscountedPrice, a => a.MapFrom(b => b.Product.DiscountedPrice))
                 .ForMember(m => m.ImageName, a => a.MapFrom(b => b.Product.ImageName))
@@ -25,9 +29,48 @@ namespace BookShop.Application.Features.Book.Mapping
                 .ForMember(m => m.DiscountPercentage, a => a.MapFrom(b => b.Product.DiscountedPrice > 0 ? 
                     (b.Product.Price - b.Product.DiscountedPrice) * 100f / b.Product.Price : null))
                 .ForMember(m => m.ProductId , a => a.MapFrom(b => b.ProductId));
+        }
+    }
 
 
+
+    public static class BookMapper
+    {
+        public static void ToBookAndProduct(CreateBookCommand command ,out Domain.Entities.Book book , out Domain.Entities.Product product)
+        {
+            book = new Domain.Entities.Book
+            {
+                Cover = command.Cover,
+                Cutting = command.Cutting,
+                Edition = command.Edition,
+                Language = command.Language,
+                NumberOfPages = command.NumberOfPages,
+                PublisherId = command.PublisherId,
+                PublishYear = command.PublishYear,
+                Shabak = Guid.NewGuid().ToString().Substring(0, 12),
+                WeightInGram = command.WeightInGram,
+            };
+            product = new Domain.Entities.Product
+            {
+                CategoryId = command.Product_CategoryId,
+                DescriptionHtml = command.Product_DescriptionHtml,
+                ImageName = string.Empty,
+                NumberOfInventory = command.Product_NumberOfInventory,
+                Price = command.Product_Price,
+                ProductType = ProductType.Book,
+                SellCount = 0,
+                Title = command.Product_Title,
+            };
         }
 
+
     }
+
+
+
+
+
+
+
+
 }

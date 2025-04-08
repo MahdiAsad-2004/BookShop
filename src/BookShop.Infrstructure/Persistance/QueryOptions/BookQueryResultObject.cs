@@ -10,7 +10,7 @@ namespace BookShop.Infrstructure.Persistance.QueryOptions
         public List<Review>? Reviews { get; set; }
         public Publisher? Publisher { get; set; }
         public Translator? Translator { get; set; }
-        public List<Author>? Authors { get; set; }
+        public Author_Book[]? Author_Books { get; set; }
 
 
         public Book MapToBook()
@@ -19,7 +19,7 @@ namespace BookShop.Infrstructure.Persistance.QueryOptions
             book.Product = new Product(Product ,MostPriorityValidDiscount?.CalculateDiscountedPrice(Product.Price));
             book.Publisher = Publisher;
             book.Translator = Translator;
-            book.Authors = Authors;
+            book.Author_Books = Author_Books;
             book.Product.Reviews = Reviews;
             //book.Product.DiscountedPrice = MostPriorityValidDiscount?.CalculateDiscountedPrice(Product.Price);
 

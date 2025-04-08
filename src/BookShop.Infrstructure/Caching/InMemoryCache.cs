@@ -29,6 +29,7 @@ namespace BookShop.Infrastructure.Caching
 
         public TModel? GetOrDefault<TModel>(string key) where TModel : class
         {
+            var a = _memoryCache.Get(key);
             return _memoryCache.Get<TModel>(key);
         }
 

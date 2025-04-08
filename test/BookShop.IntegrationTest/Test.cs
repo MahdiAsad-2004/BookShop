@@ -10,12 +10,14 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest
 {
     public class Test : TestBase //IClassFixture<TestWebApplicationFactory>
     {
-        public Test(ApplicationCollectionFixture webAppFixture) : base(webAppFixture)
+        public Test(ApplicationCollectionFixture webAppFixture, ITestOutputHelper testOutputHelper)
+            : base(webAppFixture, testOutputHelper)
         {
         }
 

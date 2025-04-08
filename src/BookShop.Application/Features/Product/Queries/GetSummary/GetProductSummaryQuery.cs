@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookShop.Application.Common.Dtos;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Domain.Entities;
 using BookShop.Domain.Enums;
@@ -8,16 +9,21 @@ using BookShop.Domain.Identity;
 using BookShop.Domain.IRepositories;
 using BookShop.Domain.QueryOptions;
 using MediatR;
-using Microsoft.AspNetCore.Server.HttpSys;
 
 namespace BookShop.Application.Features.Product.Queries.GetSummary
 {
-    public class GetProductSummaryQuery : IRequest<ProductSummaryDto>
+    public class GetProductSummaryQuery : CachableRequest<ProductSummaryDto>
     {
         public Guid? Id { get; set; }
         public string? Title { get; set; }
         public ProductType? ProductType { get; set; } = null;
-    
+        public override TimeSpan CacheExpireTime => TimeSpan.FromMinutes(10);
+        public override string GetCacheKey()
+        {
+            if (string.IsNullOrEmpty(_CacheKey))
+                _CacheKey = $"{nameof(GetProductSummaryQuery)}-{Id}";
+            return _CacheKey;
+        }
     }
 
 
@@ -39,29 +45,29 @@ namespace BookShop.Application.Features.Product.Queries.GetSummary
         public async Task<ProductSummaryDto> Handle(GetProductSummaryQuery request, CancellationToken cancellationToken)
         {
             Domain.Entities.Product? product = null;
-            if(request.Id != null)
+            if (request.Id != null)
             {
-                product = await _productRepository.GetWithQuery(request.Id.Value,new ProductQueryOption
+                product = await _productRepository.GetWithQuery(request.Id.Value, new ProductQueryOption
                 {
                     IncludeDiscounts = true,
                     IncludeReviews = true,
                 });
             }
-            else if(string.IsNullOrWhiteSpace(request.Title) == false)
+            else if (string.IsNullOrWhiteSpace(request.Title) == false)
             {
-                product = await _productRepository.GetByTitle(request.Title , new ProductQueryOption
+                product = await _productRepository.GetByTitle(request.Title, new ProductQueryOption
                 {
                     IncludeDiscounts = true,
                     IncludeReviews = true,
                 });
             }
-            else 
+            else
             {
                 throw new NotFoundException("Request is not valid!");
             }
 
-           
-            return _mapper.Map<ProductSummaryDto>(product); 
+
+            return _mapper.Map<ProductSummaryDto>(product);
         }
 
     }

@@ -31,7 +31,7 @@ namespace BookShop.WebApi.Controllers
         {
             PaginatedDtos<BookSummaryDto> paginatedBookSummaries = await _mediator.Send(new GetBookSummariesQuery
             {
-                Available = Available,
+                IsAvailable = Available,
                 AverageScore = score,
                 EndPrice = endPrice,
                 SortingOrder = sort,

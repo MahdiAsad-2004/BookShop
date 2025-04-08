@@ -11,8 +11,8 @@ namespace BookShop.Infrastructure.Persistance.Configurations
             builder.ToTable("Authors");
 
             //relations
-            builder.HasMany(a => a.Books).WithMany(a => a.Authors);
-            builder.HasMany(a => a.EBooks).WithMany(a => a.Authors);
+            builder.HasMany(a => a.Author_Books).WithOne(a => a.Author).HasForeignKey(a => a.AuthorId);
+            builder.HasMany(a => a.Author_EBooks).WithOne(a => a.Author).HasForeignKey(a => a.AuthorId);
 
             //properties
             builder.Property(a => a.Name).HasColumnType("NVarChar(30)");

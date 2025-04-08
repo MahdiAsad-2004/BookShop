@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using BookShop.Domain.Entities;
 using BookShop.Domain.Enums;
 using BookShop.IntegrationTest.Application.Product.FakeData;
 using BookShop.IntegrationTest.Application.Publisher.FakeData;
@@ -19,7 +20,7 @@ namespace BookShop.IntegrationTest.Application.Book.FakeData
             _faker.RuleFor(a => a.Cover , (a,b) => a.Random.Enum<Cover>());
             _faker.RuleFor(a => a.Cutting , (a,b) => a.Random.Enum<Cutting>());
             _faker.RuleFor(a => a.Edition , (a,b) => a.Random.Int(1 , 10));
-            _faker.RuleFor(a => a.Language , (a,b) => a.Random.Enum<Languages>());
+            _faker.RuleFor(a => a.Language , (a,b) => a.Random.Enum<Language>());
             _faker.RuleFor(a => a.NumberOfPages , (a,b) => a.Random.Int(10 , 1000));
             _faker.RuleFor(a => a.Shabak , (a,b) => Guid.NewGuid().ToString().Substring(0 , 12));
             _faker.RuleFor(a => a.WeightInGram , (a,b) => a.Random.Float(10f , 3000f));
@@ -67,7 +68,7 @@ namespace BookShop.IntegrationTest.Application.Book.FakeData
 
 
 
-        public static E.Book Create(Guid? id = null , E.Product? product = null , List<E.Author>? authors = null,
+        public static E.Book Create(Guid? id = null , E.Product? product = null , Author_Book[]? author_Books = null,
             E.Publisher? publisher = null, E.Translator? translator = null , DateTime? publishYear = null)
         {
             id = id ?? Guid.NewGuid();
@@ -79,7 +80,7 @@ namespace BookShop.IntegrationTest.Application.Book.FakeData
                 Cover = _randomizer.Enum<Cover>(),
                 Cutting = _randomizer.Enum<Cutting>(),
                 Edition = _randomizer.Int(1, 10),
-                Language = _randomizer.Enum<Languages>(),
+                Language = _randomizer.Enum<Language>(),
                 NumberOfPages = _randomizer.Int(10, 1000),
                 Shabak = Guid.NewGuid().ToString().Substring(0, 12),
                 WeightInGram = _randomizer.Float(10f, 3000f),
@@ -88,7 +89,7 @@ namespace BookShop.IntegrationTest.Application.Book.FakeData
                 Publisher = publisher,
                 PublisherId = publisher.Id,
                 PublishYear = publishYear ?? _date.Between(DateTime.Now.AddYears(-10), DateTime.Now),
-                Authors = authors,
+                Author_Books = author_Books,
                 Translator = translator,
                 TranslatorId = translator?.Id,
             };

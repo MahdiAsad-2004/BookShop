@@ -8,12 +8,14 @@ using BookShop.IntegrationTest.Application.Common;
 using BookShop.IntegrationTest.Application.Discount.FakeData;
 using BookShop.IntegrationTest.Application.Product.FakeData;
 using BookShop.IntegrationTest.Application.Review;
+using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest.Application.Product.Queries
 {
     public class GetProductSummaryTests : TestBase //IClassFixture<ApplicationClassFixture>
     {
-        public GetProductSummaryTests(ApplicationCollectionFixture webAppFixture) : base(webAppFixture)
+        public GetProductSummaryTests(ApplicationCollectionFixture webAppFixture, ITestOutputHelper testOutputHelper)
+            : base(webAppFixture, testOutputHelper)
         {
         }
 

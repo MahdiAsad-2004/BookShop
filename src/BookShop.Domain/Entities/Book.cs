@@ -8,7 +8,7 @@ namespace BookShop.Domain.Entities
         public int NumberOfPages { get; set; }
         public Cover Cover { get; set; }
         public Cutting Cutting { get; set; }
-        public Languages Language { get; set; }
+        public Language Language { get; set; }
         public string? Shabak { get; set; }
         public DateTime PublishYear { get; set; }
         public float? WeightInGram { get; set; }
@@ -21,7 +21,7 @@ namespace BookShop.Domain.Entities
         public Product Product { get; set; }
         public Publisher Publisher { get; set; }
         public Translator? Translator { get; set; }
-        public IList<Author> Authors { get; set; }
+        public IList<Author_Book> Author_Books { get; set; }
 
     }
 }

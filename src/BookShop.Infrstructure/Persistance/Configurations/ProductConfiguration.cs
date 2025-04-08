@@ -26,7 +26,7 @@ namespace BookShop.Infrastructure.Persistance.Configurations
             builder.Ignore(a => a.ReviewsAcceptedAverageScore);
             builder.Property(a => a.Title).HasColumnType("NVarChar(30)");
             builder.Property(a => a.ImageName).HasColumnType("VarChar(50)");
-            builder.Property(a => a.DescriptionHtml).HasColumnType("VarChar(Max)");
+            builder.Property(a => a.DescriptionHtml).HasColumnType("NVarChar(Max)");
 
 
 

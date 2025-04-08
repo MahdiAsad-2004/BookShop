@@ -6,7 +6,7 @@ using Serilog;
 namespace BookShop.Application.Behaviours
 {
     public class CacheBahviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : ICashableRequest
+        where TRequest : CachableRequest<TResponse>
         where TResponse : class
     {
 
@@ -25,23 +25,26 @@ namespace BookShop.Application.Behaviours
 
         public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            _logger.Information($"Reading {nameof(request)} request with CacheKey ({request.CashKey}) from chach.");
-            TResponse? response = _cache.GetOrDefault<TResponse>(request.CashKey);
+            _logger.Information($"Reading {typeof(TRequest).Name} request with CacheKey ({request.GetCacheKey()}) from chach.");
+            string cacheKey = request.GetCacheKey();
+            TResponse? response = _cache.GetOrDefault<TResponse>(cacheKey);
 
             if (response != null)
             {
-                _logger.Information($"{nameof(request)} request with CacheKey {request.CashKey} exist in cache.");
+                _logger.Information($"{typeof(TRequest).Name} request with CacheKey {cacheKey} exist in cache.");
                 return Task.FromResult(response);
             }
-            _logger.Information($"{nameof(request)} request with CacheKey {request.CashKey} not exist in cache.");
+            _logger.Information($"{typeof(TRequest).Name} request with CacheKey {cacheKey} not exist in cache.");
 
             response = next()
                 .GetAwaiter()
                 .GetResult();
-            _cache.Add(request.CashKey, response, request.ExpireTime);
-            _logger.Information($"{nameof(request)} response added to cache");
+            _cache.Add(request.GetCacheKey(), response, request.CacheExpireTime);
+            _logger.Information($"{typeof(TRequest).Name} response added to cache");
 
-            return next();
+
+            return Task.FromResult(response);
+            //return next();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookShop.Application.Common.Dtos;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Domain.Common.Entity;
 using BookShop.Domain.Common.QueryOption;
@@ -10,17 +11,23 @@ using MediatR;
 
 namespace BookShop.Application.Features.Product.Queries.GetSummaries
 {
-    public class GetProductSummariesQuery : IRequest<PaginatedDtos<ProductSummaryDto>>
+    public class GetProductSummariesQuery : CachableRequest<PaginatedDtos<ProductSummaryDto>>
     {
-        public ProductSortingOrder? SortingOrder { get; set; } = null;
-        public Paging? Paging { get; set; } = null;
-        public int? StartPrice { get; set; }
-        public int? EndPrice { get; set; }
-        public string? Title { get; set; }
-        public bool? Available { get; set; }
-        public byte? AverageScore { get; set; }
-        public ProductType? ProductType { get; set; }
-        
+        public ProductSortingOrder? SortingOrder { get; init; }
+        public Paging? Paging { get; init; }
+        public int? StartPrice { get; init; }
+        public int? EndPrice { get; init; }
+        public string? Title { get; init; }
+        public bool? Available { get; init; }
+        public byte? AverageScore { get; init; }
+        public ProductType? ProductType { get; init; }
+        public override TimeSpan CacheExpireTime => TimeSpan.FromMinutes(30);
+        public override string GetCacheKey()
+        {
+            if (string.IsNullOrEmpty(_CacheKey))
+                _CacheKey = RequestCacheKey.GetKey<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(this);
+            return _CacheKey;
+        }
     }
 
 
@@ -41,10 +48,11 @@ namespace BookShop.Application.Features.Product.Queries.GetSummaries
         public async Task<PaginatedDtos<ProductSummaryDto>> Handle(GetProductSummariesQuery request, CancellationToken cancellationToken)
         {
             PaginatedEntities<Domain.Entities.Product> paginatedProducts = await _productRepository.GetAllWithQuery(
-                new ProductQueryOption 
-                { 
+                new ProductQueryOption
+                {
                     IncludeDiscounts = true,
-                    IncludeReviews = true, 
+                    IncludeReviews = true,
+                    Title = request.Title,
                     StartPrice = request.StartPrice,
                     EndPrice = request.EndPrice,
                     ProductType = request.ProductType,
@@ -56,7 +64,7 @@ namespace BookShop.Application.Features.Product.Queries.GetSummaries
 
             var productSummaryDtos = _mapper.Map<List<ProductSummaryDto>>(paginatedProducts.Entites.ToList());
 
-            return new PaginatedDtos<ProductSummaryDto>(productSummaryDtos , paginatedProducts.Paging , paginatedProducts.TotalItemCount);
+            return new PaginatedDtos<ProductSummaryDto>(productSummaryDtos, paginatedProducts.Paging, paginatedProducts.TotalItemCount);
         }
 
     }

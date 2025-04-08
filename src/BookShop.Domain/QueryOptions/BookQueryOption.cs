@@ -12,13 +12,20 @@ namespace BookShop.Domain.QueryOptions
         public bool IncludeAuthors { get; init; } = false;
         public bool IncludeTranslator { get; init; } = false;
         public bool IncludePublisher { get; init; } = false;
+        public string? Product_Title{ get; init; } = null;
         public int? Product_StartPrice { get; init; } = null;
         public int? Product_EndPrice { get; init; } = null;
-        public bool? Product_Available { get; init; } = null;
+        public bool? Product_IsAvailable { get; init; } = null;
         public byte? Product_AverageScore { get; init; } = null;
         public DateTime? StartPublishYear { get; init; } = null;
         public DateTime? EndPublishYear { get; init; } = null;
         public Guid? CategoryId { get; init; } = null;
+        public Guid? PublisherId { get; init; }
+        public Guid? TranslatorId { get; init; }
+        public Guid? AuthorId { get; init; }
+        public Cover? Cover { get; init; }
+        public Cutting? Cutting { get; init; }
+        public Language? Language { get; init; }
     }
 
 

@@ -8,7 +8,7 @@ namespace BookShop.Domain.Entities
         public string Title { get; set; }
         public int Price { get; set; }
         public string DescriptionHtml { get; set; }
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
         public int NumberOfInventory { get; set; }
         public int SellCount { get; set; }
         public ProductType ProductType { get; set; }

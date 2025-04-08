@@ -35,7 +35,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 DeletedBy = reader.IsDBNull("DeletedBy") ? null : reader.GetFieldValue<string>("DeletedBy"),
                 DescriptionHtml = reader.GetFieldValue<string>("DescriptionHtml"),
                 DiscountedPrice = reader.IsDBNull("DiscountedPrice") ? null : reader.GetFieldValue<float>("DiscountedPrice"),
-                ImageName = reader.GetFieldValue<string>("ImageName"),
+                ImageName = reader.GetFieldValue<string?>("ImageName"),
                 IsDeleted = reader.GetFieldValue<bool>("IsDeleted"),
                 LastModifiedBy = reader.GetFieldValue<string>("LastModifiedBy"),
                 LastModifiedDate = reader.GetFieldValue<DateTime>("LastModifiedDate"),
@@ -315,6 +315,9 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
             #region filters
+            string? TitleFilter = string.IsNullOrEmpty(queryOption.Title) ? null :
+              $"[p].[Title] LIKE '%{queryOption.Title}%' And";
+
             string? startPriceFilter = queryOption.StartPrice > 0 ?
                 $"ISNULL(dbo.CalculateDiscounterPrice(P.Price , vd.DiscountPrice , vd.DiscountPercent), P.Price) >= {queryOption.StartPrice} And" : null;
 
@@ -392,7 +395,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 {productsWithReviewAverageScoreJoin}
                 Where   
                     1 = 1 And
-                    {startPriceFilter} {endPriceFilter} {productTypeFilter} 
+                    {startPriceFilter} {endPriceFilter} {productTypeFilter} {TitleFilter} 
                     {productIsAvailableFilter} {averageScoreFilter}
                 {orderByQuery}
                 {pagingQuery}
@@ -423,6 +426,15 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             return new PaginatedEntities<Product>(products , paging , totalItemCount);
         }
 
+        public async Task<bool> IsExist(string title)
+        {
+            return await _dbSet.AnyAsync(a => a.Title == title);
+        }
+
+        public async Task<bool> IsExist(string title, Guid exceptId)
+        {
+            return await _dbSet.AnyAsync(a => a.Title == title && a.Id != exceptId);
+        }
 
     }
 }

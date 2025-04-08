@@ -11,12 +11,14 @@ using BookShop.Infrstructure.Persistance.DbFunctions;
 using BookShop.IntegrationTest.Application.Common;
 using BookShop.IntegrationTest.Application.Discount.FakeData;
 using BookShop.IntegrationTest.Application.Product.FakeData;
+using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest.Application.Product.Queries
 {
     public class GetProductSummariesTests : TestBase
     {
-        public GetProductSummariesTests(ApplicationCollectionFixture applicationCollectionFixture) : base(applicationCollectionFixture)
+        public GetProductSummariesTests(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
+            : base(applicationCollectionFixture,testOutputHelper)
         {
         }
 
@@ -40,6 +42,29 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
 
             //Assert
             Assert.Equal(products.Count, paginatedProductSummaries.Dtos.Count);
+        }
+
+
+        [Fact]
+        public async Task WithFilter_Title_ShouldReturn_Filterd()
+        {
+            //Arrange
+            var products = ProductFakeData.CreateBetween(3, 8);
+            string titleFilter = products[Random.Shared.Next(products.Count)].Title;
+            await _TestDbContext.Add<E.Product, Guid>(products);
+
+            //Act
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await SendRequest<GetProductSummariesQuery, PaginatedDtos<ProductSummaryDto>>(
+                new GetProductSummariesQuery
+                {
+                    Title = titleFilter,
+                }
+            );
+
+            //Asset
+            int expectedProductCount = products.Count(a => a.Title == titleFilter);
+            Assert.Equal(expectedProductCount, paginatedProductSummaries.Dtos.Count);
+            _testOutputHelper.WriteLine($"{paginatedProductSummaries.Dtos.Count} products with title '{titleFilter}'");
         }
 
 
@@ -69,7 +94,6 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             int expectedProductCount = products.Count(a => a.Price >= startPrice);
             Assert.Equal(expectedProductCount, paginatedProductSummaries.Dtos.Count);
         }
-
 
 
         [Fact]
@@ -171,7 +195,6 @@ namespace BookShop.IntegrationTest.Application.Product.Queries
             int expectedProductsCount = products.Count(a => a.NumberOfInventory <= 0);
             Assert.Equal(expectedProductsCount, paginatedProductSummaries.Dtos.Count);
         }
-
 
 
         [Fact]

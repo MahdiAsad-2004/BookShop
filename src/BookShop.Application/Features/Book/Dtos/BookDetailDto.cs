@@ -16,7 +16,7 @@ namespace BookShop.Application.Features.Book.Dtos
         public int NumberOfPages { get; set; }
         public Cover Cover { get; set; }
         public Cutting Cutting { get; set; }
-        public Languages Language { get; set; }
+        public Language Language { get; set; }
         public string? Shabak { get; set; }
         public DateTime PublishYear { get; set; }
         public float? WeightInGram { get; set; }
@@ -26,7 +26,7 @@ namespace BookShop.Application.Features.Book.Dtos
         public List<Review> ReviewsAccepted { get; set; }
         public Publisher Publisher { get; set; }
         public Translator? Translator { get; set; }
-        public List<Author> Authors { get; set; }
+        public List<E.Author> Authors { get; set; }
 
     }
 }

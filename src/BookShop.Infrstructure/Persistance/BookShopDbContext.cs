@@ -9,13 +9,10 @@ namespace BookShop.Infrastructure.Persistance
     {
         #region constructor
 
-
         public BookShopDbContext(DbContextOptions<BookShopDbContext> dbContextOptions) : base(dbContextOptions)
         {
           
         }
-
-
 
         #endregion
 
@@ -24,6 +21,8 @@ namespace BookShop.Infrastructure.Persistance
 
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<Author_Book> Author_Books { get; set; }
+        public DbSet<Author_EBook> Author_EBooks { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Discount> Discounts { get; set; }

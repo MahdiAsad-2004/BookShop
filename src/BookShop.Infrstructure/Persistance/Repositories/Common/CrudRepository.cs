@@ -22,7 +22,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
         protected readonly BookShopDbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
         protected readonly ICurrentUser _currentUser;
-        private readonly IDomainEventPublisher _domainEventPublisher;
+        protected readonly IDomainEventPublisher _domainEventPublisher;
         public CrudRepository(BookShopDbContext dbContext, ICurrentUser currentUser, IDomainEventPublisher domainEventPublisher)
         {
             _dbContext = dbContext;
@@ -37,7 +37,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
 
 
 
-        public async Task Add(TEntity entity)
+        public virtual async Task Add(TEntity entity)
         {
             if (typeof(TKey) == typeof(Guid))
                 entity.Id = (TKey)Convert.ChangeType(Guid.NewGuid(), typeof(TKey));
@@ -188,11 +188,11 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             string? sortOrderQuery = null;
             if (baseSort.ToString().Equals("Newset", StringComparison.OrdinalIgnoreCase) && sortOrderQuery == null)
             {
-                sortOrderQuery = $"Order By {entityAlias}.CreateDate";
+                sortOrderQuery = $"Order By {entityAlias}.[CreateDate]";
             }
             if (baseSort.ToString().Equals("Oldest", StringComparison.OrdinalIgnoreCase) && sortOrderQuery == null)
             {
-                sortOrderQuery = $"Order By {entityAlias}.CreateDate Desc";
+                sortOrderQuery = $"Order By {entityAlias}.[CreateDate] Desc";
             }
             return sortOrderQuery;
         }

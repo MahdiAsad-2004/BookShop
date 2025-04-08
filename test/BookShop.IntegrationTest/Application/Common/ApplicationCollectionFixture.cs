@@ -1,5 +1,7 @@
 ﻿using BookShop.Domain.Identity;
 using BookShop.Infrastructure.Persistance;
+using BookShop.Infrastructure.Persistance.SeedDatas;
+using BookShop.Infrstructure.Persistance.SeedDatas;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -25,7 +27,7 @@ namespace BookShop.IntegrationTest.Application.Common
 
             _respawner = Respawner.CreateAsync(_connectionString, new RespawnerOptions
             {
-                TablesToIgnore = new Respawn.Graph.Table[] { "__EFMigrationsHistory" },
+                TablesToIgnore = new Respawn.Graph.Table[] { "__EFMigrationsHistory", "Permissions", "Users" },
             }).GetAwaiter().GetResult();
         }
 
@@ -41,6 +43,23 @@ namespace BookShop.IntegrationTest.Application.Common
             if (await dbContext.Database.CanConnectAsync() == false)
             {
                 await dbContext.Database.MigrateAsync();
+            }
+            if (await dbContext.Database.CanConnectAsync())
+            {
+                // add user
+                if (await dbContext.Users.AnyAsync(a => a.Id == TestCurrentUser.CurrentUserId) == false)
+                {
+                    await dbContext.Users.AddAsync(TestCurrentUser.User);
+                    await dbContext.SaveChangesAsync();
+                }
+
+                // add permissions
+                if (await dbContext.Permissions.AnyAsync() == false)
+                {
+                    var permissions = PermissionsSeed.GetPermissions(TestCurrentUser.CurrentUserId);
+                    await dbContext.Permissions.AddRangeAsync(permissions);
+                    await dbContext.SaveChangesAsync();
+                }
             }
         }
 

@@ -17,14 +17,14 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
 
-        public Task<IEnumerable<Permission>> GetUserPermissions(Guid userId)
+        public Task<Permission[]> GetUserPermissions(Guid userId)
         {
-            IEnumerable<Permission> permissions = _dbSet
+            var permissions = _dbSet
                 .Include(a => a.User_Permissions)
                 .SelectMany(a => a.User_Permissions)
                 .Where(a => a.UserId == userId)
                 .Select(a => a.Permission)
-                .AsEnumerable();
+                .ToArray();
 
             return Task.FromResult(permissions);
         }

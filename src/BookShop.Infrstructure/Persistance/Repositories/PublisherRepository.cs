@@ -3,6 +3,7 @@ using BookShop.Domain.Entities;
 using BookShop.Domain.Identity;
 using BookShop.Domain.IRepositories;
 using BookShop.Infrastructure.Persistance.Repositories.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShop.Infrastructure.Persistance.Repositories
 {
@@ -13,5 +14,11 @@ namespace BookShop.Infrastructure.Persistance.Repositories
         {
         }
 
+        public async Task<bool> IsExist(Guid id)
+        {
+            if (id == Guid.Empty)
+                return false;
+            return await _dbSet.AnyAsync(a => a.Id == id);
+        }
     }
 }

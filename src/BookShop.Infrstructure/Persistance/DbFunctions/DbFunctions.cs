@@ -23,6 +23,13 @@ namespace BookShop.Infrstructure.Persistance.DbFunctions
             yield return GetProductsWithReviewsAverageScore;
         }
 
+
+        //DbFunctions dbFunctions = new DbFunctions();
+        //    foreach (var dbFunctionFile in dbFunctions.DbFunctionFiles())
+        //    {
+        //        dbFunctionFile.AddToMigration(migrationBuilder);   
+        //    }
+
     }
 
 

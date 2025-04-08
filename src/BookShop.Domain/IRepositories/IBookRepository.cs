@@ -17,6 +17,7 @@ namespace BookShop.Domain.IRepositories
 
         public Task<PaginatedEntities<Book>> GetAll(BookQueryOption queryOption, Paging? paging = null, BookSortingOrder? sortingOrder = null);
 
+        public Task Add(Book book , Product product , Guid[] authorIds);
 
     }
 }

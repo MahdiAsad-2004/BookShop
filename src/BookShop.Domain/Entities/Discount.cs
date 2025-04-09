@@ -6,9 +6,9 @@ namespace BookShop.Domain.Entities
     {
         public string Name { get; set; }
         public int? DiscountPrice { get; set; }
+        public float? DiscountPercent { get; set; }
         public int UsedCount { get; set; }
         public int? MaximumUseCount { get; set; }
-        public float? DiscountPercent { get; set; }
         public int Priority { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

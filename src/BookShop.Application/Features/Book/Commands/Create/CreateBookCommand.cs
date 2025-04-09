@@ -30,7 +30,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
         public int? Edition { get; set; }
         public Guid PublisherId { get; set; }
         public IFormFile Product_ImageFile { get; set; }
-        public Guid[] AuthorIds { get; set; }
+        public Guid[] AuthorIds { get; set; }    
     }
 
 

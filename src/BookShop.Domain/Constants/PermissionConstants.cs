@@ -13,10 +13,15 @@ namespace BookShop.Domain.Constants
         public const string AddAuthor = "Add_Author_Permission";
         public const string UpdateAuthor = "Update_Author_Permission";
         
+        public const string AddBook = "Add_Book_Permission";
+        public const string UpdateBook = "Update_Book_Permission";
+        
         public const string AddCategory = "Add_Category_Permission";
         public const string UpdateCategory = "Update_Category_Permission";
 
-        public const string AddBook = "Add_Book_Permission";
+        public const string AddDiscount= "Add_Book_Permission";
+        public const string UpdateDiscount= "Update_Book_Permission";
+        public const string DeleteDiscount= "Delete_Book_Permission";
 
 
 
@@ -29,8 +34,12 @@ namespace BookShop.Domain.Constants
             yield return AddAuthor;
             yield return UpdateAuthor;
             yield return AddBook;
+            yield return UpdateBook;
             yield return AddCategory;
             yield return UpdateCategory;
+            yield return AddDiscount;
+            yield return UpdateDiscount;
+            yield return DeleteDiscount;
         }
     }
 

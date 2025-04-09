@@ -1,5 +1,4 @@
-﻿
-using BookShop.Application.Extensions;
+﻿using BookShop.Application.Extensions;
 using BookShop.Application.Features.Category.Commands.Create;
 using BookShop.Application.Features.Category.Commands.Update;
 using BookShop.Application.Features.Book.Commands.Create;
@@ -11,7 +10,7 @@ using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest.Application.Category.Commands
 {
-    public class UpdateCategoryCommandTest : TestBase
+    public class UpdateDiscountCommandTest : TestBase
     {
         E.Category _savedCategory = new E.Category()
         {
@@ -33,7 +32,7 @@ namespace BookShop.IntegrationTest.Application.Category.Commands
         {
             await _TestDbContext.Add<E.Category, Guid>(_savedCategory);
         }
-        public UpdateCategoryCommandTest(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
+        public UpdateDiscountCommandTest(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
             : base(applicationCollectionFixture, testOutputHelper)
         {
             updateCategoryCommand.Id = _savedCategory.Id;

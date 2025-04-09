@@ -23,7 +23,7 @@ using System.Text.Json;
 Console.WriteLine("Hello, World!");
 
 
-
+Console.WriteLine();
 
 //GetBookSummariesQuery getBookSummariesQuery = new GetBookSummariesQuery();
 

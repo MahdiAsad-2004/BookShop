@@ -19,7 +19,7 @@ namespace BookShop.Application.Features.Category.Commands.Update
 
         public override async Task CheckRules(UpdateCategoryCommand request, bool stopOnError)
         {
-            await CheckNameIsDuplicate(request);
+            await CheckTitleIsDuplicate(request);
 
             if (MustStop(stopOnError)) return;
 
@@ -28,7 +28,7 @@ namespace BookShop.Application.Features.Category.Commands.Update
 
 
 
-        private async Task CheckNameIsDuplicate(UpdateCategoryCommand command)
+        private async Task CheckTitleIsDuplicate(UpdateCategoryCommand command)
         {
             if (await _categoryRepository.IsExist(command.Title,exceptId: command.Id))
             {

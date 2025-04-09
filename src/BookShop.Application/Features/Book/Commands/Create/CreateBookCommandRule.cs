@@ -44,6 +44,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
         }
 
 
+
         private async Task CheckCategoryIdExist(CreateBookCommand command)
         {
             if (command.Product_CategoryId != null) 
@@ -57,7 +58,6 @@ namespace BookShop.Application.Features.Book.Commands.Create
             }
 
         }
-
         private async Task CheckPublisherIdExist(CreateBookCommand command)
         {
             if (await _publisherRepository.IsExist(command.PublisherId) == false)
@@ -66,8 +66,6 @@ namespace BookShop.Application.Features.Book.Commands.Create
                 ValidationErrors.Add(new ValidationError(nameof(command.PublisherId), $"Publisher with id '{command.PublisherId}' does not exist"));
             }
         }
-
-
         private async Task CheckProductTitleIsDuplicate(CreateBookCommand command)
         {
             if(await _productRepository.IsExist(command.Product_Title) == true)
@@ -76,8 +74,6 @@ namespace BookShop.Application.Features.Book.Commands.Create
                 ValidationErrors.Add(new ValidationError(nameof(command.Product_Title), $"Product with title '{command.Product_Title}' already exist"));
             }
         }
-
-
         private async Task CheckAuthorIdsExist(CreateBookCommand command)
         {
             if (await _authorRepository.AreExist(command.AuthorIds) == false)
@@ -86,6 +82,9 @@ namespace BookShop.Application.Features.Book.Commands.Create
                 ValidationErrors.Add(new ValidationError(nameof(command.AuthorIds), $"Some Authors does not exist"));
             }
         }
+    
+
+
 
 
 

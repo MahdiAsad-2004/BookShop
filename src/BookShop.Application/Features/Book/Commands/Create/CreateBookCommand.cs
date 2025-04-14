@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Book.Commands.Create
 {
-    [RequiredPermission(PermissionConstants.AddUser)]
+    [RequiredPermission(PermissionConstants.AddBook)]
     public class CreateBookCommand : IRequest<Result<Empty>>, IRequest
     {
         public string Product_Title { get; set; }
@@ -28,9 +28,11 @@ namespace BookShop.Application.Features.Book.Commands.Create
         public DateTime PublishYear { get; set; }
         public float? WeightInGram { get; set; }
         public int? Edition { get; set; }
-        public Guid PublisherId { get; set; }
         public IFormFile Product_ImageFile { get; set; }
+        public Guid PublisherId { get; set; }
+        public Guid? TranslatorId { get; set; }
         public Guid[] AuthorIds { get; set; }    
+
     }
 
 
@@ -49,8 +51,8 @@ namespace BookShop.Application.Features.Book.Commands.Create
 
         public async Task<Result<Empty>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Book book;
-            Domain.Entities.Product product;
+            E.Book book;
+            E.Product product;
             BookMapper.ToBookAndProduct(request, out book, out product);
 
             string imageName = $"book-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.Product_ImageFile.FileName)}";

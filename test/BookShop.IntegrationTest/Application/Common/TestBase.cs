@@ -22,6 +22,7 @@ namespace BookShop.IntegrationTest.Application.Common
         internal readonly TestDbContext _TestDbContext;
         public readonly ApplicationCollectionFixture _applicationCollectionFixture;
         internal ITestOutputHelper _testOutputHelper;
+        protected static readonly Randomizer _randomizer = new Randomizer();
         public TestBase(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
@@ -142,6 +143,7 @@ namespace BookShop.IntegrationTest.Application.Common
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Error);
             Assert.Equal(ErrorCode.Validation, result.Error.Code);
+            Assert.Single(result.Error.ValidationErrors);
         }
 
         protected void _OutPutValidationErrors<TData>(Result<TData> result)

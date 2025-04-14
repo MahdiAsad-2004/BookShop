@@ -119,6 +119,7 @@ namespace BookShop.Infrastructure
                 {
                     sql.CommandTimeout(6000);
                 });
+                config.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
         }
 

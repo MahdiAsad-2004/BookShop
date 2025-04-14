@@ -1,9 +1,11 @@
 ﻿
 using AutoMapper;
 using BookShop.Application.Features.Book.Commands.Create;
+using BookShop.Application.Features.Book.Commands.Update;
 using BookShop.Application.Features.Book.Dtos;
 using BookShop.Domain.Entities;
 using BookShop.Domain.Enums;
+using BookShop.Domain.QueryOptions;
 using MediatR;
 
 namespace BookShop.Application.Features.Book.Mapping
@@ -36,9 +38,9 @@ namespace BookShop.Application.Features.Book.Mapping
 
     public static class BookMapper
     {
-        public static void ToBookAndProduct(CreateBookCommand command ,out Domain.Entities.Book book , out Domain.Entities.Product product)
+        public static void ToBookAndProduct(CreateBookCommand command ,out E.Book book , out E.Product product)
         {
-            book = new Domain.Entities.Book
+            book = new E.Book
             {
                 Cover = command.Cover,
                 Cutting = command.Cutting,
@@ -50,7 +52,7 @@ namespace BookShop.Application.Features.Book.Mapping
                 Shabak = Guid.NewGuid().ToString().Substring(0, 12),
                 WeightInGram = command.WeightInGram,
             };
-            product = new Domain.Entities.Product
+            product = new E.Product
             {
                 CategoryId = command.Product_CategoryId,
                 DescriptionHtml = command.Product_DescriptionHtml,
@@ -64,13 +66,56 @@ namespace BookShop.Application.Features.Book.Mapping
         }
 
 
+
+
+        //public static void ToBookAndProduct(UpdateBookCommand command, ref E.Book book, ref E.Product product)
+        //{
+        //    product.CategoryId = command.Product_CategoryId;
+        //    product.DescriptionHtml = command.Product_DescriptionHtml;
+        //    product.NumberOfInventory = command.Product_NumberOfInventory;
+        //    product.Price = command.Product_Price;
+        //    product.Title = command.Product_Title;
+        //    book.Cover = command.Cover;
+        //    book.Cutting = command.Cutting;
+        //    book.Edition = command.Edition;
+        //    book.Language = command.Language;
+        //    book.NumberOfPages = command.NumberOfPages;
+        //    book.PublisherId = command.PublisherId;
+        //    book.PublishYear = command.PublishYear;
+        //    book.WeightInGram = book.WeightInGram;
+        //}
+
+
+        
+        public static E.Book ToBookAndProduct(UpdateBookCommand command, E.Book book)
+        {
+            book.Product.CategoryId = command.Product_CategoryId;
+            book.Product.DescriptionHtml = command.Product_DescriptionHtml;
+            book.Product.NumberOfInventory = command.Product_NumberOfInventory;
+            book.Product.Price = command.Product_Price;
+            book.Product.Title = command.Product_Title;
+            book.Cover = command.Cover;
+            book.Cutting = command.Cutting;
+            book.Edition = command.Edition;
+            book.Language = command.Language;
+            book.NumberOfPages = command.NumberOfPages;
+            book.PublisherId = command.PublisherId;
+            book.PublishYear = command.PublishYear;
+            book.WeightInGram = command.WeightInGram;
+            book.TranslatorId = command.TranslatorId;
+            return book;
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
-
-
-
-
-
-
-
 
 }

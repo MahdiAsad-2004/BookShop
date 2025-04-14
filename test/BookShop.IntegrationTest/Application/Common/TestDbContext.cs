@@ -28,12 +28,36 @@ namespace BookShop.IntegrationTest.Application.Common
             return entity;
         }
 
+        
+        public async Task<List<TEntity>> GetAll<TEntity,TKey>(Func<TEntity,bool> predicate) where TEntity : Entity<TKey>
+        {
+            using var scope = _serviceScopeFactory.CreateScope();
+            _bookShopDbContext = scope.ServiceProvider.GetRequiredService<BookShopDbContext>();
+            List<TEntity> entities = _bookShopDbContext.Set<TEntity>().AsNoTracking().Where(predicate).ToList();
+            await _bookShopDbContext.DisposeAsync();
+            scope.Dispose();
+            return entities;
+        }
+
+        
+        public async Task<int> Count<TEntity,TKey>() where TEntity : Entity<TKey>
+        {
+            using var scope = _serviceScopeFactory.CreateScope();
+            _bookShopDbContext = scope.ServiceProvider.GetRequiredService<BookShopDbContext>();
+            int count = await _bookShopDbContext.Set<TEntity>().AsNoTracking().CountAsync();
+            await _bookShopDbContext.DisposeAsync();
+            scope.Dispose();
+            return count;
+        }
+
+
         public async Task Add<TEntity, TKey>(TEntity entity) where TEntity : Entity<TKey>
         {
             using var scope = _serviceScopeFactory.CreateScope();
             _bookShopDbContext = scope.ServiceProvider.GetRequiredService<BookShopDbContext>();
             await _bookShopDbContext.AddAsync(entity);
             await _bookShopDbContext.SaveChangesAsync();
+            _bookShopDbContext.ChangeTracker.Clear();
             await _bookShopDbContext.DisposeAsync();
             scope.Dispose();
         }
@@ -45,6 +69,7 @@ namespace BookShop.IntegrationTest.Application.Common
             _bookShopDbContext = scope.ServiceProvider.GetRequiredService<BookShopDbContext>();
             await _bookShopDbContext.AddRangeAsync(entities);
             await _bookShopDbContext.SaveChangesAsync();
+            _bookShopDbContext.ChangeTracker.Clear();
             await _bookShopDbContext.DisposeAsync();
             scope.Dispose();
         }

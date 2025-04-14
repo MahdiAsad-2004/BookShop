@@ -101,7 +101,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
         public async Task<Product> GetByTitle(string title, ProductQueryOption? queryOption = null)
         {
-            var query = _dbSet.AsQueryable();
+            var query = _dbSet.AsQueryable().AsNoTracking();
 
             if (queryOption != null)
             {

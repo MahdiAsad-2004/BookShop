@@ -1,6 +1,4 @@
-﻿using BookShop.Application.Common.Dtos;
-using BookShop.Application.Common.Event;
-using BookShop.Application.Extensions;
+﻿using BookShop.Application.Extensions;
 using BookShop.Domain.Common.Entity;
 using BookShop.Domain.Common.Event;
 using BookShop.Domain.Common.QueryOption;
@@ -14,7 +12,6 @@ using BookShop.Infrastructure.Persistance.Repositories.Common;
 using BookShop.Infrstructure.Persistance.QueryOptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Data;
 using System.Data.Common;
 
@@ -97,11 +94,11 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
         private async Task<Book> GetWithQuery(Guid id, BookQueryOption queryOption)
         {
-            var bookQueryObject = await _dbContext.Books
+            var bookQueryObject = await _dbContext.Books.AsNoTracking()
             .Select(book => new BookQueryResultObject
             {
                 Book = book,
-                Product = _dbContext.Products.First(a => a.Id == book.ProductId),
+                Product = queryOption.IncludeProduct == false ? null : _dbContext.Products.First(a => a.Id == book.ProductId),
                 Reviews = queryOption.IncludeReviews == false ? null : _dbContext.Reviews.Where(a => a.ProductId == book.ProductId).ToList(),
                 Publisher = queryOption.IncludePublisher == false ? null : _dbContext.Publishers.First(a => a.Id == book.PublisherId),
                 Translator = queryOption.IncludeTranslator == false ? null : _dbContext.Translators.FirstOrDefault(a => a.Id == book.TranslatorId),
@@ -449,6 +446,12 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             await _dbContext.Books.AddAsync(book);
             await _dbContext.SaveChangesAsync();
             await book.PublishAllDomainEventsAndClear(_domainEventPublisher);
+        }
+
+
+        public async Task Update(Book book , Guid[] authorIds)
+        {
+
         }
 
 

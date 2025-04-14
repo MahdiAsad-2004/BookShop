@@ -72,7 +72,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return _dbContext.Set<TEntity>()
+            return _dbContext.Set<TEntity>().AsNoTracking()
                 .AsNoTracking()
                 .Where(a => a.IsDeleted == false)
                 .AsEnumerable();
@@ -80,7 +80,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
 
         public async Task<TEntity> Get(TKey key)
         {
-            TEntity? entity = await _dbContext.Set<TEntity>()
+            TEntity? entity = await _dbContext.Set<TEntity>().AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id.Equals(key) && a.IsDeleted == false);
 
             if (entity == null)
@@ -89,7 +89,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             return entity;
         }
 
-        public async Task Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
             entity.LastModifiedDate = DateTime.UtcNow;
             entity.LastModifiedBy = _currentUser.GetId();

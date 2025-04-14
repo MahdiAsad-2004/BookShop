@@ -1,13 +1,5 @@
-﻿
-using BookShop.Application.Extensions;
-using BookShop.Application.Features.Category.Mapping;
-using BookShop.Domain.Common;
-using BookShop.Domain.Entities;
-using BookShop.Domain.Enums;
-using BookShop.Domain.IRepositories;
+﻿using BookShop.Application.Extensions;
 using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Category.Commands.Update
 {

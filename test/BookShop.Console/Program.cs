@@ -21,6 +21,10 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
+Guid[] ids = [Guid.NewGuid(), Guid.NewGuid()];
+string joinedIds = string.Join(",", ids.Select(num => $"('{num}')"));
+
+Console.WriteLine(joinedIds);
 
 
 Console.WriteLine();

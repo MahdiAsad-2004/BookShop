@@ -1,12 +1,11 @@
 ﻿using BookShop.Application.Common.Rule;
-using BookShop.Application.Features.Book.Commands.Update;
-using BookShop.Domain.Common;
+using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
-namespace BookShop.Application.Features.Book.Commands.Create
+namespace BookShop.Application.Features.Book.Commands.Update
 {
-    public class CreateBookCommandRule : BussinessRule<CreateBookCommand>
+    public class UpdateBookCommandRule : BussinessRule<UpdateBookCommand>
     {
         #region constructor
 
@@ -15,7 +14,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
         private readonly IPublisherRepository _publisherRepository;
         private readonly IProductRepository _productRepository;
         private readonly ITranslatorRepository _translatorRepository;
-        public CreateBookCommandRule(ICategoryRepository categoryRepository, IPublisherRepository publisherRepository,
+        public UpdateBookCommandRule(ICategoryRepository categoryRepository, IPublisherRepository publisherRepository,
             IProductRepository productRepository, IAuthorRepository authorRepository, ITranslatorRepository translatorRepository)
         {
             _categoryRepository = categoryRepository;
@@ -29,47 +28,40 @@ namespace BookShop.Application.Features.Book.Commands.Create
 
 
 
-        public async override Task CheckRules(CreateBookCommand createBookCommand, bool stopOnError)
+        public async override Task CheckRules(UpdateBookCommand updateBookCommand, bool stopOnError)
         {
-            await CheckProductImageFileIsNotNull(createBookCommand);
-
-            if (MustStop(stopOnError)) return;
-            
-            await CheckCategoryIdExist(createBookCommand);
+            await CheckCategoryIdExist(updateBookCommand);
 
             if (MustStop(stopOnError)) return;
 
-            await CheckPublisherIdExist(createBookCommand);
+            await CheckPublisherIdExist(updateBookCommand);
 
             if (MustStop(stopOnError)) return;
 
-            await CheckProductTitleIsDuplicate(createBookCommand);
+            await CheckProductTitleIsDuplicate(updateBookCommand);
 
             if (MustStop(stopOnError)) return;
 
-            await CheckAuthorIdsExist(createBookCommand);
-        
+            await CheckAuthorIdsExist(updateBookCommand);
+
             if (MustStop(stopOnError)) return;
 
-            await CheckTrnaslatorIdExist(createBookCommand);
+            await CheckTrnaslatorIdExist(updateBookCommand);
         }
 
 
 
 
 
-
-        
-        private async Task CheckProductImageFileIsNotNull(CreateBookCommand command)
+        private async Task CheckProductTitleIsDuplicate(UpdateBookCommand command)
         {
-            if(command.Product_ImageFile == null)
+            if (await _productRepository.IsExist(command.Product_Title, exceptId: command.Id) == true)
             {
                 ErrorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(command.Product_ImageFile),
-                    $"Image File can not be null"));
+                ValidationErrors.Add(new ValidationError(nameof(command.Product_Title), $"Product with title '{command.Product_Title}' already exist"));
             }
         }
-        private async Task CheckCategoryIdExist(CreateBookCommand command)
+        private async Task CheckCategoryIdExist(UpdateBookCommand command)
         {
             if (command.Product_CategoryId != null)
             {
@@ -82,7 +74,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
             }
 
         }
-        private async Task CheckPublisherIdExist(CreateBookCommand command)
+        private async Task CheckPublisherIdExist(UpdateBookCommand command)
         {
             if (await _publisherRepository.IsExist(command.PublisherId) == false)
             {
@@ -90,15 +82,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
                 ValidationErrors.Add(new ValidationError(nameof(command.PublisherId), $"Publisher with id '{command.PublisherId}' does not exist"));
             }
         }
-        private async Task CheckProductTitleIsDuplicate(CreateBookCommand command)
-        {
-            if (await _productRepository.IsExist(command.Product_Title) == true)
-            {
-                ErrorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(command.Product_Title), $"Product with title '{command.Product_Title}' already exist"));
-            }
-        }
-        private async Task CheckAuthorIdsExist(CreateBookCommand command)
+        private async Task CheckAuthorIdsExist(UpdateBookCommand command)
         {
             if (await _authorRepository.AreExist(command.AuthorIds) == false)
             {
@@ -106,7 +90,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
                 ValidationErrors.Add(new ValidationError(nameof(command.AuthorIds), $"Some Authors does not exist"));
             }
         }
-        private async Task CheckTrnaslatorIdExist(CreateBookCommand command)
+        private async Task CheckTrnaslatorIdExist(UpdateBookCommand command)
         {
             if (command.TranslatorId != null)
             {

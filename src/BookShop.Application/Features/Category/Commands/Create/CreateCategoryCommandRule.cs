@@ -1,4 +1,5 @@
-﻿using BookShop.Application.Common.Rule;
+﻿using BookShop.Application.Common.Rules;
+using BookShop.Application.Common.Ruless;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Category.Commands.Create
@@ -16,35 +17,25 @@ namespace BookShop.Application.Features.Category.Commands.Create
         #endregion
 
 
-        public override async Task CheckRules(CreateCategoryCommand request, bool stopOnError)
+        [RuleItem]
+        public async Task Check_Title_IsNotDuplicate()
         {
-            await CheckTitleIsDuplicate(request);
-
-            if (MustStop(stopOnError)) return;
-
-            await CheckParentIdIsExist(request);
-        }
-
-
-
-
-        private async Task CheckTitleIsDuplicate(CreateCategoryCommand command)
-        {
-            if (await _categoryRepository.IsExist(command.Title))
+            if (await _categoryRepository.IsExist(_request.Title))
             {
-                ErrorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(command.Title), $"Category with title '{command.Title} already exist'"));
+                errorOccured();
+                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Title), $"Category with title '{_request.Title} already exist'"));
             }
         }
 
-        private async Task CheckParentIdIsExist(CreateCategoryCommand command)
+        [RuleItem]
+        public async Task Check_ParentIdIs_Exist()
         {
-            if (command.ParentId != null && command.ParentId != Guid.Empty)
+            if (_request.ParentId != null && _request.ParentId != Guid.Empty)
             {
-                if (await _categoryRepository.IsExist(command.ParentId.Value) == false)
+                if (await _categoryRepository.IsExist(_request.ParentId.Value) == false)
                 {
-                    ErrorOccured();
-                    ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(command.ParentId), $"Parent Id with id '{command.ParentId} does not exist'"));
+                    errorOccured();
+                    ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.ParentId), $"Parent Id with id '{_request.ParentId} does not exist'"));
                 }
             }
         }

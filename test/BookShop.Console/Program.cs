@@ -1,10 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Azure.Core;
 using Bogus;
-using BookShop.Application.Common.Rule;
+using BookShop.Application.Common.Rules;
 using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Application.Features.Book.Queries.GetSummaries;
 using BookShop.Domain.Common.Entity;
 using BookShop.Domain.Entities;
+using BookShop.Domain.Enums;
 using BookShop.Infrastructure.Persistance;
 using BookShop.IntegrationTest.Application.Translator.FakeData;
 using MediatR;
@@ -21,10 +23,6 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
-Guid[] ids = [Guid.NewGuid(), Guid.NewGuid()];
-string joinedIds = string.Join(",", ids.Select(num => $"('{num}')"));
-
-Console.WriteLine(joinedIds);
 
 
 Console.WriteLine();

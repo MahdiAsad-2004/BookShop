@@ -15,9 +15,9 @@ namespace BookShop.Infrastructure.Persistance.Configurations
             builder.HasOne(a => a.Translator).WithMany(a => a.EBooks).HasForeignKey(a => a.TranslatorId);
             builder.HasOne(a => a.Publisher).WithMany(a => a.EBooks).HasForeignKey(a => a.PublisherId);
             builder.HasMany(a => a.Author_EBooks).WithOne(a => a.EBook).HasForeignKey(a => a.EBookId);
-         
-            //Properties
 
+            //Properties
+            builder.Property(a => a.FileName).HasMaxLength(30);
 
         }
     }

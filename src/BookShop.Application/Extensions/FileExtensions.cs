@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BookShop.Domain.Enums;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Extensions
@@ -6,6 +7,8 @@ namespace BookShop.Application.Extensions
     public static class FileExtensions
     {
         public static readonly string[] ImageAllowedExtensions = ["png", "jpg", "jpeg", "webp"];
+        //public static readonly string[] EBookFileAllowedExtensions = ["epub", "pdf", "mobi", "doc", "az3w", "djvu"];
+        public static readonly string[] EBookFileAllowedExtensions = EnumExtensions.GetNames<EBookFileFormat>();
 
         public static IFormFile CreateIFormFile(string filePath)
         {
@@ -21,7 +24,7 @@ namespace BookShop.Application.Extensions
 
 
 
-        public static async Task<bool> SaveFile(string fileName , string folderPath,Stream fileStream)
+        public static async Task<bool> SaveFile(string fileName, string folderPath, Stream fileStream)
         {
             if (Directory.Exists(folderPath) == false)
             {
@@ -43,8 +46,8 @@ namespace BookShop.Application.Extensions
         }
 
 
-        
-        public static async Task<bool> DeleteFile(string fileName , string folderPath )
+
+        public static async Task<bool> DeleteFile(string fileName, string folderPath)
         {
             string filePath = Path.Combine(folderPath, fileName);
             if (File.Exists(filePath))

@@ -11,7 +11,7 @@ using System.Diagnostics;
 using BookShop.Application.Behaviours;
 using BookShop.Application.Behaviours.PreProcessors;
 using MediatR.Pipeline;
-using BookShop.Application.Common.Rule;
+using BookShop.Application.Common.Rules;
 using MediatR;
 using BookShop.Application.Features.Book.Commands.Create;
 

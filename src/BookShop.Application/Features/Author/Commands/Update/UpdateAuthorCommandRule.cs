@@ -1,4 +1,5 @@
-﻿using BookShop.Application.Common.Rule;
+﻿using BookShop.Application.Common.Rules;
+using BookShop.Application.Common.Ruless;
 using BookShop.Application.Features.Author.Commands.Create;
 using BookShop.Domain.IRepositories;
 
@@ -17,19 +18,13 @@ namespace BookShop.Application.Features.Author.Commands.Update
         #endregion
 
 
-        public override async Task CheckRules(UpdateAuthorCommand request, bool stopOnError)
+        [RuleItem]
+        public async Task Check_Name_IsNotDuplicate()
         {
-            await CheckNameIsDuplicate(request);
-        }
-
-
-
-        private async Task CheckNameIsDuplicate(UpdateAuthorCommand command)
-        {
-            if (await _authorRepository.IsExist(command.Name,exceptId: command.Id))
+            if (await _authorRepository.IsExist(_request.Name,exceptId: _request.Id))
             {
-                ErrorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(command.Name), $"Author with name '{command.Name} already exist'"));
+                errorOccured();
+                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Author with name '{_request.Name} already exist'"));
             }
         }
 

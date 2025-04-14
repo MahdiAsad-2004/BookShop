@@ -1,23 +1,16 @@
 ﻿using BookShop.Application.Extensions;
+using BookShop.Application.Features.EBook.Commands.Create;
 using FluentValidation;
 using MediatR;
 
-namespace BookShop.Application.Features.Book.Commands.Create
+namespace BookShop.Application.Features.EBook.Commands.Create
 {
-    public class CreateEBookCommandValidator : AbstractValidator<CreateBookCommand>
+    public class CreateEBookCommandValidator : AbstractValidator<CreateEBookCommand>
     {
         public CreateEBookCommandValidator()
         {
             RuleFor(a => a.AuthorIds)
                 .NotEmpty();
-
-            RuleFor(a => a.Cover)
-                .NotNull()
-                .IsInEnum();
-
-            RuleFor(a => a.Cutting)
-                .NotNull()
-                .IsInEnum();
 
             RuleFor(a => a.Edition)
                 .GreaterThan(0);
@@ -70,13 +63,14 @@ namespace BookShop.Application.Features.Book.Commands.Create
             RuleFor(a => a.TranslatorId)
                 .Must(a => a != null && a == Guid.Empty ? false : true).WithMessage("{PropertyName} must not be empty");
 
-            RuleFor(a => a.WeightInGram)
-                .GreaterThan(0)
-                .LessThan(10_000);
-
-
-
-
+            RuleFor(a => a.EBookFile)
+                .NotNull()
+                .Must(a => a != null && a is not null).WithMessage("{PropertyName} must not be null")
+                    .Must(a => (float)(a.Length / 1024f / 1000f) <= 50.0f).WithMessage("Image size must be less than 50MB")
+                        .When(req => req.EBookFile != null)
+                    .Must(a => FileExtensions.EBookFileAllowedExtensions.Any(b => b.Equals(Path.GetExtension(a.FileName).Remove(0, 1), StringComparison.OrdinalIgnoreCase)))
+                        .When(req => req.EBookFile != null)
+                            .WithMessage("EBook file extension is not allowed");
 
 
 

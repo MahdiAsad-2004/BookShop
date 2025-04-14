@@ -1,4 +1,5 @@
-﻿using BookShop.Application.Common.Rule;
+﻿using BookShop.Application.Common.Rules;
+using BookShop.Application.Common.Ruless;
 using BookShop.Application.Features.Discount.Commands.Create;
 using BookShop.Domain.IRepositories;
 
@@ -17,22 +18,13 @@ namespace BookShop.Application.Features.Discount.Commands.Update
         #endregion
 
 
-        public override async Task CheckRules(UpdateDiscountCommand request, bool stopOnError)
+        [RuleItem]
+        public async Task Check_Name_IsNotDuplicate()
         {
-            await CheckNameIsDuplicate(request);
-
-            if (MustStop(stopOnError)) return;
-        }
-
-
-
-
-        private async Task CheckNameIsDuplicate(UpdateDiscountCommand command)
-        {
-            if (await _DiscountRepository.IsExist(command.Name , exceptId:command.Id))
+            if (await _DiscountRepository.IsExist(_request.Name , exceptId:_request.Id))
             {
-                ErrorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(command.Name), $"Discount with name '{command.Name} already exist'"));
+                errorOccured();
+                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Discount with name '{_request.Name} already exist'"));
             }
         }
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Infrstructure.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20250407165255_init")]
+    [Migration("20250414162248_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -418,6 +418,13 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<int>("FileFormat")
                         .HasColumnType("int");
 
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("FileSize_KB")
+                        .HasColumnType("real");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -434,7 +441,7 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<int>("NumberOfPages")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("PublishYear")
@@ -446,14 +453,10 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<Guid?>("TranslatorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("VolumeInMegabyte")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId")
-                        .IsUnique()
-                        .HasFilter("[ProductId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("PublisherId");
 
@@ -1294,7 +1297,9 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     b.HasOne("BookShop.Domain.Entities.Product", "Product")
                         .WithOne("EBook")
-                        .HasForeignKey("BookShop.Domain.Entities.EBook", "ProductId");
+                        .HasForeignKey("BookShop.Domain.Entities.EBook", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookShop.Domain.Entities.Publisher", "Publisher")
                         .WithMany("EBooks")

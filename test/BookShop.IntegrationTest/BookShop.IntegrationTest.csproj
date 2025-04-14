@@ -52,6 +52,12 @@
     <None Update="FIles\category.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="FIles\ebook-file.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="FIles\ebook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="FIles\product.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

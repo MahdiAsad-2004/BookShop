@@ -1,7 +1,8 @@
 ﻿using BookShop.Application.Authorization;
 using BookShop.Application.Caching;
 using BookShop.Application.Common.Request;
-using BookShop.Application.Common.Rule;
+using BookShop.Application.Common.Rules;
+using BookShop.Application.Common.Ruless;
 using BookShop.Application.Extensions;
 using BookShop.Domain.Common;
 using BookShop.Domain.Exceptions;
@@ -52,7 +53,20 @@ namespace BookShop.Application.Behaviours
             }
             if (_bussinessRule != null)
             {
-                await _bussinessRule.CheckRules(request,true);
+                _bussinessRule.Confing(request,true);
+
+                var ruleMethods = _bussinessRule.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(a => a.GetCustomAttribute<RuleItemAttribute>() != null).ToList();
+
+                foreach (var ruleMethod in ruleMethods) 
+                {
+                    Task task = (Task)ruleMethod.Invoke(_bussinessRule , null)!;
+                    await task;
+
+                    if (_bussinessRule.Stop())
+                        break;
+                }   
+                
                 if (_bussinessRule.ValidationErrors.Any())
                 {
                     return new TResponse()

@@ -8,5 +8,12 @@ namespace BookShop.Domain.IRepositories
         IWriteRepository<EBook, Guid>,
         IDeleteRepository<EBook, Guid>
     {
+
+
+        Task Add(EBook ebook, Product product, Guid[] authorIds);
+
+
+
+
     }
 }

@@ -14,7 +14,8 @@ namespace BookShop.Application.Extensions
         public static readonly string Category_Images = Path.Combine(Directory, "staticFiles", "category", "images");
         public static readonly string Category_DefaultImageName = "category.png";
 
-
+        public static readonly string EBook_Files = Path.Combine(Directory, "staticFiles", "ebook", "files");
+        
 
 
 

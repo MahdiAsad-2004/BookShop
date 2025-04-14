@@ -66,9 +66,9 @@ namespace BookShop.Infrstructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "VarChar(30)", nullable: false),
                     DiscountPrice = table.Column<int>(type: "int", nullable: true),
+                    DiscountPercent = table.Column<float>(type: "real", nullable: true),
                     UsedCount = table.Column<int>(type: "int", nullable: false),
                     MaximumUseCount = table.Column<int>(type: "int", nullable: true),
-                    DiscountPercent = table.Column<float>(type: "real", nullable: true),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -485,15 +485,16 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileSize_KB = table.Column<float>(type: "real", nullable: false),
                     NumberOfPages = table.Column<int>(type: "int", nullable: false),
                     Language = table.Column<int>(type: "int", nullable: false),
                     FileFormat = table.Column<int>(type: "int", nullable: false),
                     PublishYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VolumeInMegabyte = table.Column<float>(type: "real", nullable: false),
                     Edition = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PublisherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TranslatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
@@ -509,7 +510,8 @@ namespace BookShop.Infrstructure.Migrations
                         name: "FK_EBooks_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EBooks_Publishers_PublisherId",
                         column: x => x.PublisherId,
@@ -738,8 +740,7 @@ namespace BookShop.Infrstructure.Migrations
                 name: "IX_EBooks_ProductId",
                 table: "EBooks",
                 column: "ProductId",
-                unique: true,
-                filter: "[ProductId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EBooks_PublisherId",
@@ -832,7 +833,6 @@ namespace BookShop.Infrstructure.Migrations
             {
                 dbFunctionFile.AddToMigration(migrationBuilder);
             }
-
 
         }
 

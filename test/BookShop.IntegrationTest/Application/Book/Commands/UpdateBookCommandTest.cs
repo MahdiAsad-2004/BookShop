@@ -253,7 +253,7 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             //Arrnage 
             updateBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "book.png"));
             await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateBook);
-            int fileCounts = Directory.GetFiles(PathExtensions.Product_Images).Count();
+            int filesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
 
             //Act
             await requestAndGetResult();
@@ -261,8 +261,8 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            int actualFileCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
-            Assert.Equal(fileCounts + 1, actualFileCount);
+            int actualFilesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
+            Assert.Equal(filesCount + 1 , actualFilesCount);
             var entity = await _TestDbContext.Get<E.Book, Guid>(updateBookCommand.Id);
             var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedBook.Product.Id);
             assert_Book_And_Product_Updated(entity, entityProduct,null);

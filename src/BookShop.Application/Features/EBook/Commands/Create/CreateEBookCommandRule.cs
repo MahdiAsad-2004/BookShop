@@ -1,12 +1,12 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
-using BookShop.Application.Features.Book.Commands.Create;
+using BookShop.Application.Features.EBook.Commands.Create;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
-namespace BookShop.Application.Features.Book.Commands.Update
+namespace BookShop.Application.Features.EBook.Commands.Create
 {
-    public class UpdateBookCommandRule : BussinessRule<UpdateBookCommand>
+    public class CreateEBookCommandRule : BussinessRule<CreateEBookCommand>
     {
         #region constructor
 
@@ -15,7 +15,7 @@ namespace BookShop.Application.Features.Book.Commands.Update
         private readonly IPublisherRepository _publisherRepository;
         private readonly IProductRepository _productRepository;
         private readonly ITranslatorRepository _translatorRepository;
-        public UpdateBookCommandRule(ICategoryRepository categoryRepository, IPublisherRepository publisherRepository,
+        public CreateEBookCommandRule(ICategoryRepository categoryRepository, IPublisherRepository publisherRepository,
             IProductRepository productRepository, IAuthorRepository authorRepository, ITranslatorRepository translatorRepository)
         {
             _categoryRepository = categoryRepository;
@@ -29,6 +29,28 @@ namespace BookShop.Application.Features.Book.Commands.Update
 
 
 
+
+        [RuleItem]
+        public async Task Check_EBookFile_IsNotNull()
+        {
+            if(_request.EBookFile == null)
+            {
+                errorOccured();
+                ValidationErrors.Add(new ValidationError(nameof(_request.EBookFile),
+                    $"EBook file can not be null"));
+            }
+        }
+
+        [RuleItem]
+        public async Task Check_Product_ImageFile_IsNotNull()
+        {
+            if(_request.Product_ImageFile == null)
+            {
+                errorOccured();
+                ValidationErrors.Add(new ValidationError(nameof(_request.Product_ImageFile),
+                    $"Image File can not be null"));
+            }
+        }
 
         [RuleItem]
         public async Task Check_Product_Title_IsNotDuplicate()
@@ -52,7 +74,6 @@ namespace BookShop.Application.Features.Book.Commands.Update
                         $"Category with id '{_request.Product_CategoryId}' does not exist"));
                 }
             }
-
         }
 
         [RuleItem]
@@ -68,7 +89,8 @@ namespace BookShop.Application.Features.Book.Commands.Update
         [RuleItem]
         public async Task Check_AuthorIds_Exist()
         {
-            if (await _authorRepository.AreExist(_request.AuthorIds) == false)
+            var a = await _authorRepository.AreExist(_request.AuthorIds);
+            if (a == false)
             {
                 errorOccured();
                 ValidationErrors.Add(new ValidationError(nameof(_request.AuthorIds), $"Some Authors does not exist"));
@@ -87,6 +109,8 @@ namespace BookShop.Application.Features.Book.Commands.Update
                 }
             }
         }
+
+
 
 
 

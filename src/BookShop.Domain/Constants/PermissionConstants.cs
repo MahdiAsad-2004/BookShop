@@ -23,6 +23,8 @@ namespace BookShop.Domain.Constants
         public const string UpdateDiscount= "Update_Book_Permission";
         public const string DeleteDiscount= "Delete_Book_Permission";
 
+        public const string AddEBook = "Add_EBook_Permission";
+        public const string UpdateEBook = "Update_EBook_Permission";
 
 
 
@@ -40,6 +42,8 @@ namespace BookShop.Domain.Constants
             yield return AddDiscount;
             yield return UpdateDiscount;
             yield return DeleteDiscount;
+            yield return AddEBook;
+            yield return UpdateEBook;
         }
     }
 

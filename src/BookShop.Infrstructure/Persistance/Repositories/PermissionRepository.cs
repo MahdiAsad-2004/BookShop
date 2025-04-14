@@ -17,16 +17,14 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
 
-        public Task<Permission[]> GetUserPermissions(Guid userId)
+        public async Task<Permission[]> GetUserPermissions(Guid userId)
         {
-            var permissions = _dbSet
+            return await _dbSet.AsNoTracking()
                 .Include(a => a.User_Permissions)
                 .SelectMany(a => a.User_Permissions)
                 .Where(a => a.UserId == userId)
                 .Select(a => a.Permission)
-                .ToArray();
-
-            return Task.FromResult(permissions);
+                .ToArrayAsync();
         }
 
 

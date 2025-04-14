@@ -146,6 +146,14 @@ namespace BookShop.IntegrationTest.Application.Common
             Assert.Single(result.Error.ValidationErrors);
         }
 
+        
+        protected void _Assert_ValidationError_Conatain<TDate>(Result<TDate> result,string propertyName)
+        {
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == propertyName);
+        }
+
+
+
         protected void _OutPutValidationErrors<TData>(Result<TData> result)
         {
             for (int i = 0; i < result!.Error!.ValidationErrors.Count; i++)

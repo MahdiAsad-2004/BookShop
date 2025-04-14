@@ -421,10 +421,9 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             book.CreateDate = book.LastModifiedDate = dateTime;
             book.CreateBy = book.LastModifiedBy = _currentUser.GetId();
             //---------------------------------------------------------------------
-            List<Author_Book>? author_Books = null;
-            if(author_Books != null)
+            List<Author_Book> author_Books = new List<Author_Book>();
+            if (authorIds != null)
             {
-                author_Books = new List<Author_Book>();
                 foreach (Guid authorId in authorIds)
                 {
                     author_Books.Add(new Author_Book
@@ -442,17 +441,12 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             }
             //---------------------------------------------------------------------
             book.Product = product;
-            book.Author_Books = author_Books!;
+            book.Author_Books = author_Books;
             await _dbContext.Books.AddAsync(book);
             await _dbContext.SaveChangesAsync();
             await book.PublishAllDomainEventsAndClear(_domainEventPublisher);
         }
 
-
-        public async Task Update(Book book , Guid[] authorIds)
-        {
-
-        }
 
 
     }

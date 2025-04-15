@@ -70,7 +70,7 @@ namespace BookShop.Application.Features.Book.Commands.Update
             }
             if (fileSaved && book.Product.ImageName != null)
             {
-                await FileExtensions.DeleteFile(book.Product.ImageName, PathExtensions.Product_Images);
+                await FileExtensions.DeleteFileIfExist(book.Product.ImageName, PathExtensions.Product_Images);
             }
             book.Product.ImageName = fileSaved ? imageName : null;
 

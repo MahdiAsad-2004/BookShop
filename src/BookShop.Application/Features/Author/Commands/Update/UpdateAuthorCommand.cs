@@ -52,7 +52,7 @@ namespace BookShop.Application.Features.Author.Commands.Update
             }
             if (fileSaved && author.ImageName != null)
             {
-                await FileExtensions.DeleteFile(author.ImageName, PathExtensions.Author_Images);
+                await FileExtensions.DeleteFileIfExist(author.ImageName, PathExtensions.Author_Images);
             }
             author.ImageName = fileSaved ? imageName : null;
 

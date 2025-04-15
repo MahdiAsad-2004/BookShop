@@ -1,4 +1,6 @@
-﻿using BookShop.Application.Features.EBook.Commands.Create;
+﻿using BookShop.Application.Features.Book.Commands.Update;
+using BookShop.Application.Features.EBook.Commands.Create;
+using BookShop.Application.Features.EBook.Commands.Update;
 using BookShop.Domain.Enums;
 
 namespace EBookShop.Application.Features.EBook.Mapping
@@ -30,25 +32,22 @@ namespace EBookShop.Application.Features.EBook.Mapping
 
 
 
-        
-        //public static E.EBook ToEBookAndProduct(UpdateEBookCommand command, E.EBook book)
-        //{
-        //    book.Product.CategoryId = command.Product_CategoryId;
-        //    book.Product.DescriptionHtml = command.Product_DescriptionHtml;
-        //    book.Product.NumberOfInventory = command.Product_NumberOfInventory;
-        //    book.Product.Price = command.Product_Price;
-        //    book.Product.Title = command.Product_Title;
-        //    book.Cover = command.Cover;
-        //    book.Cutting = command.Cutting;
-        //    book.Edition = command.Edition;
-        //    book.Language = command.Language;
-        //    book.NumberOfPages = command.NumberOfPages;
-        //    book.PublisherId = command.PublisherId;
-        //    book.PublishYear = command.PublishYear;
-        //    book.WeightInGram = command.WeightInGram;
-        //    book.TranslatorId = command.TranslatorId;
-        //    return book;
-        //}
+
+        public static E.EBook ToEBookAndProduct(UpdateEBookCommand command, E.EBook book)
+        {
+            book.Product.CategoryId = command.Product_CategoryId;
+            book.Product.DescriptionHtml = command.Product_DescriptionHtml;
+            book.Product.NumberOfInventory = command.Product_NumberOfInventory;
+            book.Product.Price = command.Product_Price;
+            book.Product.Title = command.Product_Title;
+            book.Edition = command.Edition;
+            book.Language = command.Language;
+            book.NumberOfPages = command.NumberOfPages;
+            book.PublisherId = command.PublisherId;
+            book.PublishYear = command.PublishYear;
+            book.TranslatorId = command.TranslatorId;
+            return book;
+        }
 
 
 

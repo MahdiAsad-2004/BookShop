@@ -5,7 +5,7 @@ using BookShop.Domain.Entities;
 using BookShop.IntegrationTest.Application.Product.FakeData;
 using BookShop.IntegrationTest.Application.Publisher.FakeData;
 
-namespace EBookShop.IntegrationTest.Application.EEBook
+namespace BookShop.IntegrationTest.Application.EBook.FakeData
 {
     public class EBookFakeData
     {
@@ -16,20 +16,20 @@ namespace EBookShop.IntegrationTest.Application.EEBook
 
         private static void SetRules()
         {
-            _faker.RuleFor(a => a.Id , (a,b) => Guid.NewGuid());
-            _faker.RuleFor(a => a.Edition , (a,b) => a.Random.Int(1 , 10));
-            _faker.RuleFor(a => a.Language , (a,b) => a.Random.Enum<Language>());
-            _faker.RuleFor(a => a.NumberOfPages , (a,b) => a.Random.Int(10 , 1000));
-            _faker.RuleFor(a => a.FileFormat , (a,b) => a.Random.Enum<EBookFileFormat>());
-            _faker.RuleFor(a => a.FileName , (a,b) => a.Random.String2(20));
-            _faker.RuleFor(a => a.FileSize_KB , (a,b) => a.Random.Int(1000 , 10_000));
-            _faker.RuleFor(a => a.PublishYear , (a,b) => DateTime.UtcNow.AddDays(_randomizer.Int(-100 , -10)));
+            _faker.RuleFor(a => a.Id, (a, b) => Guid.NewGuid());
+            _faker.RuleFor(a => a.Edition, (a, b) => a.Random.Int(1, 10));
+            _faker.RuleFor(a => a.Language, (a, b) => a.Random.Enum<Language>());
+            _faker.RuleFor(a => a.NumberOfPages, (a, b) => a.Random.Int(10, 1000));
+            _faker.RuleFor(a => a.FileFormat, (a, b) => a.Random.Enum<EBookFileFormat>());
+            _faker.RuleFor(a => a.FileName, (a, b) => a.Random.String2(20));
+            _faker.RuleFor(a => a.FileSize_KB, (a, b) => a.Random.Int(1000, 10_000));
+            _faker.RuleFor(a => a.PublishYear, (a, b) => DateTime.UtcNow.AddDays(_randomizer.Int(-100, -10)));
         }
 
 
-      
 
-        public static List<E.EBook> CreateBetween(int min , int max)
+
+        public static List<E.EBook> CreateBetween(int min, int max)
         {
             List<E.EBook> books = new List<E.EBook>();
 
@@ -45,8 +45,8 @@ namespace EBookShop.IntegrationTest.Application.EEBook
 
 
 
-        public static E.EBook Create(Guid? id = null , E.Product? product = null , Author_EBook[]? author_EBooks = null,
-            E.Publisher? publisher = null, E.Translator? translator = null , DateTime? publishYear = null)
+        public static E.EBook Create(Guid? id = null, E.Product? product = null, Author_EBook[]? author_EBooks = null,
+            E.Publisher? publisher = null, E.Translator? translator = null, DateTime? publishYear = null)
         {
             id = id ?? Guid.NewGuid();
             product = product ?? ProductFakeData.Create();
@@ -67,7 +67,7 @@ namespace EBookShop.IntegrationTest.Application.EEBook
                 TranslatorId = translator?.Id,
                 FileFormat = _randomizer.Enum<EBookFileFormat>(),
                 FileName = _randomizer.String2(20),
-                FileSize_KB = _randomizer.Int(1_000 , 10_000),
+                FileSize_KB = _randomizer.Int(1_000, 10_000),
             };
         }
 

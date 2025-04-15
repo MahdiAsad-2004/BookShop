@@ -5,7 +5,7 @@ using BookShop.Domain.Constants;
 using BookShop.Domain.Enums;
 using BookShop.Domain.Exceptions;
 using BookShop.IntegrationTest.Application.Common;
-using EBookShop.IntegrationTest.Application.EEBook;
+using BookShop.IntegrationTest.Application.EBook.FakeData;
 using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest.Application.EBook.Commands

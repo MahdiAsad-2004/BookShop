@@ -1,34 +1,37 @@
-﻿using BookShop.Application.Extensions;
+﻿using Bogus;
+using BookShop.Application.Extensions;
 using BookShop.Application.Features.Book.Commands.Update;
+using BookShop.Application.Features.EBook.Commands.Create;
+using BookShop.Application.Features.EBook.Commands.Update;
 using BookShop.Domain.Common;
 using BookShop.Domain.Constants;
-using BookShop.Domain.Exceptions;
-using BookShop.IntegrationTest.Application.Common;
-using Xunit.Abstractions;
-using BookShop.Domain.Enums;
 using BookShop.Domain.Entities;
+using BookShop.Domain.Enums;
+using BookShop.Domain.Exceptions;
 using BookShop.IntegrationTest.Application.Book.FakeData;
+using BookShop.IntegrationTest.Application.Common;
+using BookShop.IntegrationTest.Application.EBook.FakeData;
+using Xunit.Abstractions;
 
-namespace BookShop.IntegrationTest.Application.Book.Commands
+namespace BookShop.IntegrationTest.Application.EBook.Commands
 {
-    public class UpdateBookCommandTest : TestBase
+    public class UpdateEBookCommandTest : TestBase
     {
-        private readonly E.Book _savedBook = new E.Book()
+        private readonly E.EBook _savedEBook = new E.EBook()
         {
             Id = Guid.NewGuid(),
             CreateBy = string.Empty,
             CreateDate = DateTime.UtcNow,
             LastModifiedBy = string.Empty,
             LastModifiedDate = DateTime.UtcNow,
-            Cover = Cover.ClothCover,
-            Cutting = Cutting.B4,
             Language = Language.Persian,
             NumberOfPages = 1,
-            Shabak = Guid.NewGuid().ToString().Substring(0, 12),
             Edition = null,
             TranslatorId = null,
             PublishYear = DateTime.UtcNow.AddYears(-5),
-            WeightInGram = 500,
+            FileFormat = EBookFileFormat.Pdf,
+            FileName = string.Empty,
+            FileSize_KB = 1_000,
             Product = new E.Product
             {
                 Id = Guid.NewGuid(),
@@ -46,9 +49,9 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
                 CreateBy = "",
                 ImageName = "",
             },
-            Author_Books = new List<E.Author_Book>
+            Author_EBooks = new List<E.Author_EBook>
             {
-                new E.Author_Book
+                new E.Author_EBook
                 {
                     Id = Guid.NewGuid(),
                     Author = new E.Author
@@ -59,7 +62,7 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
                         Name = $"author-{Random.Shared.Next(1 , 100)}",
                     }
                 },
-                new E.Author_Book
+                new E.Author_EBook
                 {
                     Id = Guid.NewGuid(),
                     Author = new E.Author
@@ -72,16 +75,13 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
                 }
             }
         };
-        private UpdateBookCommand updateBookCommand = new UpdateBookCommand
+        private UpdateEBookCommand updateEBookCommand = new UpdateEBookCommand
         {
-            Cover = _randomizer.Enum<Cover>(),
-            Cutting = _randomizer.Enum<Cutting>(),
             Language = _randomizer.Enum<Language>(),
             NumberOfPages = _randomizer.Int(1, 300),
             Edition = _randomizer.Int(1, 5),
             TranslatorId = null,
             PublishYear = DateTime.UtcNow.AddDays(_randomizer.Int(-100, -5)),
-            WeightInGram = _randomizer.Int(1, 1_000),
             Product_CategoryId = null,
             Product_DescriptionHtml = "",
             Product_NumberOfInventory = _randomizer.Int(1, 100),
@@ -89,50 +89,47 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             Product_Title = _randomizer.String2(20),
         };
         private Result<Empty> result = new Result<Empty>();
-        private async Task addBook()
+        private async Task addEBook()
         {
-            await _TestDbContext.Add<E.Book, Guid>(_savedBook);
+            await _TestDbContext.Add<E.EBook, Guid>(_savedEBook);
         }
-        private void assert_Book_And_Product_Updated(E.Book? book, E.Product? product, List<Author_Book>? author_Books)
+        private void assert_EBook_And_Product_Updated(E.EBook? book, E.Product? product, List<Author_EBook>? author_EBooks)
         {
             Assert.NotNull(book);
             Assert.NotNull(product);
-            Assert.Equal(updateBookCommand.Cover, book.Cover);
-            Assert.Equal(updateBookCommand.Cutting, book.Cutting);
-            Assert.Equal(updateBookCommand.Edition, book.Edition);
-            Assert.Equal(updateBookCommand.Language, book.Language);
-            Assert.Equal(updateBookCommand.NumberOfPages, book.NumberOfPages);
-            Assert.Equal(updateBookCommand.Product_CategoryId, product.CategoryId);
-            Assert.Equal(updateBookCommand.Product_DescriptionHtml, product.DescriptionHtml);
-            Assert.Equal(updateBookCommand.Product_NumberOfInventory, product.NumberOfInventory);
-            Assert.Equal(updateBookCommand.Product_Price, product.Price);
-            Assert.Equal(updateBookCommand.Product_Title, product.Title);
-            Assert.Equal(updateBookCommand.PublisherId, book.PublisherId);
-            Assert.Equal(updateBookCommand.PublishYear, book.PublishYear);
-            Assert.Equal(updateBookCommand.TranslatorId, book.TranslatorId);
-            Assert.Equal(updateBookCommand.WeightInGram, book.WeightInGram);
-            if (author_Books != null)
+            Assert.Equal(updateEBookCommand.Edition, book.Edition);
+            Assert.Equal(updateEBookCommand.Language, book.Language);
+            Assert.Equal(updateEBookCommand.NumberOfPages, book.NumberOfPages);
+            Assert.Equal(updateEBookCommand.Product_CategoryId, product.CategoryId);
+            Assert.Equal(updateEBookCommand.Product_DescriptionHtml, product.DescriptionHtml);
+            Assert.Equal(updateEBookCommand.Product_NumberOfInventory, product.NumberOfInventory);
+            Assert.Equal(updateEBookCommand.Product_Price, product.Price);
+            Assert.Equal(updateEBookCommand.Product_Title, product.Title);
+            Assert.Equal(updateEBookCommand.PublisherId, book.PublisherId);
+            Assert.Equal(updateEBookCommand.PublishYear, book.PublishYear);
+            Assert.Equal(updateEBookCommand.TranslatorId, book.TranslatorId);
+            if (author_EBooks != null)
             {
-                var expectedAuthorIds = updateBookCommand.AuthorIds.ToList();
-                var actualAuthorIds = author_Books.Select(a => a.AuthorId).ToList();
-                Assert.Equal(expectedAuthorIds.Count , actualAuthorIds.Count);
-                foreach(Guid authorId in expectedAuthorIds)
+                var expectedAuthorIds = updateEBookCommand.AuthorIds.ToList();
+                var actualAuthorIds = author_EBooks.Select(a => a.AuthorId).ToList();
+                Assert.Equal(expectedAuthorIds.Count, actualAuthorIds.Count);
+                foreach (Guid authorId in expectedAuthorIds)
                 {
-                    Assert.Contains(actualAuthorIds , a => a == authorId);
+                    Assert.Contains(actualAuthorIds, a => a == authorId);
                 }
             }
         }
         private async Task requestAndGetResult()
         {
-            result = await SendRequest<UpdateBookCommand, Result<Empty>>(updateBookCommand);
+            result = await SendRequest<UpdateEBookCommand, Result<Empty>>(updateEBookCommand);
         }
-        public UpdateBookCommandTest(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
+        public UpdateEBookCommandTest(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
             : base(applicationCollectionFixture, testOutputHelper)
         {
-            updateBookCommand.Id = _savedBook.Id;
-            updateBookCommand.AuthorIds = _savedBook.Author_Books.Select(a => a.Author).Select(a => a.Id).ToArray();
-            updateBookCommand.PublisherId = _savedBook.Publisher.Id;
-            addBook().GetAwaiter().GetResult();
+            updateEBookCommand.Id = _savedEBook.Id;
+            updateEBookCommand.AuthorIds = _savedEBook.Author_EBooks.Select(a => a.Author).Select(a => a.Id).ToArray();
+            updateEBookCommand.PublisherId = _savedEBook.Publisher.Id;
+            addEBook().GetAwaiter().GetResult();
             SetCurrentUser();
         }
 
@@ -145,7 +142,7 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task Valid_Request_ShouldReturn_SuccessResult_And_UpdateEntity()
         {
             //Arrnage 
-            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateBook);
+            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateEBook);
 
             //Act
             await requestAndGetResult();
@@ -153,9 +150,9 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            var entity = await _TestDbContext.Get<E.Book, Guid>(updateBookCommand.Id);
-            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedBook.Product.Id);
-            assert_Book_And_Product_Updated(entity, entityProduct, null);
+            var entity = await _TestDbContext.Get<E.EBook, Guid>(updateEBookCommand.Id);
+            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedEBook.Product.Id);
+            assert_EBook_And_Product_Updated(entity, entityProduct, null);
         }
 
 
@@ -170,8 +167,8 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
                 ImageName = string.Empty,
             };
             await _TestDbContext.Add<E.Publisher, Guid>(publisher);
-            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateBook);
-            updateBookCommand.PublisherId = publisher.Id;
+            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateEBook);
+            updateEBookCommand.PublisherId = publisher.Id;
 
             //Act
             await requestAndGetResult();
@@ -179,9 +176,9 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            var entity = await _TestDbContext.Get<E.Book, Guid>(updateBookCommand.Id);
-            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedBook.Product.Id);
-            assert_Book_And_Product_Updated(entity, entityProduct, null);
+            var entity = await _TestDbContext.Get<E.EBook, Guid>(updateEBookCommand.Id);
+            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedEBook.Product.Id);
+            assert_EBook_And_Product_Updated(entity, entityProduct, null);
         }
 
 
@@ -190,7 +187,7 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         {
             //Arrnage 
             List<E.Author> authors = new List<E.Author>();
-            for (int i = 0; i < Random.Shared.Next(1 , 4); i++)
+            for (int i = 0; i < Random.Shared.Next(1, 4); i++)
             {
                 authors.Add(new E.Author
                 {
@@ -201,10 +198,10 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
                 });
             };
             await _TestDbContext.Add<E.Author, Guid>(authors);
-            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateBook);
-            Guid[] authorIds = [..authors.Select(a => a.Id).ToArray() , _savedBook.Author_Books.Select(a => a.Author).ToList()[0].Id];
-            updateBookCommand.AuthorIds = authorIds;
-            
+            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateEBook);
+            Guid[] authorIds = [.. authors.Select(a => a.Id).ToArray(), _savedEBook.Author_EBooks.Select(a => a.Author).ToList()[0].Id];
+            updateEBookCommand.AuthorIds = authorIds;
+
 
             //Act
             await requestAndGetResult();
@@ -212,13 +209,13 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            var entity = await _TestDbContext.Get<E.Book, Guid>(updateBookCommand.Id);
-            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedBook.Product.Id);
-            var entityAuthor_books = await _TestDbContext.GetAll<E.Author_Book, Guid>(a => a.BookId == updateBookCommand.Id);
-            assert_Book_And_Product_Updated(entity, entityProduct, entityAuthor_books);
+            var entity = await _TestDbContext.Get<E.EBook, Guid>(updateEBookCommand.Id);
+            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedEBook.Product.Id);
+            var entityAuthor_books = await _TestDbContext.GetAll<E.Author_EBook, Guid>(a => a.EBookId == updateEBookCommand.Id);
+            assert_EBook_And_Product_Updated(entity, entityProduct, entityAuthor_books);
         }
 
-        
+
         [Fact]
         public async Task Valid_Request_WithTranslatorId_ShouldReturn_SuccessResult_And_UpdateEntity()
         {
@@ -230,8 +227,8 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
                 Name = _randomizer.String(10),
             };
             await _TestDbContext.Add<E.Translator, Guid>(translator);
-            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateBook);
-            updateBookCommand.TranslatorId = translator.Id;
+            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateEBook);
+            updateEBookCommand.TranslatorId = translator.Id;
 
             //Act
             await requestAndGetResult();
@@ -239,18 +236,40 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            var entity = await _TestDbContext.Get<E.Book, Guid>(updateBookCommand.Id);
-            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedBook.Product.Id);
-            assert_Book_And_Product_Updated(entity, entityProduct,null);
+            var entity = await _TestDbContext.Get<E.EBook, Guid>(updateEBookCommand.Id);
+            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedEBook.Product.Id);
+            assert_EBook_And_Product_Updated(entity, entityProduct, null);
         }
 
 
         [Fact]
-        public async Task Valid_Request_WithImageFile_ShouldReturn_SuccessResult_UpdateEntity_And_SaveNewImageFile()
+        public async Task Valid_Request_WithEBookFile_ShouldReturn_SuccessResult_UpdateEntity_SaveNewEBookFile()
         {
             //Arrnage 
-            updateBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "book.png"));
-            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateBook);
+            updateEBookCommand.EBookFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "ebook-file.pdf"));
+            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateEBook);
+            int filesCount = Directory.GetFiles(PathExtensions.EBook_Files).Count();
+
+            //Act
+            await requestAndGetResult();
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.True(result.IsSuccess);
+            int actualFilesCount = Directory.GetFiles(PathExtensions.EBook_Files).Count();
+            Assert.Equal(filesCount + 1, actualFilesCount);
+            var entity = await _TestDbContext.Get<E.EBook, Guid>(updateEBookCommand.Id);
+            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedEBook.Product.Id);
+            assert_EBook_And_Product_Updated(entity, entityProduct, null);
+        }
+
+        
+        [Fact]
+        public async Task Valid_Request_WithImageFile_ShouldReturn_SuccessResult_UpdateEntity_SaveNewImageFile()
+        {
+            //Arrnage 
+            updateEBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "ebook.png"));
+            await _TestDbContext.SetPermissionForUser(PermissionConstants.UpdateEBook);
             int filesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
 
             //Act
@@ -260,21 +279,21 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
             int actualFilesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
-            Assert.Equal(filesCount + 1 , actualFilesCount);
-            var entity = await _TestDbContext.Get<E.Book, Guid>(updateBookCommand.Id);
-            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedBook.Product.Id);
-            assert_Book_And_Product_Updated(entity, entityProduct,null);
+            Assert.Equal(filesCount + 1, actualFilesCount);
+            var entity = await _TestDbContext.Get<E.EBook, Guid>(updateEBookCommand.Id);
+            var entityProduct = await _TestDbContext.Get<E.Product, Guid>(_savedEBook.Product.Id);
+            assert_EBook_And_Product_Updated(entity, entityProduct, null);
         }
 
 
         [Fact]
-        public async Task Without_RequiredPermissions_ShouldThrow_UnBookizeException()
+        public async Task Without_RequiredPermissions_ShouldThrow_UnEBookizeException()
         {
             //Arrange
 
 
             //Act
-            var task = SendRequest<UpdateBookCommand, Result<Empty>>(updateBookCommand);
+            var task = SendRequest<UpdateEBookCommand, Result<Empty>>(updateEBookCommand);
 
             //Assert
             await Assert.ThrowsAsync<UnauthorizeException>(async () =>
@@ -288,17 +307,17 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_Product_Title_IsDuplicate_ShouldReturn_ValidationError()
         {
             //Arrnage 
-            E.Book book = BookFakeData.Create();
+            E.EBook book = EBookFakeData.Create();
             book.Product.Title = $"book-{_randomizer.Int(1, 100)}";
-            await _TestDbContext.Add<E.Book, Guid>(book);
-            updateBookCommand.Product_Title = book.Product.Title;
+            await _TestDbContext.Add<E.EBook, Guid>(book);
+            updateEBookCommand.Product_Title = book.Product.Title;
 
             //Act
             await requestAndGetResult();
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.Product_Title));
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_Title));
             _OutPutValidationErrors(result);
         }
 
@@ -307,14 +326,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_Product_Title_Length_LessThan_3_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_Title = "ab";
+            updateEBookCommand.Product_Title = "ab";
 
             //Act
             await requestAndGetResult();
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.Product_Title));
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_Title));
             _OutPutValidationErrors(result);
         }
 
@@ -323,14 +342,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_Product_Title_Length_GreaterThan_50_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_Title = _randomizer.String2(51);
+            updateEBookCommand.Product_Title = _randomizer.String2(51);
 
             //Act
             await requestAndGetResult();
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.Product_Title));
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_Title));
             _OutPutValidationErrors(result);
         }
 
@@ -339,14 +358,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_Product_ImageFile_Size_GreaterThan_3Mb_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "3Mb.jpg"));
+            updateEBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "3Mb.jpg"));
 
             //Act
             await requestAndGetResult();
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.Product_ImageFile));
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_ImageFile));
             _OutPutValidationErrors(result);
         }
 
@@ -355,14 +374,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_Product_ImageFile_Extension_NotImage_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "text.txt"));
+            updateEBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "text.txt"));
 
             //Act
             await requestAndGetResult();
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.Product_ImageFile));
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_ImageFile));
             _OutPutValidationErrors(result);
         }
 
@@ -371,14 +390,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_AuthorId_IsNull_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.AuthorIds = null;
+            updateEBookCommand.AuthorIds = null;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.AuthorIds));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.AuthorIds));
             _OutPutValidationErrors(result);
         }
 
@@ -387,14 +406,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_AuthorId_IsEmpty_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.AuthorIds = [];
+            updateEBookCommand.AuthorIds = [];
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.AuthorIds));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.AuthorIds));
             _OutPutValidationErrors(result);
         }
 
@@ -403,14 +422,14 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_Edition_LessThanOrEqual_0_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Edition = 0;
+            updateEBookCommand.Edition = 0;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Edition));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Edition));
             _OutPutValidationErrors(result);
         }
 
@@ -419,210 +438,193 @@ namespace BookShop.IntegrationTest.Application.Book.Commands
         public async Task When_NumberOfPages_LessThanOrEqual_0_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.NumberOfPages = 0;
+            updateEBookCommand.NumberOfPages = 0;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.NumberOfPages));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.NumberOfPages));
             _OutPutValidationErrors(result);
         }
-        
+
 
         [Fact]
         public async Task When_Product_DescriptionHtml_IsNull_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_DescriptionHtml = null;
+            updateEBookCommand.Product_DescriptionHtml = null;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Product_DescriptionHtml));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_DescriptionHtml));
             _OutPutValidationErrors(result);
         }
-        
+
 
         [Fact]
         public async Task When_Product_DescriptionHtml_Length_GreaterThan_500_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_DescriptionHtml = _randomizer.String2(505);
+            updateEBookCommand.Product_DescriptionHtml = _randomizer.String2(505);
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Product_DescriptionHtml));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_DescriptionHtml));
             _OutPutValidationErrors(result);
         }
-        
+
 
         [Fact]
         public async Task When_Product_NumberOfInventory_LessThan_0_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_NumberOfInventory = -1;
+            updateEBookCommand.Product_NumberOfInventory = -1;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Product_NumberOfInventory));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_NumberOfInventory));
             _OutPutValidationErrors(result);
         }
-        
+
 
         [Fact]
         public async Task When_Product_Price_LessThanOrEqual_0_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_Price = 0;
+            updateEBookCommand.Product_Price = 0;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Product_Price));
-            _OutPutValidationErrors(result);
-        }
-        
-
-        [Fact]
-        public async Task When_WeightInGram_LessThanOrEqual_0_ShouldReturn_ValidationError()
-        {
-            //Arrange
-            updateBookCommand.WeightInGram = 0;
-
-            //Act
-            await requestAndGetResult();
-
-            //
-            _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.WeightInGram));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_Price));
             _OutPutValidationErrors(result);
         }
 
-        
-        [Fact]
-        public async Task When_WeightInGram_GreaterThan_10_000_ShouldReturn_ValidationError()
-        {
-            //Arrange
-            updateBookCommand.WeightInGram = 10_002;
 
-            //Act
-            await requestAndGetResult();
-
-            //
-            _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.WeightInGram));
-            _OutPutValidationErrors(result);
-        }
-
-        
         [Fact]
         public async Task When_TranslatorId_IsEmpty_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.TranslatorId = Guid.Empty;
+            updateEBookCommand.TranslatorId = Guid.Empty;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.TranslatorId));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.TranslatorId));
             _OutPutValidationErrors(result);
         }
-        
-        
+
+
         [Fact]
         public async Task When_TranslatorId_NotExist_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.TranslatorId = Guid.NewGuid();
+            updateEBookCommand.TranslatorId = Guid.NewGuid();
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.TranslatorId));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.TranslatorId));
             _OutPutValidationErrors(result);
         }
-        
-        
+
+
         [Fact]
         public async Task When_Product_CategoryId_IsEmpty_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_CategoryId = Guid.Empty;
+            updateEBookCommand.Product_CategoryId = Guid.Empty;
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Product_CategoryId));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_CategoryId));
             _OutPutValidationErrors(result);
         }
-        
-        
+
+
         [Fact]
         public async Task When_Product_CategoryId_NotExist_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.Product_CategoryId = Guid.NewGuid();
+            updateEBookCommand.Product_CategoryId = Guid.NewGuid();
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.Product_CategoryId));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.Product_CategoryId));
             _OutPutValidationErrors(result);
         }
-        
-        
+
+
         [Fact]
         public async Task When_PublisherId_NotExist_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.PublisherId = Guid.NewGuid();
+            updateEBookCommand.PublisherId = Guid.NewGuid();
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.PublisherId));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.PublisherId));
             _OutPutValidationErrors(result);
         }
 
-        
+
         [Fact]
         public async Task When_AuthorIds_NotExist_ShouldReturn_ValidationError()
         {
             //Arrange
-            updateBookCommand.AuthorIds = [updateBookCommand.AuthorIds[0] , Guid.NewGuid()];
+            updateEBookCommand.AuthorIds = [updateEBookCommand.AuthorIds[0], Guid.NewGuid()];
 
             //Act
             await requestAndGetResult();
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors , a => a.PropertyName == nameof(updateBookCommand.AuthorIds));
+            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.AuthorIds));
             _OutPutValidationErrors(result);
         }
 
 
+        [Fact]
+        public async Task When_EBookFile_Extension_NotAllowed_ShouldReturn_ValidationError()
+        {
+            //Arrange
+            updateEBookCommand.EBookFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "text.txt"));
+
+            //Act
+            await requestAndGetResult();
+
+            //Assert
+            _Assert_Result_Should_Be_ValidationError(result);
+            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateEBookCommand.EBookFile));
+            _OutPutValidationErrors(result);
+
+        }
 
 
 

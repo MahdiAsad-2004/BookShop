@@ -47,7 +47,7 @@ namespace BookShop.Application.Extensions
 
 
 
-        public static async Task<bool> DeleteFile(string fileName, string folderPath)
+        public static async Task<bool> DeleteFileIfExist(string fileName, string folderPath)
         {
             string filePath = Path.Combine(folderPath, fileName);
             if (File.Exists(filePath))
@@ -57,7 +57,7 @@ namespace BookShop.Application.Extensions
             }
             return false;
         }
-
+        
 
 
 

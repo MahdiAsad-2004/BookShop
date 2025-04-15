@@ -1,12 +1,8 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Application.Features.Book.Commands.Update;
 using BookShop.Application.Features.Book.Dtos;
-using BookShop.Domain.Entities;
 using BookShop.Domain.Enums;
-using BookShop.Domain.QueryOptions;
-using MediatR;
 
 namespace BookShop.Application.Features.Book.Mapping
 {

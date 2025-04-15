@@ -1,12 +1,12 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
-using BookShop.Application.Features.Book.Commands.Create;
+using BookShop.Application.Features.EBook.Commands.Update;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Book.Commands.Update
 {
-    public class UpdateBookCommandRule : BussinessRule<UpdateBookCommand>
+    public class UpdateEBookCommandRule : BussinessRule<UpdateEBookCommand>
     {
         #region constructor
 
@@ -15,16 +15,16 @@ namespace BookShop.Application.Features.Book.Commands.Update
         private readonly IPublisherRepository _publisherRepository;
         private readonly IProductRepository _productRepository;
         private readonly ITranslatorRepository _translatorRepository;
-        private readonly IBookRepository  _bookRepository;
-        public UpdateBookCommandRule(ICategoryRepository categoryRepository, IPublisherRepository publisherRepository,IProductRepository productRepository,
-            IAuthorRepository authorRepository, ITranslatorRepository translatorRepository, IBookRepository bookRepository)
+        private readonly IEBookRepository _ebookRepository;
+        public UpdateEBookCommandRule(ICategoryRepository categoryRepository, IPublisherRepository publisherRepository,IProductRepository productRepository, 
+            IAuthorRepository authorRepository, ITranslatorRepository translatorRepository, IEBookRepository ebookRepository)
         {
             _categoryRepository = categoryRepository;
             _publisherRepository = publisherRepository;
             _productRepository = productRepository;
             _authorRepository = authorRepository;
             _translatorRepository = translatorRepository;
-            _bookRepository = bookRepository;
+            _ebookRepository = ebookRepository;
         }
 
         #endregion
@@ -35,7 +35,7 @@ namespace BookShop.Application.Features.Book.Commands.Update
         [RuleItem]
         public async Task Check_Product_Title_IsNotDuplicate()
         {
-            Guid productId = (await _bookRepository.Get(_request.Id)).ProductId;
+            Guid productId = (await _ebookRepository.Get(_request.Id)).ProductId;
             if (await _productRepository.IsExist(_request.Product_Title , exceptId:productId) == true)
             {
                 errorOccured();

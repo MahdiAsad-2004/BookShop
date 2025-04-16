@@ -1,12 +1,12 @@
 ﻿using BookShop.Application.Authorization;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Book.Mapping;
+using BookShop.Application.Features.EBook.Mapping;
 using BookShop.Domain.Common;
 using BookShop.Domain.Constants;
 using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 using BookShop.Domain.QueryOptions;
-using EBookShop.Application.Features.EBook.Mapping;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 

@@ -23,7 +23,7 @@ namespace BookShop.Application.Features.Category.Commands.Create
             if (await _categoryRepository.IsExist(_request.Title))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Title), $"Category with title '{_request.Title} already exist'"));
+                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Title), $"Category with title '{_request.Title}' already exist"));
             }
         }
 
@@ -35,7 +35,7 @@ namespace BookShop.Application.Features.Category.Commands.Create
                 if (await _categoryRepository.IsExist(_request.ParentId.Value) == false)
                 {
                     errorOccured();
-                    ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.ParentId), $"Parent Id with id '{_request.ParentId} does not exist'"));
+                    ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.ParentId), $"Parent Id with id '{_request.ParentId}' does not exist"));
                 }
             }
         }

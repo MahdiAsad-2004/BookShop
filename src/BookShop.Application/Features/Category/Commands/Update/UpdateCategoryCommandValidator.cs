@@ -9,7 +9,6 @@ namespace BookShop.Application.Features.Category.Commands.Update
         {
             RuleFor(a => a.Title)
                .NotNull()
-               .NotNull()
                .MinimumLength(3)
                .MaximumLength(30);
 

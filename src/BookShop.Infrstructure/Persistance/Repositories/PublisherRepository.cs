@@ -20,5 +20,19 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 return false;
             return await _dbSet.AnyAsync(a => a.Id == id);
         }
+
+        public async Task<bool> IsExist(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                return false;
+            return await _dbSet.AnyAsync(a => a.Title == title);
+        }
+
+        public async Task<bool> IsExist(string title, Guid exceptId)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                return false;
+            return await _dbSet.AnyAsync(a => a.Title == title && a.Id != exceptId);
+        }
     }
 }

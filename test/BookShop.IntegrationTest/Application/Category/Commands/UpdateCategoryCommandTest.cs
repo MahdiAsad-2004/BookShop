@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 
 namespace BookShop.IntegrationTest.Application.Category.Commands
 {
-    public class UpdateDiscountCommandTest : TestBase
+    public class UpdateCategoryCommandTest : TestBase
     {
         E.Category _savedCategory = new E.Category()
         {
@@ -32,7 +32,7 @@ namespace BookShop.IntegrationTest.Application.Category.Commands
         {
             await _TestDbContext.Add<E.Category, Guid>(_savedCategory);
         }
-        public UpdateDiscountCommandTest(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
+        public UpdateCategoryCommandTest(ApplicationCollectionFixture applicationCollectionFixture, ITestOutputHelper testOutputHelper)
             : base(applicationCollectionFixture, testOutputHelper)
         {
             updateCategoryCommand.Id = _savedCategory.Id;

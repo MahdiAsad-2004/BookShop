@@ -110,7 +110,7 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "NVarChar(30)", nullable: false),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
@@ -151,7 +151,8 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "NVarChar(30)", nullable: false),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateBy = table.Column<string>(type: "VarChar(36)", nullable: false),
@@ -485,7 +486,7 @@ namespace BookShop.Infrstructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     FileSize_KB = table.Column<float>(type: "real", nullable: false),
                     NumberOfPages = table.Column<int>(type: "int", nullable: false),
                     Language = table.Column<int>(type: "int", nullable: false),
@@ -833,7 +834,6 @@ namespace BookShop.Infrstructure.Migrations
             {
                 dbFunctionFile.AddToMigration(migrationBuilder);
             }
-
         }
 
         /// <inheritdoc />

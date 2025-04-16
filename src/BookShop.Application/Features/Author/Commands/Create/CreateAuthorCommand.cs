@@ -1,5 +1,4 @@
-﻿
-using BookShop.Application.Authorization;
+﻿using BookShop.Application.Authorization;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Author.Mapping;
 using BookShop.Domain.Common;

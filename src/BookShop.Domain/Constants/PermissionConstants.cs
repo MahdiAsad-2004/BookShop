@@ -26,6 +26,11 @@ namespace BookShop.Domain.Constants
         public const string AddEBook = "Add_EBook_Permission";
         public const string UpdateEBook = "Update_EBook_Permission";
 
+        public const string AddPublisher = "Add_Publisher_Permission";
+        public const string UpdatePublisher = "Update_Publisher_Permission";
+
+        public const string AddTranslator = "Add_Translator_Permission";
+        public const string UpdateTranslator = "Update_Translator_Permission";
 
 
         public static IEnumerable<string> GetAll()
@@ -44,6 +49,10 @@ namespace BookShop.Domain.Constants
             yield return DeleteDiscount;
             yield return AddEBook;
             yield return UpdateEBook;
+            yield return AddPublisher;
+            yield return UpdatePublisher;
+            yield return AddTranslator;
+            yield return UpdateTranslator;
         }
     }
 

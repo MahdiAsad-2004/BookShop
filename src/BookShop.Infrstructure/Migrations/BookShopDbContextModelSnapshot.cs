@@ -417,7 +417,8 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<float>("FileSize_KB")
                         .HasColumnType("real");
@@ -713,7 +714,6 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
@@ -906,8 +906,10 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("VarChar(36)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")

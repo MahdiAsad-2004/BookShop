@@ -24,8 +24,8 @@ namespace BookShop.Application.Features.Book.Dtos
 
 
         public List<Review> ReviewsAccepted { get; set; }
-        public Publisher Publisher { get; set; }
-        public Translator? Translator { get; set; }
+        public E.Publisher Publisher { get; set; }
+        public E.Translator? Translator { get; set; }
         public List<E.Author> Authors { get; set; }
 
     }

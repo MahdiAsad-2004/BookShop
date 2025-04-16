@@ -11,6 +11,10 @@ namespace BookShop.Domain.IRepositories
     {
 
         Task<bool> IsExist(Guid id);
+        
+        Task<bool> IsExist(string name);
+
+        Task<bool> IsExist(string name,Guid exceptId);
 
 
     }

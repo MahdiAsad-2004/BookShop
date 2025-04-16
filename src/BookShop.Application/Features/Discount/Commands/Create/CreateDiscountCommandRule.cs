@@ -23,7 +23,7 @@ namespace BookShop.Application.Features.Discount.Commands.Create
             if (await _DiscountRepository.IsExist(_request.Name))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Discount with name '{_request.Name} already exist'"));
+                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Discount with name '{_request.Name}' already exist"));
             }
         }
 

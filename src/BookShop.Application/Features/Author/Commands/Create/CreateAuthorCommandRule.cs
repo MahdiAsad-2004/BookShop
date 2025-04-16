@@ -25,7 +25,7 @@ namespace BookShop.Application.Features.Author.Commands.Create
             if(await _authorRepository.IsExist(_request.Name))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Author with name '{_request.Name} already exist'"));
+                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Author with name '{_request.Name}' already exist"));
             }
         }
 

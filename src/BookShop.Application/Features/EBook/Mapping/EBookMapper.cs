@@ -3,11 +3,11 @@ using BookShop.Application.Features.EBook.Commands.Create;
 using BookShop.Application.Features.EBook.Commands.Update;
 using BookShop.Domain.Enums;
 
-namespace EBookShop.Application.Features.EBook.Mapping
+namespace BookShop.Application.Features.EBook.Mapping
 {
     public static class EBookMapper
     {
-        public static void ToEBookAndProduct(CreateEBookCommand command ,out E.EBook book , out E.Product product)
+        public static void ToEBookAndProduct(CreateEBookCommand command, out E.EBook book, out E.Product product)
         {
             book = new E.EBook
             {
@@ -15,7 +15,7 @@ namespace EBookShop.Application.Features.EBook.Mapping
                 Language = command.Language,
                 NumberOfPages = command.NumberOfPages,
                 PublisherId = command.PublisherId,
-                PublishYear = command.PublishYear,  
+                PublishYear = command.PublishYear,
             };
             product = new E.Product
             {

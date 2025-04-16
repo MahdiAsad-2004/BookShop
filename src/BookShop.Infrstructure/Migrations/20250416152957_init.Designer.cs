@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShop.Infrstructure.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20250414162248_init")]
+    [Migration("20250416152957_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -420,7 +420,8 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<float>("FileSize_KB")
                         .HasColumnType("real");
@@ -716,7 +717,6 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("VarChar(36)");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")
@@ -909,8 +909,10 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("VarChar(36)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")

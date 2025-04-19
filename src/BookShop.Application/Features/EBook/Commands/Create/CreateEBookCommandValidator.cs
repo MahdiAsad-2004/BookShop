@@ -1,4 +1,5 @@
-﻿using BookShop.Application.Extensions;
+﻿using BookShop.Application.Common.Validation;
+using BookShop.Application.Extensions;
 using BookShop.Application.Features.EBook.Commands.Create;
 using FluentValidation;
 using MediatR;
@@ -31,13 +32,9 @@ namespace BookShop.Application.Features.EBook.Commands.Create
                 .MaximumLength(500);
 
             RuleFor(a => a.Product_ImageFile)
-                .NotNull()
-                .Must(a => a != null && a is not null).WithMessage("{PropertyName} must not be null")
-                    .Must(a => (float)(a.Length / 1024f / 1000f) <= 3.0f).WithMessage("Image size must be less than 3MB")
-                        .When(req => req.Product_ImageFile != null)
-                    .Must(a => FileExtensions.ImageAllowedExtensions.Any(b => b.Equals(Path.GetExtension(a.FileName).Remove(0,1) , StringComparison.OrdinalIgnoreCase)))
-                        .When(req => req.Product_ImageFile != null)
-                            .WithMessage("Image file extension is not allowed");
+                .FileNotNull()
+                .FileSizeMustLessThan(3)
+                .FileExtensionMustBeIn(FileExtensions.ImageAllowedExtensions);
 
             RuleFor(a => a.Product_NumberOfInventory)
                 .NotNull()
@@ -64,13 +61,9 @@ namespace BookShop.Application.Features.EBook.Commands.Create
                 .Must(a => a != null && a == Guid.Empty ? false : true).WithMessage("{PropertyName} must not be empty");
 
             RuleFor(a => a.EBookFile)
-                .NotNull()
-                .Must(a => a != null && a is not null).WithMessage("{PropertyName} must not be null")
-                    .Must(a => (float)(a.Length / 1024f / 1000f) <= 50.0f).WithMessage("Image size must be less than 50MB")
-                        .When(req => req.EBookFile != null)
-                    .Must(a => FileExtensions.EBookFileAllowedExtensions.Any(b => b.Equals(Path.GetExtension(a.FileName).Remove(0, 1), StringComparison.OrdinalIgnoreCase)))
-                        .When(req => req.EBookFile != null)
-                            .WithMessage("EBook file extension is not allowed");
+                .FileNotNull()
+                .FileSizeMustLessThan(50)
+                .FileExtensionMustBeIn(FileExtensions.EBookFileAllowedExtensions);
 
 
 

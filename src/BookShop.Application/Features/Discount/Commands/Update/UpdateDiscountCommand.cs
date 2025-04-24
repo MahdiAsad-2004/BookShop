@@ -1,17 +1,15 @@
 ﻿using BookShop.Application.Authorization;
-using BookShop.Application.Extensions;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Features.Discount.Mapping;
 using BookShop.Domain.Common;
 using BookShop.Domain.Constants;
-using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Discount.Commands.Update
 {
-    [RequiredPermission(PermissionConstants.UpdateDiscount)]
-    public class UpdateDiscountCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Discount.Update)]
+    public class UpdateDiscountCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

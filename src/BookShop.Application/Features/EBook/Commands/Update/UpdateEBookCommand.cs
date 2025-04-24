@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Book.Mapping;
 using BookShop.Application.Features.EBook.Mapping;
@@ -12,8 +13,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.EBook.Commands.Update
 {
-    [RequiredPermission(PermissionConstants.UpdateEBook)]
-    public class UpdateEBookCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.EBook.Update)]
+    public class UpdateEBookCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public Guid Id { get; set; }
         public string Product_Title { get; set; }

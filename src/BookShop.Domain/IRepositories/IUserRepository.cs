@@ -18,7 +18,9 @@ namespace BookShop.Domain.IRepositories
 
         Task<User?> GetByNormalizedUsernameOrDefault(string normalizedUsername);
 
+        Task<(Guid id, string? role)?> Login(string username, string passwordHash);
 
+        Task<(Guid id, string username, string? role)?> GetUserTokenRequirements(Guid id);
 
 
     }

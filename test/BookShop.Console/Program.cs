@@ -5,10 +5,10 @@ using BookShop.Application.Common.Rules;
 using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Application.Features.Book.Queries.GetSummaries;
 using BookShop.Domain.Common.Entity;
+using BookShop.Domain.Constants;
 using BookShop.Domain.Entities;
 using BookShop.Domain.Enums;
 using BookShop.Infrastructure.Persistance;
-using BookShop.IntegrationTest.Application.Translator.FakeData;
 using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +24,10 @@ using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
 
+foreach (var item in PermissionConstants.GetAll())
+{
+    Console.WriteLine(item);
+}
 
 Console.WriteLine();
 

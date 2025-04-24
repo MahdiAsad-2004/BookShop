@@ -37,12 +37,12 @@ namespace BookShop.Infrastructure.Persistance
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<RoleClaim> RoleClaims { get; set; }
+        //public DbSet<RoleClaim> RoleClaims { get; set; }
         public DbSet<Translator> Translators { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<User_Role> User_Roles { get; set; }
-        public DbSet<UserToken> UserTokens { get; set; }
-        public DbSet<UserClaim> UserClaims { get; set; }
+        //public DbSet<User_Role> User_Roles { get; set; }
+        public DbSet<RefreshToken> UserTokens { get; set; }
+        //public DbSet<UserClaim> UserClaims { get; set; }
 
         #endregion
 

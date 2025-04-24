@@ -20,17 +20,18 @@ namespace BookShop.Domain.Entities
         public string ImageName { get; set; }
         public int AccessFailedCount { get; set; }
         public bool TwoFactorEnabled { get; set; }
+        public Guid? RoleId { get; set; }
 
 
 
-
-        public IList<UserClaim> UserClaims { get; set; }
-        public IList<User_Role> User_Roles { get; set; }
+        //public IList<UserClaim> UserClaims { get; set; }
+        //public IList<User_Role> User_Roles { get; set; }
+        public Role? Role { get; set; }
         public IList<AuditLog> AuditLogs { get; set; }
         public IList<Favorite> Favorites { get; set; }
         public IList<Review> Reviews { get; set; }
         public IList<PasswordHistory> PasswordHistories { get; set; }
-        public IList<UserToken> UserTokens { get; set; }
+        public IList<RefreshToken> UserTokens { get; set; }
         public IList<User_Permission> User_Permissions { get; set; }
 
     }

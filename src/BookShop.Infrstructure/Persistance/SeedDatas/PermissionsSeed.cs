@@ -1,5 +1,4 @@
-﻿
-using BookShop.Domain.Constants;
+﻿using BookShop.Domain.Constants;
 using BookShop.Domain.Entities;
 using BookShop.Infrastructure.Persistance.SeedDatas;
 

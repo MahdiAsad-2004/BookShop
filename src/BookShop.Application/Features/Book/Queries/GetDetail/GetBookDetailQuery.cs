@@ -36,8 +36,9 @@ namespace BookShop.Application.Features.Book.Queries.GetDetail
 
         public async Task<BookDetailDto> Handle(GetBookDetailQuery request, CancellationToken cancellationToken)
         {
-            Domain.Entities.Book book = await _bookRepository.Get(request.Id, new BookQueryOption
+            E.Book book = await _bookRepository.Get(request.Id, new BookQueryOption
             {
+                IncludeProduct = true,
                 IncludeReviews = true,
                 IncludeDiscounts = true,
                 IncludeAuthors = true,

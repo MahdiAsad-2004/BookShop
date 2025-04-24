@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Publisher.Mapping;
 using BookShop.Domain.Common;
@@ -10,8 +11,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Publisher.Commands.Update
 {
-    [RequiredPermission(PermissionConstants.UpdatePublisher)]
-    public class UpdatePublisherCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Publisher.Update)]
+    public class UpdatePublisherCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

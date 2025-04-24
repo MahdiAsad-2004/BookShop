@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.EBook.Mapping;
 using BookShop.Domain.Common;
@@ -10,8 +11,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.EBook.Commands.Create
 {
-    [RequiredPermission(PermissionConstants.AddEBook)]
-    public class CreateEBookCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.EBook.Add)]
+    public class CreateEBookCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public string Product_Title { get; set; }
         public int Product_Price { get; set; }

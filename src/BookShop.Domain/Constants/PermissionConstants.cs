@@ -1,59 +1,78 @@
-﻿
+﻿using System.Reflection;
+
 namespace BookShop.Domain.Constants
 {
     public static class PermissionConstants
     {
-        //public static readonly PermissionConst GetAuditLogs = new PermissionConst("GetAuditLogsPermission");
+        public struct AuditLog
+        {
+            public const string Get = "auditLog:get";
+        }
+
+        public struct User
+        {
+            public const string Add = "user:add";
+            public const string Get = "user:get";
+        }
+
+        public struct Author
+        {
+            public const string Add = "author:add";
+            public const string Update = "author:update";
+        }
+
+        public struct Book
+        {
+            public const string Add = "book:add";
+            public const string Update = "book:update";
+        }
+
+        public struct Categoory
+        {
+            public const string Add = "category:add";
+            public const string Update = "category:update";
+        }
+
+        public struct Discount
+        {
+            public const string Add = "discount:add";
+            public const string Update = "discount:update";
+            public const string Delete = "discount:delete";
+        }
+
+        public struct EBook
+        {
+            public const string Add = "ebook:add";
+            public const string Update = "ebook:update";
+        }
         
-        public const string GetAuditLogs = "Get_AuditLogs_Permission";
+        public struct Publisher
+        {
+            public const string Add = "publisher:add";
+            public const string Update = "publisher:update";
+        }
         
-        public const string AddUser = "Add_User_Permission";
-        public const string GetUsers = "Get_Users_Permission";
-
-        public const string AddAuthor = "Add_Author_Permission";
-        public const string UpdateAuthor = "Update_Author_Permission";
-        
-        public const string AddBook = "Add_Book_Permission";
-        public const string UpdateBook = "Update_Book_Permission";
-        
-        public const string AddCategory = "Add_Category_Permission";
-        public const string UpdateCategory = "Update_Category_Permission";
-
-        public const string AddDiscount= "Add_Book_Permission";
-        public const string UpdateDiscount= "Update_Book_Permission";
-        public const string DeleteDiscount= "Delete_Book_Permission";
-
-        public const string AddEBook = "Add_EBook_Permission";
-        public const string UpdateEBook = "Update_EBook_Permission";
-
-        public const string AddPublisher = "Add_Publisher_Permission";
-        public const string UpdatePublisher = "Update_Publisher_Permission";
-
-        public const string AddTranslator = "Add_Translator_Permission";
-        public const string UpdateTranslator = "Update_Translator_Permission";
+        public struct Translator
+        {
+            public const string Add = "translator:add";
+            public const string Update = "translator:update";
+        }
 
 
         public static IEnumerable<string> GetAll()
         {
-            yield return GetAuditLogs;
-            yield return AddUser;
-            yield return GetUsers;
-            yield return AddAuthor;
-            yield return UpdateAuthor;
-            yield return AddBook;
-            yield return UpdateBook;
-            yield return AddCategory;
-            yield return UpdateCategory;
-            yield return AddDiscount;
-            yield return UpdateDiscount;
-            yield return DeleteDiscount;
-            yield return AddEBook;
-            yield return UpdateEBook;
-            yield return AddPublisher;
-            yield return UpdatePublisher;
-            yield return AddTranslator;
-            yield return UpdateTranslator;
+            return typeof(PermissionConstants)
+           .GetNestedTypes()
+           .SelectMany(t => t
+               .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+               .Where(f => f.IsLiteral && !f.IsInitOnly)
+               .Select(f => f.GetRawConstantValue()?.ToString())
+           )
+           .Where(p => !string.IsNullOrEmpty(p))!;
         }
+
+
+
     }
 
 

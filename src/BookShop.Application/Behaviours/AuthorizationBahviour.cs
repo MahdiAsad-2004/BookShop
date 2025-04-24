@@ -30,7 +30,7 @@ namespace BookShop.Application.Behaviours
         {
             _logger.Information($"Authorizing {nameof(request)} request.");
 
-            string[]? requiredPermissionNames = typeof(TRequest).GetCustomAttribute<RequiredPermission>()?.GetRequiredPermissions();
+            string[]? requiredPermissionNames = typeof(TRequest).GetCustomAttribute<RequiredPermissionAttribute>()?.GetRequiredPermissions();
 
             if (requiredPermissionNames != null)
                 if (await _permissionChecker.HasPermission(requiredPermissionNames) == false)

@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Translator.Mapping;
 using BookShop.Domain.Common;
@@ -10,8 +11,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Translator.Commands.Update
 {
-    [RequiredPermission(PermissionConstants.UpdateTranslator)]
-    public class UpdateTranslatorCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Translator.Update)]
+    public class UpdateTranslatorCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

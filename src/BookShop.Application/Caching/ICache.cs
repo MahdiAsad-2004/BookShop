@@ -10,7 +10,6 @@ namespace BookShop.Application.Caching
         object? GetOrDefault(string key);
         
         TModel? GetOrDefault<TModel>(string key) where TModel : class;
-    
-    
+
     }
 }

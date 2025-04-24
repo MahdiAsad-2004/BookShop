@@ -13,8 +13,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Book.Commands.Create
 {
-    [RequiredPermission(PermissionConstants.AddBook)]
-    public class CreateBookCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Book.Add)]
+    public class CreateBookCommand : IRequest<Result<Empty>> , IValidatableRquest
     {
         public string Product_Title { get; set; }
         public int Product_Price { get; set; }

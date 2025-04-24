@@ -21,7 +21,7 @@ namespace BookShop.Infrastructure
     public static class InfrastructureServicesExtension
     {
         private static InfrastructureSetting _setting;
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services , InfrastructureSetting infrastructureSetting)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, InfrastructureSetting infrastructureSetting)
         {
             _setting = infrastructureSetting;
 
@@ -29,7 +29,7 @@ namespace BookShop.Infrastructure
 
             services.AddScoped<IPermissionChecker, PermissionChecker>();
 
-            AddDatabase(services , _setting.PersistanceSetting.ConnectionString);
+            AddDatabase(services, _setting.PersistanceSetting.ConnectionString);
 
             AddRepositories(services);
 
@@ -39,7 +39,7 @@ namespace BookShop.Infrastructure
 
             AddCurrentUser(services);
 
-            
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             return services;
         }
@@ -48,24 +48,24 @@ namespace BookShop.Infrastructure
 
         private static void AddIdentity(IServiceCollection services)
         {
-            services.AddIdentityCore<User>(options =>
-            {
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
-            });
-            services.AddTransient<IUserStore<User>, Infrastructure.Identity.UserStore>();
-            services.AddTransient<IRoleStore<Role>, Infrastructure.Identity.RoleStore>();
-            services.AddScoped<Domain.Identity.IPasswordHasher, Infrastructure.Identity.PasswordHasher>();
-            services.Configure<DataProtectionTokenProviderOptions>(options =>
-            {
-                options.TokenLifespan = TimeSpan.FromHours(3);
-            });
-            //services.Configure<PasswordHasherOptions>(options =>
+            //services.AddIdentityCore<User>(options =>
             //{
-            //    options.IterationCount = 10000;
-            //    options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2;
+            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //    options.Lockout.MaxFailedAccessAttempts = 5;
+            //    options.Lockout.AllowedForNewUsers = true;
             //});
+            //services.AddTransient<IUserStore<User>, Infrastructure.Identity.UserStore>();
+            //services.AddTransient<IRoleStore<Role>, Infrastructure.Identity.RoleStore>();
+            //services.AddScoped<Domain.Identity.IPasswordHasher, Infrastructure.Identity.PasswordHasher>();
+            //services.Configure<DataProtectionTokenProviderOptions>(options =>
+            //{
+            //    options.TokenLifespan = TimeSpan.FromHours(3);
+            //});
+            ////services.Configure<PasswordHasherOptions>(options =>
+            ////{
+            ////    options.IterationCount = 10000;
+            ////    options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2;
+            ////});
 
         }
 
@@ -80,13 +80,15 @@ namespace BookShop.Infrastructure
             var repositotiesImpls = types.Where(a => a.Name.EndsWith("Repository") && a.IsClass);
             foreach (var repositotiesImpl in repositotiesImpls)
             {
-                Type repositoryInterface = GetRepositoryInterface(repositotiesImpl);
+                Type? repositoryInterface = GetRepositoryInterface(repositotiesImpl);
 
                 //Console.WriteLine(repositotiesImpl.Name);
                 //Console.WriteLine(repositoryInterface.Name);
                 //Console.WriteLine("---------------------------------------------");
-
-                services.AddScoped(repositoryInterface, repositotiesImpl);
+                if (repositoryInterface != null)
+                {
+                    services.AddScoped(repositoryInterface, repositotiesImpl);
+                }
             }
         }
 
@@ -98,24 +100,24 @@ namespace BookShop.Infrastructure
         }
 
 
-        private static Type GetRepositoryInterface(Type repositoryImpl)
+        private static Type? GetRepositoryInterface(Type repositoryImpl)
         {
             Type? respositoryInterface = repositoryImpl.GetInterfaces()
                 .FirstOrDefault(a => a.IsAssignableTo(typeof(IRepository)) && a != typeof(IRepository));
 
-            if (respositoryInterface == null)
-                throw new Exception($"Repository {repositoryImpl.Name} Interface not found!");
+            //if (respositoryInterface == null)
+            //    throw new Exception($"Repository {repositoryImpl.Name} Interface not found!");
 
             return respositoryInterface;
         }
 
 
 
-        private static void AddDatabase(IServiceCollection services , string connectionString)
+        private static void AddDatabase(IServiceCollection services, string connectionString)
         {
             services.AddDbContext<BookShopDbContext>(config =>
             {
-                config.UseSqlServer(connectionString ,sql =>
+                config.UseSqlServer(connectionString, sql =>
                 {
                     sql.CommandTimeout(6000);
                 });
@@ -135,7 +137,7 @@ namespace BookShop.Infrastructure
 
 
 
-        
+
 
         private static void AddCurrentUser(IServiceCollection services)
         {

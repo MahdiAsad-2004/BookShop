@@ -8,7 +8,7 @@ namespace BookShop.Domain.IRepositories
         IReadRepository<Permission, Guid>
     {
 
-        public Task<Permission[]> GetUserPermissions(Guid userId);
+        public Task<Permission[]> GetUserPermissions(Guid userId,string? roleName = null);
 
 
     }

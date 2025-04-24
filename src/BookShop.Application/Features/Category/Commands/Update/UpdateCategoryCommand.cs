@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Category.Mapping;
 using BookShop.Domain.Common;
@@ -10,8 +11,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Category.Commands.Update
 {
-    [RequiredPermission(PermissionConstants.UpdateCategory)]
-    public class UpdateCategoryCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Categoory.Update)]
+    public class UpdateCategoryCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

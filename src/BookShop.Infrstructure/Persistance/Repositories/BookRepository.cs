@@ -83,6 +83,8 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
         public async Task<Book> Get(Guid id, BookQueryOption queryOption)
         {
+            if (id == Guid.Empty)
+                throw new NotFoundException($"Book with id '{id}' not found !");
             //return await GetWithLinq(id);
             return await GetWithQuery(id, queryOption);
         }

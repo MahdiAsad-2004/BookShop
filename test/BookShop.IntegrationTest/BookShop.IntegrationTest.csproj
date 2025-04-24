@@ -32,7 +32,6 @@
     <ProjectReference Include="..\..\src\BookShop.Application\BookShop.Application.csproj" />
     <ProjectReference Include="..\..\src\BookShop.Domain\BookShop.Domain.csproj" />
     <ProjectReference Include="..\..\src\BookShop.Infrstructure\BookShop.Infrstructure.csproj" />
-    <ProjectReference Include="..\..\src\BookShop.WebApi\BookShop.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="FIles\3Mb.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

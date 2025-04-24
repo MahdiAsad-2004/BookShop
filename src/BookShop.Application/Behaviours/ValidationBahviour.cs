@@ -1,11 +1,8 @@
-﻿using BookShop.Application.Authorization;
-using BookShop.Application.Caching;
-using BookShop.Application.Common.Request;
+﻿using BookShop.Application.Common.Request;
 using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
 using BookShop.Application.Extensions;
 using BookShop.Domain.Common;
-using BookShop.Domain.Exceptions;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +12,8 @@ using System.Reflection;
 namespace BookShop.Application.Behaviours
 {
     public class ValidationBahviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest
-        where TResponse : Result<Empty>, new()
+        where TRequest : IValidatableRquest
+        where TResponse : Result, new()
     {
 
         #region constructor
@@ -24,11 +21,11 @@ namespace BookShop.Application.Behaviours
         private readonly IValidator<TRequest>? _validator;
         private readonly BussinessRule<TRequest>? _bussinessRule;
         private readonly ILogger _logger;
-        public ValidationBahviour(ILogger logger, BussinessRule<TRequest>? bussinessRule, IValidator<TRequest>? validator)
+        public ValidationBahviour(ILogger logger,IServiceProvider serviceProvider)
         {
             _logger = logger;
-            _bussinessRule = bussinessRule;
-            _validator = validator;
+            _bussinessRule = serviceProvider.GetService<BussinessRule<TRequest>>();
+            _validator = serviceProvider.GetService<IValidator<TRequest>>();
         }
 
         #endregion

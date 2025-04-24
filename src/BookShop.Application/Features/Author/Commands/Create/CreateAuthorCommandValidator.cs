@@ -14,7 +14,6 @@ namespace BookShop.Application.Features.Author.Commands.Create
                 .MaximumLength(30);
 
             RuleFor(a => a.ImageFile)
-                .FileNotNull()
                 .FileSizeMustLessThan(3)
                 .FileExtensionMustBeIn(FileExtensions.ImageAllowedExtensions);
 

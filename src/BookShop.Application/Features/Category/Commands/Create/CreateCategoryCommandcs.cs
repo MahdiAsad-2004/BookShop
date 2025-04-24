@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Category.Mapping;
 using BookShop.Domain.Common;
@@ -9,8 +10,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Category.Commands.Create
 {
-    [RequiredPermission(PermissionConstants.AddCategory)]
-    public class CreateCategoryCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Categoory.Add)]
+    public class CreateCategoryCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public string Title { get; set; }
         public Guid? ParentId { get; set; }

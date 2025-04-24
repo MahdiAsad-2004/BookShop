@@ -20,15 +20,10 @@ namespace BookShop.Domain.Common
             IsSuccess = isSuccess;
             Error = error;
         }
-
-
         public TResult? Data { get; init; }
-        
-        //public bool IsSuccess { get; init; }
-        
-        //public Error? Error { get; init; }
 
 
+       
     }
 
 }

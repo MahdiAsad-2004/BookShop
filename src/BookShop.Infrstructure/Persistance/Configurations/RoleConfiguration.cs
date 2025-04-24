@@ -11,8 +11,9 @@ namespace BookShop.Infrastructure.Persistance.Configurations
             builder.ToTable("Roles");
             
             //Relations
-            builder.HasMany(a => a.RoleClaims).WithOne(a => a.Role).HasForeignKey(a => a.RoleId);
-            builder.HasMany(a => a.User_Roles).WithOne(a => a.Role).HasForeignKey(a => a.RoleId);
+            //builder.HasMany(a => a.RoleClaims).WithOne(a => a.Role).HasForeignKey(a => a.RoleId);
+            //builder.HasMany(a => a.User_Roles).WithOne(a => a.Role).HasForeignKey(a => a.RoleId);
+            builder.HasMany(a => a.Users).WithOne(a => a.Role).HasForeignKey(a => a.RoleId);
 
             //Properties
             builder.Property(a => a.Name).HasColumnType("VarChar(30)");

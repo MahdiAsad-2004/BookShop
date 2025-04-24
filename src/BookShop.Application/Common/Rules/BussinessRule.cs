@@ -1,11 +1,13 @@
-﻿using BookShop.Domain.Exceptions;
+﻿using BookShop.Application.Common.Request;
+using BookShop.Domain.Exceptions;
 using MediatR;
 using System.Security.Principal;
 
 namespace BookShop.Application.Common.Rules
 {
     public abstract class BussinessRule<TRequest>
-        where TRequest : IRequest
+        //where TRequest : IRequest
+        where TRequest : IValidatableRquest
 
     {
         private bool _stopOnError { get; set; }

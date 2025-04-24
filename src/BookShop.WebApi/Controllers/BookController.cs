@@ -1,45 +1,77 @@
-﻿using BookShop.Application.Common.Dtos;
-using BookShop.Application.Features.Book.Dtos;
-using BookShop.Application.Features.Book.Queries.GetSummaries;
-using BookShop.Domain.Common.QueryOption;
-using BookShop.Domain.QueryOptions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using BookShop.Application.Features.Book.Commands.Create;
+using BookShop.Application.Features.Book.Commands.Update;
+using BookShop.Application.Features.Book.Queries.GetDetail;
+using BookShop.Application.Features.Product.Dtos;
+using BookShop.Application.Features.Product.Queries.GetSummaries;
 
 namespace BookShop.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class BookController : ControllerBase
+    [Route("api/[controller]/")]
+    public class BookController : BaseController
     {
         #region constructor
-
-        private readonly IMediator _mediator;
-        public BookController(IMediator mediator)
+       
+        public BookController(IMediator mediator) : base(mediator)
         {
-            _mediator = mediator;
         }
-
 
         #endregion
 
 
-        [ActionName("/")]
+        [HttpGet("/")]
         public async Task<IActionResult> GetAll(
             bool? Available = null, int? startPrice = null, int? endPrice = null, byte? score = null,
-            int? itemCount = null, int? pageNumber = null , BookSortingOrder? sort = null)
+            int? itemCount = null, int? pageNumber = null , ProductSortingOrder? sort = null)
         {
-            PaginatedDtos<BookSummaryDto> paginatedBookSummaries = await _mediator.Send(new GetBookSummariesQuery
+            PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await _mediator.Send(new GetProductSummariesQuery
             {
-                IsAvailable = Available,
+                Available = Available,
                 AverageScore = score,
                 EndPrice = endPrice,
                 SortingOrder = sort,
                 StartPrice = startPrice,
                 Paging = new Paging(itemCount , pageNumber),
+                ProductType = ProductType.Book,
             });
-            return Ok(paginatedBookSummaries);
+            return Ok(paginatedProductSummaries);
         }
+
+
+        [HttpPost("/")]
+        public async Task<IActionResult> Create(CreateBookCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+        
+
+        [HttpPut("/")]
+        public async Task<IActionResult> Update(UpdateBookCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var result = await _mediator.Send(new GetBookDetailQuery
+            {
+                Id = id,
+            });
+            return Ok(result);
+        }
+
+
+
+
+
+
+
+
+
 
 
 

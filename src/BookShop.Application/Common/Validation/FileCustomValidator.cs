@@ -12,8 +12,10 @@ namespace BookShop.Application.Common.Validation
             return ruleBuilder.Must((rootObject, file, context) =>
             {
                 context.MessageFormatter.AppendArgument("maxSize", size_Mb);
+                
                 if (file == null)
                     return true;
+
                 return (float)(file.Length / 1024f / 1000f) <= size_Mb;
             })
             .WithMessage("{PropertyName} size must be less than {maxSize}MB ");

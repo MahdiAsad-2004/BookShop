@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Publisher.Mapping;
 using BookShop.Domain.Common;
@@ -9,8 +10,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Publisher.Commands.Create
 {
-    [RequiredPermission(PermissionConstants.AddPublisher)]
-    public class CreatePublisherCommand : IRequest<Result<Empty>>, IRequest
+    [RequiredPermission(PermissionConstants.Publisher.Add)]
+    public class CreatePublisherCommand : IRequest<Result<Empty>>, IValidatableRquest
     {
         public string Title { get; set; }
         public IFormFile ImageFile { get; set; }

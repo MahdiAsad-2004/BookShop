@@ -2,7 +2,7 @@
 
 namespace BookShop.Domain.Common
 {
-    public sealed record Error(ErrorCode Code, string Description,List<ValidationError>  ValidationErrors)
+    public sealed record Error(ErrorCode Code, string Description,List<ValidationError>?  ValidationErrors)
     {
 
         public static readonly Error None = new(ErrorCode.None, string.Empty,new List<ValidationError>());
@@ -15,7 +15,8 @@ namespace BookShop.Domain.Common
     public enum ErrorCode
     {
         None,   
-        Validation
+        Validation,
+        Authentication
     }
 
 

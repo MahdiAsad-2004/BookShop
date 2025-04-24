@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.Authorization;
+using BookShop.Application.Common.Request;
 using BookShop.Application.Extensions;
 using BookShop.Application.Features.Author.Mapping;
 using BookShop.Domain.Common;
@@ -10,12 +11,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Features.Author.Commands.Create
 {
-    [RequiredPermission(PermissionConstants.AddAuthor)]
-    public class CreateAuthorCommand : IRequest<Result<Empty>> , IRequest
+    [RequiredPermission(PermissionConstants.Author.Add)]
+    public class CreateAuthorCommand : IRequest<Result<Empty>> , IValidatableRquest
     {
         public string Name { get; set; }
         public Gender Gender { get; set; }
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 
 

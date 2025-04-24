@@ -19,7 +19,7 @@ namespace BookShop.Infrastructure.Caching
 
         public void Add(string key, object item, TimeSpan expireTime)
         {
-            _memoryCache.Set(key, item);
+            _memoryCache.Set(key, item, expireTime);            
         }
 
         public object? GetOrDefault(string key)
@@ -37,6 +37,8 @@ namespace BookShop.Infrastructure.Caching
         {
             _memoryCache.Remove(key);
         }
+        
+   
 
     }
 }

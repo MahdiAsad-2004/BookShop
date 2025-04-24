@@ -1,6 +1,7 @@
 ﻿
 using BookShop.Infrastructure.Persistance;
 using BookShop.Infrastructure.Persistance.SeedDatas;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookShop.Infrstructure.Persistance.SeedDatas
@@ -13,6 +14,19 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
             _serviceProvider = serviceProvider;
         }
 
+
+        public async Task MigrateDatabaseIfNotExist()
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetService<BookShopDbContext>();
+            if (dbContext != null)
+            {
+                if (await dbContext.Database.CanConnectAsync() == false)
+                {
+                    await dbContext.Database.MigrateAsync();
+                }
+            }
+        }
 
         public async Task SeedDatas()
         {

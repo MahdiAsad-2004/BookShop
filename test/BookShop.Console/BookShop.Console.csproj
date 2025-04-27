@@ -15,7 +15,6 @@
     <ProjectReference Include="..\..\src\BookShop.Application\BookShop.Application.csproj" />
     <ProjectReference Include="..\..\src\BookShop.Domain\BookShop.Domain.csproj" />
     <ProjectReference Include="..\..\src\BookShop.Infrstructure\BookShop.Infrstructure.csproj" />
-    <ProjectReference Include="..\BookShop.IntegrationTest\BookShop.IntegrationTest.csproj" />
     <ProjectReference Include="..\BookShop.UnitTest\BookShop.UnitTest.csproj" />
   </ItemGroup>
 

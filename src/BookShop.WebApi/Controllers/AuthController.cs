@@ -31,13 +31,9 @@ public class AuthController : BaseController
 
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] string username, [FromBody] string password)
+    public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
     {
-        var result = await _mediator.Send(new LoginCommand
-        {
-            Username = username,
-            Password = password,
-        });
+        var result = await _mediator.Send(loginCommand);
         if (result.IsSuccess)
         {
             var userToken = new RefreshToken

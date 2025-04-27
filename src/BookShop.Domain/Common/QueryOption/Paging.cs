@@ -12,7 +12,7 @@ namespace BookShop.Domain.Common.QueryOption
         {
 
         }
-        public Paging(int? pageNumber , int? itemsInPage)
+        public Paging(int? itemsInPage, int? pageNumber)
         {
             if (itemsInPage != null && itemsInPage <= MaxItemsInPage)
                 ItemsInPage = itemsInPage.Value;

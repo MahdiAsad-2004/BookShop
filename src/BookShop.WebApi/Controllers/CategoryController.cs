@@ -15,7 +15,7 @@ namespace BookShop.WebApi.Controllers
         #endregion
 
 
-        [HttpPost("/")]
+        [HttpPost()]
         public async Task<IActionResult> Create(CreateCategoryCommand command)
         {
             var result = await _mediator.Send(command);
@@ -23,7 +23,7 @@ namespace BookShop.WebApi.Controllers
         }
         
 
-        [HttpPut("/")]
+        [HttpPut()]
         public async Task<IActionResult> Update(UpdateCategoryCommand command)
         {
             var result = await _mediator.Send(command);

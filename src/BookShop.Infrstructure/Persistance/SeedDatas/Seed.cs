@@ -1,4 +1,6 @@
 ﻿
+using BookShop.Domain.Entities;
+using BookShop.Domain.Identity;
 using BookShop.Infrastructure.Persistance;
 using BookShop.Infrastructure.Persistance.SeedDatas;
 using Microsoft.EntityFrameworkCore;
@@ -30,8 +32,10 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
 
         public async Task SeedDatas()
         {
+            string userId = UsersSeed.SuperAdmin.Id.ToString();
             using var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetService<BookShopDbContext>();
+            IPasswordHasher passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
             if (dbContext != null)
             {
                 if (await dbContext.Database.CanConnectAsync())
@@ -40,10 +44,47 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                     {
                         await dbContext.Users.AddAsync(UsersSeed.SuperAdmin);
                         await dbContext.SaveChangesAsync();
+                        UsersSeed usersSeed = new UsersSeed(passwordHasher);
+                        await dbContext.Users.AddRangeAsync(usersSeed.Get());
+                        await dbContext.SaveChangesAsync();
                     }
                     if (dbContext.Permissions.Any() == false)
                     {
                         await dbContext.Permissions.AddRangeAsync(PermissionsSeed.GetPermissions(UsersSeed.SuperAdmin.Id));
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if(dbContext.Publishers.Any() == false)
+                    {
+                        List<Publisher> publishers = new PublishersSeed(userId).GetPublishers();
+                        await dbContext.Publishers.AddRangeAsync(publishers);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if(dbContext.Authors.Any() == false)
+                    {
+                        List<Author> authors = new AuthorSeed(userId).Get();
+                        await dbContext.Authors.AddRangeAsync(authors);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if(dbContext.Authors.Any() == false)
+                    {
+                        List<Translator> translators = new TranslatorsSeed(userId).Get();
+                        await dbContext.Translators.AddRangeAsync(translators);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if(dbContext.Categories.Any() == false)
+                    {
+                        List<Category> categories = new CategorySeed(userId).GetCategories();
+                        await dbContext.Categories.AddRangeAsync(categories);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if(dbContext.Books.Any() == false)
+                    {
+                        Guid[] publisherIds = dbContext.Publishers.Select(a => a.Id).ToArray();
+                        Guid[] categoryIds = dbContext.Categories.Select(a => a.Id).ToArray();
+                        Guid[] authorIds = dbContext.Authors.Select(a => a.Id).ToArray();
+                        Guid[] translatorIds = dbContext.Translators.Select(a => a.Id).ToArray();
+                        List<Book> books = new BooksSeed(userId, publisherIds, categoryIds , authorIds,translatorIds).GetBooks();
+                        await dbContext.Books.AddRangeAsync(books);
                         await dbContext.SaveChangesAsync();
                     }
                 }

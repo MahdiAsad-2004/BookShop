@@ -104,7 +104,7 @@ namespace BookShop.IntegrationTest.Features.Book.Queries
         public async Task WithAuthors_AuthorsCount_MustBe_Correct()
         {
             //Arrange
-            E.Book book = BookFakeData.Create(author_Books: AuthorFakeData.CreateBetween(0, 3, true).ToArray());
+            E.Book book = BookFakeData.Create(author_Books: AuthorFakeData.CreateBetween(1, 3, true).ToArray());
             await _TestRepository.Add<E.Book, Guid>(book);
 
             //Act

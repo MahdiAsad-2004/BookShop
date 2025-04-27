@@ -15,15 +15,15 @@ namespace BookShop.WebApi.Controllers
         #endregion
 
 
-        [HttpPost("/")]
+        [HttpPost()]
         public async Task<IActionResult> Create(CreateTranslatorCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
         }
         
-
-        [HttpPut("/")]
+            
+        [HttpPut()]
         public async Task<IActionResult> Update(UpdateTranslatorCommand command)
         {
             var result = await _mediator.Send(command);

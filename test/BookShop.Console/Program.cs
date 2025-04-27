@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Azure.Core;
-using Bogus;
 using BookShop.Application.Common.Rules;
 using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Application.Features.Book.Queries.GetSummaries;
@@ -24,9 +23,13 @@ using System.Text.Json;
 
 Console.WriteLine("Hello, World!");
 
-foreach (var item in PermissionConstants.GetAll())
+foreach (var item in Enumerable.Range(1 , 10).Chunk(3))
 {
-    Console.WriteLine(item);
+    Console.WriteLine("---");
+	for (int i = 0; i < item.Length; i++)
+	{
+		Console.WriteLine($"\t{item[i]}");
+	}
 }
 
 Console.WriteLine();

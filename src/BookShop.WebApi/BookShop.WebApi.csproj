@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\media\author\author-man.png" />
+    <Content Remove="wwwroot\media\author\author-woman.png" />
+    <Content Remove="wwwroot\media\category\category.png" />
+    <Content Remove="wwwroot\media\ebook\ebook.png" />
+    <Content Remove="wwwroot\media\product\product.png" />
+    <Content Remove="wwwroot\media\publisher\publisher.png" />
+    <Content Remove="wwwroot\media\translator\translator-man.png" />
+    <Content Remove="wwwroot\media\translator\translator-woman.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +30,39 @@
     <ProjectReference Include="..\BookShop.Application\BookShop.Application.csproj" />
     <ProjectReference Include="..\BookShop.Domain\BookShop.Domain.csproj" />
     <ProjectReference Include="..\BookShop.Infrstructure\BookShop.Infrstructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\media\author\author-man.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\author\author-woman.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\category\category.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\ebook\ebook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\product\product.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\publisher\publisher.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\translator\translator-man.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\media\translator\translator-woman.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\media\book\book.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -10,6 +10,7 @@ using BookShop.Domain.IRepositories;
 using BookShop.Domain.QueryOptions;
 using BookShop.Infrastructure.Persistance.Repositories.Common;
 using BookShop.Infrstructure.Persistance.QueryOptions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -104,7 +105,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
                 Reviews = queryOption.IncludeReviews == false ? null : _dbContext.Reviews.Where(a => a.ProductId == book.ProductId).ToList(),
                 Publisher = queryOption.IncludePublisher == false ? null : _dbContext.Publishers.First(a => a.Id == book.PublisherId),
                 Translator = queryOption.IncludeTranslator == false ? null : _dbContext.Translators.FirstOrDefault(a => a.Id == book.TranslatorId),
-                Author_Books = queryOption.IncludeAuthors == false ? null : book.Author_Books.ToArray(),
+                Author_Books = queryOption.IncludeAuthors == false ? null : _dbContext.Author_Books.Include(a => a.Author).Where(a => a.BookId == book.Id).ToArray(),
                 MostPriorityValidDiscount = queryOption.IncludeDiscounts == false ? null : _dbContext.Product_Discounts
                     .Where(pd => pd.ProductId == book.ProductId)
                     .Join(_dbContext.Discounts,

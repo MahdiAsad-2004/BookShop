@@ -19,7 +19,7 @@ namespace BookShop.WebApi.Controllers
         #endregion
 
 
-        [HttpGet("/")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(
             bool? Available = null, int? startPrice = null, int? endPrice = null, byte? score = null,
             int? itemCount = null, int? pageNumber = null , ProductSortingOrder? sort = null)
@@ -38,7 +38,7 @@ namespace BookShop.WebApi.Controllers
         }
 
 
-        [HttpPost("/")]
+        [HttpPost]
         public async Task<IActionResult> Create(CreateBookCommand command)
         {
             var result = await _mediator.Send(command);
@@ -46,7 +46,7 @@ namespace BookShop.WebApi.Controllers
         }
         
 
-        [HttpPut("/")]
+        [HttpPut]
         public async Task<IActionResult> Update(UpdateBookCommand command)
         {
             var result = await _mediator.Send(command);

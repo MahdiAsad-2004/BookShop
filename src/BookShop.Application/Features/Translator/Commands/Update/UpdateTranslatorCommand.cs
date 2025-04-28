@@ -49,11 +49,11 @@ namespace BookShop.Application.Features.Translator.Commands.Update
             if (request.ImageFile != null)
             {
                 imageName = $"translator-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.ImageFile.FileName)}";
-                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Translator_Images, request.ImageFile.OpenReadStream());
+                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Translator.Images, request.ImageFile.OpenReadStream());
             }
             if (fileSaved && translator.ImageName != null)
             {
-                await FileExtensions.DeleteFileIfExist(translator.ImageName, PathExtensions.Translator_Images);
+                await FileExtensions.DeleteFileIfExist(translator.ImageName, PathExtensions.Translator.Images);
             }
             translator.ImageName = fileSaved ? imageName : null;
 

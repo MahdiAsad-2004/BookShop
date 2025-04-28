@@ -66,7 +66,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                 IsDeleted = false,
                 LastModifiedBy = userId,
                 LastModifiedDate = DateTime.UtcNow,
-                ImageName = string.Empty,
+                ImageName = null,
                 Title = $"Category - {Count}",
                 Childs = new List<Category>(),
             };

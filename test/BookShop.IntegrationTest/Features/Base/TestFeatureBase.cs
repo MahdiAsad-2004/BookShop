@@ -85,7 +85,10 @@ namespace BookShop.IntegrationTest.Features.Base
 
 
 
-
+        public static string PhysicalPath(string path)
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), path);
+        }
 
 
 

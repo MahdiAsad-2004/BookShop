@@ -45,7 +45,7 @@ namespace BookShop.Application.Features.Author.Commands.Create
             if (request.ImageFile != null) 
             {
                 imageName = $"author-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.ImageFile.FileName)}";
-                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Author_Images, request.ImageFile.OpenReadStream());
+                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Author.Images, request.ImageFile.OpenReadStream());
             }
             author.ImageName = fileSaved ? imageName : null;
 

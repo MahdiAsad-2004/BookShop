@@ -100,13 +100,13 @@ namespace BookShop.IntegrationTest.Features.Category.Commands
             //Arrnage 
             updateCategoryCommand.ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "category.png"));
             await _TestRepository.AddPermissionForUser(PermissionConstants.Categoory.Update);
-            int fileCounts = Directory.GetFiles(PathExtensions.Category_Images).Count();
+            int fileCounts = Directory.GetFiles(PathExtensions.Category.Images).Count();
 
             //Act
             await requestAndGetResult();
 
             //Assert
-            int actualFileCount = Directory.GetFiles(PathExtensions.Category_Images).Count();
+            int actualFileCount = Directory.GetFiles(PathExtensions.Category.Images).Count();
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
             Assert.Equal(fileCounts + 1, actualFileCount);

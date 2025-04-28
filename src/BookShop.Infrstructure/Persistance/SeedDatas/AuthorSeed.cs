@@ -48,7 +48,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                 LastModifiedDate = DateTime.UtcNow,
                 Name = $"Author-{counter}",
                 Gender = _randomizer.Enum<Gender>(),
-                ImageName = string.Empty,
+                ImageName = null,
             };
 
         }

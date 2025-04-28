@@ -56,7 +56,7 @@ namespace BookShop.Application.Features.Book.Commands.Create
             BookMapper.ToBookAndProduct(request, out book, out product);
 
             string imageName = $"book-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.Product_ImageFile.FileName)}";
-            bool fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Product_Images, request.Product_ImageFile.OpenReadStream());
+            bool fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Product.Images, request.Product_ImageFile.OpenReadStream());
             product.ImageName = fileSaved ? imageName : null;
 
             await _bookRepository.Add(book, product, request.AuthorIds);

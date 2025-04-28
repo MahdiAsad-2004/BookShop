@@ -17,7 +17,7 @@ namespace BookShop.Domain.Entities
         public DateTimeOffset? LockoutEnd { get; set; }
         public string ConcurrencyStamp { get; set; }
         public string? SecurityStamp { get; set; }
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
         public int AccessFailedCount { get; set; }
         public bool TwoFactorEnabled { get; set; }
         public Guid? RoleId { get; set; }

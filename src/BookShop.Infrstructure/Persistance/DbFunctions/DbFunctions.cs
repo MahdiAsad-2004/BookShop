@@ -24,11 +24,7 @@ namespace BookShop.Infrstructure.Persistance.DbFunctions
         }
 
 
-        //DbFunctions dbFunctions = new DbFunctions();
-        //    foreach (var dbFunctionFile in dbFunctions.DbFunctionFiles())
-        //    {
-        //        dbFunctionFile.AddToMigration(migrationBuilder);   
-        //    }
+     
 
     }
 

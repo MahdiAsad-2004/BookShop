@@ -65,7 +65,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                         await dbContext.Authors.AddRangeAsync(authors);
                         await dbContext.SaveChangesAsync();
                     }
-                    if(dbContext.Authors.Any() == false)
+                    if(dbContext.Translators.Any() == false)
                     {
                         List<Translator> translators = new TranslatorsSeed(userId).Get();
                         await dbContext.Translators.AddRangeAsync(translators);
@@ -85,6 +85,14 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                         Guid[] translatorIds = dbContext.Translators.Select(a => a.Id).ToArray();
                         List<Book> books = new BooksSeed(userId, publisherIds, categoryIds , authorIds,translatorIds).GetBooks();
                         await dbContext.Books.AddRangeAsync(books);
+                        await dbContext.SaveChangesAsync();
+                    }
+                    if (dbContext.Reviews.Any() == false) 
+                    {
+                        Guid[] userIds = await dbContext.Users.Select(a => a.Id).ToArrayAsync();
+                        Guid[] productIds = await dbContext.Products.Select(a => a.Id).ToArrayAsync();
+                        List<Review> reviews = new ReviewSeed(userIds, productIds).Get();
+                        await dbContext.Reviews.AddRangeAsync(reviews);
                         await dbContext.SaveChangesAsync();
                     }
                 }

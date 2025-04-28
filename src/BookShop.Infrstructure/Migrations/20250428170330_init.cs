@@ -216,7 +216,7 @@ namespace BookShop.Infrstructure.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "VarChar(50)", nullable: false),
                     SecurityStamp = table.Column<string>(type: "VarChar(50)", nullable: true),
-                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: false),
+                    ImageName = table.Column<string>(type: "VarChar(50)", nullable: true),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -485,7 +485,7 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Score = table.Column<byte>(type: "tinyint", nullable: false),
-                    Text = table.Column<string>(type: "NVarChar(200)", nullable: false),
+                    Text = table.Column<string>(type: "NVarChar(500)", nullable: false),
                     Name = table.Column<string>(type: "NVarChar(30)", nullable: true),
                     Email = table.Column<string>(type: "VarChar(30)", nullable: true),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: false),
@@ -739,7 +739,6 @@ namespace BookShop.Infrstructure.Migrations
             {
                 dbFunctionFile.AddToMigration(migrationBuilder);
             }
-
 
         }
 

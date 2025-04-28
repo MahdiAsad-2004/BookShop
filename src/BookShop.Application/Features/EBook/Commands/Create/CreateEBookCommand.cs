@@ -54,7 +54,7 @@ namespace BookShop.Application.Features.EBook.Commands.Create
 
             //StoreFile
             string fileName = $"ebook-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.EBookFile.FileName)}";
-            bool fileSaved = await FileExtensions.SaveFile(fileName, PathExtensions.EBook_Files, request.Product_ImageFile.OpenReadStream());
+            bool fileSaved = await FileExtensions.SaveFile(fileName, PathExtensions.EBook.Files, request.Product_ImageFile.OpenReadStream());
             if (fileSaved == false)
                 throw new ApplicationException("EBook file does not save");
             EBookFileFormat eBookFileFormat;
@@ -65,7 +65,7 @@ namespace BookShop.Application.Features.EBook.Commands.Create
 
             //Store image
             string imageName = $"ebook-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.Product_ImageFile.FileName)}";
-            bool imageSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Product_Images, request.Product_ImageFile.OpenReadStream());
+            bool imageSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Product.Images, request.Product_ImageFile.OpenReadStream());
             product.ImageName = imageSaved ? imageName : null;
             
             //Add Entity

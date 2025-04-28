@@ -236,7 +236,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
             //Arrnage 
             updateEBookCommand.EBookFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "ebook-file.pdf"));
             await _TestRepository.AddPermissionForUser(PermissionConstants.EBook.Update);
-            int filesCount = Directory.GetFiles(PathExtensions.EBook_Files).Count();
+            int filesCount = Directory.GetFiles(PathExtensions.EBook.Files).Count();
 
             //Act
             await requestAndGetResult();
@@ -244,7 +244,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            int actualFilesCount = Directory.GetFiles(PathExtensions.EBook_Files).Count();
+            int actualFilesCount = Directory.GetFiles(PathExtensions.EBook.Files).Count();
             Assert.Equal(filesCount + 1, actualFilesCount);
             var entity = await _TestRepository.Get<E.EBook, Guid>(updateEBookCommand.Id);
             var entityProduct = await _TestRepository.Get<E.Product, Guid>(_savedEBook.Product.Id);
@@ -258,7 +258,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
             //Arrnage 
             updateEBookCommand.Product_ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "ebook.png"));
             await _TestRepository.AddPermissionForUser(PermissionConstants.EBook.Update);
-            int filesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
+            int filesCount = Directory.GetFiles(PathExtensions.Product.Images).Count();
 
             //Act
             await requestAndGetResult();
@@ -266,7 +266,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
             //Assert
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
-            int actualFilesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
+            int actualFilesCount = Directory.GetFiles(PathExtensions.Product.Images).Count();
             Assert.Equal(filesCount + 1, actualFilesCount);
             var entity = await _TestRepository.Get<E.EBook, Guid>(updateEBookCommand.Id);
             var entityProduct = await _TestRepository.Get<E.Product, Guid>(_savedEBook.Product.Id);

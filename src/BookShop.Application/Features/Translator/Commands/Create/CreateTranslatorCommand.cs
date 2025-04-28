@@ -45,7 +45,7 @@ namespace BookShop.Application.Features.Translator.Commands.Create
             if (request.ImageFile != null) 
             {
                 imageName = $"translator-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.ImageFile.FileName)}";
-                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Translator_Images, request.ImageFile.OpenReadStream());
+                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Translator.Images, request.ImageFile.OpenReadStream());
             }
             translator.ImageName = fileSaved ? imageName : null;
 

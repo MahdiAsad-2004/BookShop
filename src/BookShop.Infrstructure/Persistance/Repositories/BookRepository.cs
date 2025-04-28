@@ -102,7 +102,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             {
                 Book = book,
                 Product = queryOption.IncludeProduct == false ? null : _dbContext.Products.First(a => a.Id == book.ProductId),
-                Reviews = queryOption.IncludeReviews == false ? null : _dbContext.Reviews.Where(a => a.ProductId == book.ProductId).ToList(),
+                Reviews = queryOption.IncludeReviews == false ? null : _dbContext.Reviews.Include(a => a.User).Where(a => a.ProductId == book.ProductId).ToList(),
                 Publisher = queryOption.IncludePublisher == false ? null : _dbContext.Publishers.First(a => a.Id == book.PublisherId),
                 Translator = queryOption.IncludeTranslator == false ? null : _dbContext.Translators.FirstOrDefault(a => a.Id == book.TranslatorId),
                 Author_Books = queryOption.IncludeAuthors == false ? null : _dbContext.Author_Books.Include(a => a.Author).Where(a => a.BookId == book.Id).ToArray(),
@@ -420,7 +420,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories
             product.CreateDate = product.LastModifiedDate = dateTime;
             product.CreateBy = product.LastModifiedBy = _currentUser.GetId();
             //---------------------------------------------------------------------
-            book.Id = Guid.NewGuid();
+            book.Id = product.Id;
             book.CreateDate = book.LastModifiedDate = dateTime;
             book.CreateBy = book.LastModifiedBy = _currentUser.GetId();
             //---------------------------------------------------------------------

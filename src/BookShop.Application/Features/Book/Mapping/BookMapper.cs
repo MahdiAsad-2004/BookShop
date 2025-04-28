@@ -103,7 +103,30 @@ namespace BookShop.Application.Features.Book.Mapping
         }
 
 
-
+        //public static BookDetailDto ToDto(E.Book book)
+        //{
+        //    var authors = book.Author_Books.Select(a => new E.Author
+        //    {
+        //        Author_Books = null,
+        //        Author_EBooks = null,
+        //        CreateBy = a.Author.CreateBy,
+        //        CreateDate = a.Author.CreateDate,
+        //        DeleteDate = a.Author.DeleteDate,
+        //        DeletedBy = a.Author.DeletedBy,
+        //        Gender = a.Author.Gender,
+        //        Id = a.Author.Id,
+        //        ImageName = a.Author.ImageName,
+        //        IsDeleted = a.Author.IsDeleted,
+        //        LastModifiedBy = a.Author.LastModifiedBy,
+        //        LastModifiedDate = a.Author.LastModifiedDate,
+        //        Name = a.
+        //    });
+        //    return new BookDetailDto
+        //    {
+        //        Id = book.Id,
+        //        Authors 
+        //    }
+        //}
 
 
 

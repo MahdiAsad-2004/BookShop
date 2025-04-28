@@ -830,7 +830,7 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("NVarChar(200)");
+                        .HasColumnType("NVarChar(500)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -967,7 +967,6 @@ namespace BookShop.Infrstructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("VarChar(50)");
 
                     b.Property<bool>("IsDeleted")

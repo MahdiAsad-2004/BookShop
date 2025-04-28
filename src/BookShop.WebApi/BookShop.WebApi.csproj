@@ -7,14 +7,47 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\media\author\author-man.png" />
-    <Content Remove="wwwroot\media\author\author-woman.png" />
-    <Content Remove="wwwroot\media\category\category.png" />
-    <Content Remove="wwwroot\media\ebook\ebook.png" />
-    <Content Remove="wwwroot\media\product\product.png" />
-    <Content Remove="wwwroot\media\publisher\publisher.png" />
-    <Content Remove="wwwroot\media\translator\translator-man.png" />
-    <Content Remove="wwwroot\media\translator\translator-woman.png" />
+    <Content Remove="Media\author\author-man.png" />
+    <Content Remove="Media\author\author-woman.png" />
+    <Content Remove="Media\category\category.png" />
+    <Content Remove="Media\ebook\ebook.png" />
+    <Content Remove="Media\product\product.png" />
+    <Content Remove="Media\publisher\publisher.png" />
+    <Content Remove="Media\translator\translator-man.png" />
+    <Content Remove="Media\translator\translator-woman.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Media\user\images\user-1.jpg" />
+    <Content Include="Media\user\images\user-10.jpg" />
+    <Content Include="Media\user\images\user-11.jpg" />
+    <Content Include="Media\user\images\user-12.jpg" />
+    <Content Include="Media\user\images\user-13.jpg" />
+    <Content Include="Media\user\images\user-14.jpg" />
+    <Content Include="Media\user\images\user-15.jpg" />
+    <Content Include="Media\user\images\user-16.jpg" />
+    <Content Include="Media\user\images\user-17.jpg" />
+    <Content Include="Media\user\images\user-18.jpg" />
+    <Content Include="Media\user\images\user-19.jpg" />
+    <Content Include="Media\user\images\user-2.jpg" />
+    <Content Include="Media\user\images\user-20.jpg" />
+    <Content Include="Media\user\images\user-21.jpg" />
+    <Content Include="Media\user\images\user-22.jpg" />
+    <Content Include="Media\user\images\user-23.jpg" />
+    <Content Include="Media\user\images\user-24.jpg" />
+    <Content Include="Media\user\images\user-25.jpg" />
+    <Content Include="Media\user\images\user-26.jpg" />
+    <Content Include="Media\user\images\user-27.jpg" />
+    <Content Include="Media\user\images\user-28.jpg" />
+    <Content Include="Media\user\images\user-29.jpg" />
+    <Content Include="Media\user\images\user-3.jpg" />
+    <Content Include="Media\user\images\user-30.jpg" />
+    <Content Include="Media\user\images\user-4.jpg" />
+    <Content Include="Media\user\images\user-5.jpg" />
+    <Content Include="Media\user\images\user-6.jpg" />
+    <Content Include="Media\user\images\user-7.jpg" />
+    <Content Include="Media\user\images\user-8.jpg" />
+    <Content Include="Media\user\images\user-9.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,36 +66,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\media\author\author-man.png">
+    <None Update="Media\author\author-man.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\author\author-woman.png">
+    <None Update="Media\author\author-woman.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\category\category.png">
+    <None Update="Media\category\category.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\ebook\ebook.png">
+    <None Update="Media\ebook\ebook.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\product\product.png">
+    <None Update="Media\product\product.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\publisher\publisher.png">
+    <None Update="Media\publisher\publisher.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\translator\translator-man.png">
+    <None Update="Media\translator\translator-man.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\media\translator\translator-woman.png">
+    <None Update="Media\translator\translator-woman.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\media\book\book.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

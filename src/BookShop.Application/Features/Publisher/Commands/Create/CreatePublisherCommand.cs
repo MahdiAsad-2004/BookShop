@@ -38,7 +38,7 @@ namespace BookShop.Application.Features.Publisher.Commands.Create
 
             //Store File
             string imageName = $"publisher-{Guid.NewGuid().ToString().Substring(0,8)}{Path.GetExtension(request.ImageFile.FileName)}";
-            bool fileSvaed = await FileExtensions.SaveFile(imageName, PathExtensions.Publisher_Images, request.ImageFile.OpenReadStream());
+            bool fileSvaed = await FileExtensions.SaveFile(imageName, PathExtensions.Publisher.Images, request.ImageFile.OpenReadStream());
             publisher.ImageName = fileSvaed ? imageName : null;
 
             //Add Entity

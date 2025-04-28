@@ -49,11 +49,11 @@ namespace BookShop.Application.Features.Author.Commands.Update
             if (request.ImageFile != null)
             {
                 imageName = $"author-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.ImageFile.FileName)}";
-                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Author_Images, request.ImageFile.OpenReadStream());
+                fileSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Author.Images, request.ImageFile.OpenReadStream());
             }
             if (fileSaved && author.ImageName != null)
             {
-                await FileExtensions.DeleteFileIfExist(author.ImageName, PathExtensions.Author_Images);
+                await FileExtensions.DeleteFileIfExist(author.ImageName, PathExtensions.Author.Images);
             }
             author.ImageName = fileSaved ? imageName : null;
 

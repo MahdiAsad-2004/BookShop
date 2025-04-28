@@ -68,11 +68,11 @@ namespace BookShop.Application.Features.EBook.Commands.Update
             if (request.EBookFile != null)
             {
                 fileName = $"ebook-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.EBookFile.FileName)}";
-                fileSaved = await FileExtensions.SaveFile(fileName, PathExtensions.EBook_Files, request.EBookFile.OpenReadStream());
+                fileSaved = await FileExtensions.SaveFile(fileName, PathExtensions.EBook.Files, request.EBookFile.OpenReadStream());
             }
             if (fileSaved)
             {
-                await FileExtensions.DeleteFileIfExist(ebook.FileName, PathExtensions.EBook_Files);
+                await FileExtensions.DeleteFileIfExist(ebook.FileName, PathExtensions.EBook.Files);
                 ebook.FileName = fileName;
             }
 
@@ -82,11 +82,11 @@ namespace BookShop.Application.Features.EBook.Commands.Update
             if (request.Product_ImageFile != null)
             {
                 imageName = $"ebook-{Guid.NewGuid().ToString().Substring(0, 8)}{Path.GetExtension(request.Product_ImageFile.FileName)}";
-                imageSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Product_Images, request.Product_ImageFile.OpenReadStream());
+                imageSaved = await FileExtensions.SaveFile(imageName, PathExtensions.Product.Images, request.Product_ImageFile.OpenReadStream());
             }
             if (imageSaved && ebook.Product.ImageName != null)
             {
-                await FileExtensions.DeleteFileIfExist(ebook.Product.ImageName, PathExtensions.Product_Images);
+                await FileExtensions.DeleteFileIfExist(ebook.Product.ImageName, PathExtensions.Product.Images);
             }
             ebook.Product.ImageName = imageSaved ? imageName : null;
 

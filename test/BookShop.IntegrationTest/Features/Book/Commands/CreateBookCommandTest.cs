@@ -75,7 +75,7 @@ namespace BookShop.IntegrationTest.Features.Book.Commands
             //Arrnage 
             await _TestRepository.AddPermissionForUser(PermissionConstants.Book.Add);
             int booksCount = await _TestRepository.Count<E.Book, Guid>();
-            int filesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
+            int filesCount = Directory.GetFiles(PathExtensions.Product.Images).Count();
 
             //Act
             await requestAndGetResult();
@@ -85,7 +85,7 @@ namespace BookShop.IntegrationTest.Features.Book.Commands
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
             Assert.Equal(booksCount + 1, newBooksCount);
-            int actualFilesCount = Directory.GetFiles(PathExtensions.Product_Images).Count();
+            int actualFilesCount = Directory.GetFiles(PhysicalPath(PathExtensions.Product.Images)).Count();
             Assert.Equal(filesCount + 1, actualFilesCount);
         }
 

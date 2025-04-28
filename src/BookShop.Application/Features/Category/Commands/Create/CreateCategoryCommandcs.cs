@@ -41,7 +41,7 @@ namespace BookShop.Application.Features.Category.Commands.Create
 
             //StoreFile
             string imageName = $"category-{Guid.NewGuid().ToString().Substring(0,8)}{Path.GetExtension(request.ImageFile.FileName)}";
-            bool fileSvaed = await FileExtensions.SaveFile(imageName, PathExtensions.Category_Images, request.ImageFile.OpenReadStream());
+            bool fileSvaed = await FileExtensions.SaveFile(imageName, PathExtensions.Category.Images, request.ImageFile.OpenReadStream());
             category.ImageName = fileSvaed ? imageName : null;
 
             //SaveEntity

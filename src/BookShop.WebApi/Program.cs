@@ -4,6 +4,7 @@ global using BookShop.Domain.Enums;
 global using BookShop.Domain.QueryOptions;
 global using BookShop.Application.Common.Dtos;
 global using BookShop.Domain.Common.QueryOption;
+global using E = BookShop.Domain.Entities;
 using BookShop.Application;
 using BookShop.Infrastructure.Setting;
 using BookShop.Infrastructure;
@@ -12,6 +13,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BookShop.WebApi.Services;
+using Microsoft.Extensions.FileProviders;
+using BookShop.Application.Extensions;
+using BookShop.WebApi.Mappers;
 
 
 namespace BookShop.WebApi
@@ -67,16 +71,22 @@ namespace BookShop.WebApi
 
             app.UseHttpsRedirection();
 
-
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(PathExtensions.Directory , PathExtensions.MediaPath)),
+                RequestPath = "/media"
+            });
 
             Seed seed = new Seed(app.Services);
             seed.MigrateDatabaseIfNotExist().GetAwaiter().GetResult();
             seed.SeedDatas().GetAwaiter().GetResult();
 
             app.Run();
+
         }
     }
 }

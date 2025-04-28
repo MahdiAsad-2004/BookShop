@@ -93,13 +93,13 @@ namespace BookShop.IntegrationTest.Features.Author.Commands
             //Arrnage 
             createAuthorCommand.ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "author-man.png"));
             await _TestRepository.AddPermissionForUser(PermissionConstants.Author.Add);
-            int fileCounts = Directory.GetFiles(PathExtensions.Author_Images).Count();
+            int fileCounts = Directory.GetFiles(PathExtensions.Author.Images).Count();
 
             //Act
             await requestAndGetResult();
 
             //Assert
-            int actualFileCount = Directory.GetFiles(PathExtensions.Author_Images).Count();
+            int actualFileCount = Directory.GetFiles(PathExtensions.Author.Images).Count();
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
             Assert.Equal(fileCounts + 1, actualFileCount);

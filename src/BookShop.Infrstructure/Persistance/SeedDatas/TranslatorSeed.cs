@@ -43,7 +43,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                 LastModifiedBy = userId,
                 LastModifiedDate = DateTime.UtcNow,
                 Id = Guid.NewGuid(),
-                ImageName = string.Empty,
+                ImageName = null,
                 Name = $"Translator - {_ints.Dequeue()}",
                 Gender = _randomizer.Enum<Gender>(),
             };

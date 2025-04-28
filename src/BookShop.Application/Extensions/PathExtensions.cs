@@ -1,34 +1,52 @@
-﻿
-namespace BookShop.Application.Extensions
+﻿namespace BookShop.Application.Extensions
 {
-    public class PathExtensions
+    public static class PathExtensions
     {
-        private static string Directory = AppDomain.CurrentDomain.BaseDirectory;
+        public static readonly string MediaPath = "Media";
+        public static readonly string Directory= Path.Combine(System.IO.Directory.GetCurrentDirectory());
 
-        public static readonly string Product_Images = Path.Combine(Directory, "media", "product", "images");
-        public static readonly string Product_DefaultImageName = "product.png";
+        public readonly struct Product
+        {
+            public static readonly string Images = Path.Combine(MediaPath, "product", "images");
+            public static readonly string DefaultImageName = "product.png";
+        }
 
-        
-        public static readonly string Author_Images = Path.Combine(Directory, "media", "author", "images");
-        public static readonly string Author_Man_DefaultImageName = "author-man.png";
-        public static readonly string Author_Woman_DefaultImageName = "author-woman.png";
+        public readonly struct Author
+        {
+            public static readonly string Images = Path.Combine(MediaPath, "author", "images");
+            public static readonly string Man_DefaultImageName = "author-man.png";
+            public static readonly string Woman_DefaultImageName = "author-woman.png";
+        }
 
-        
-        public static readonly string Category_Images = Path.Combine(Directory, "media", "category", "images");
-        public static readonly string Category_DefaultImageName = "category.png";
+        public readonly struct Category
+        {
+            public static readonly string Images = Path.Combine(MediaPath, "category", "images");
+            public static readonly string DefaultImageName = "category.png";
+        }
 
-        
-        public static readonly string EBook_Files = Path.Combine(Directory, "media", "ebook", "files");
+        public readonly struct EBook
+        {
+            public static readonly string Files = Path.Combine(MediaPath, "ebook", "files");
+        }
 
-        
-        public static readonly string Publisher_Images = Path.Combine(Directory, "media", "publisher", "images");
-        public static readonly string Publisher_DefaultImageName = "publisher.png";
+        public readonly struct Publisher
+        {
+            public static readonly string Images = Path.Combine(MediaPath, "publisher", "images");
+            public static readonly string DefaultImageName = "publisher.png";
+        }
 
+        public readonly struct Translator
+        {
+            public static readonly string Images = Path.Combine(MediaPath, "translator", "images");
+            public static readonly string Man_DefaultImageName = "translator-man.png";
+            public static readonly string Woman_DefaultImageName = "translator-woman.png";
+        }
 
-        public static readonly string Translator_Images = Path.Combine(Directory, "media", "translator", "images");
-        public static readonly string Translator_Man_DefaultImageName = "translator-man.png";
-        public static readonly string Translator_Woman_DefaultImageName = "translator-woman.png";
-
+        public readonly struct User
+        {
+            public static readonly string Images = Path.Combine(MediaPath, "user", "images");
+            public static readonly string DefaultImageName = "user.png";
+        }
 
     }
 }

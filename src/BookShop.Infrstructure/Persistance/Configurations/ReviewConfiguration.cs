@@ -16,7 +16,7 @@ namespace BookShop.Infrastructure.Persistance.Configurations
 
             //Properties
             builder.Property(a => a.Email).HasColumnType("VarChar(30)");
-            builder.Property(a => a.Text).HasColumnType("NVarChar(200)");
+            builder.Property(a => a.Text).HasColumnType("NVarChar(500)");
             builder.Property(a => a.Name).HasColumnType("NVarChar(30)");
 
         }

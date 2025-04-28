@@ -66,7 +66,7 @@ namespace BookShop.IntegrationTest.Features.Publisher.Commands
             //Arrnage 
             updatePublisherCommand.ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "publisher.png"));
             await _TestRepository.AddPermissionForUser(PermissionConstants.Publisher.Update);
-            int imagesCount = Directory.GetFiles(PathExtensions.Publisher_Images).Count();
+            int imagesCount = Directory.GetFiles(PathExtensions.Publisher.Images).Count();
 
             //Act
             await requestAndGetResult();
@@ -76,7 +76,7 @@ namespace BookShop.IntegrationTest.Features.Publisher.Commands
             Assert.True(result.IsSuccess);
             var entity = await _TestRepository.Get<E.Publisher, Guid>(updatePublisherCommand.Id);
             assert_Publisher_Updated(entity);
-            int actualImagesCount = Directory.GetFiles(PathExtensions.Publisher_Images).Count();
+            int actualImagesCount = Directory.GetFiles(PathExtensions.Publisher.Images).Count();
             Assert.Equal(imagesCount + 1, actualImagesCount);
         }
 

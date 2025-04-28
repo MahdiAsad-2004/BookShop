@@ -28,7 +28,7 @@ namespace BookShop.IntegrationTest.Features.Publisher.Commands
         {
             //Arrnage 
             await _TestRepository.AddPermissionForUser(PermissionConstants.Publisher.Add);
-            int fileCounts = Directory.GetFiles(PathExtensions.Publisher_Images).Count();
+            int fileCounts = Directory.GetFiles(PathExtensions.Publisher.Images).Count();
             int publishersCount = await _TestRepository.Count<E.Publisher, Guid>();
 
             //Act
@@ -39,7 +39,7 @@ namespace BookShop.IntegrationTest.Features.Publisher.Commands
             Assert.True(result.IsSuccess);
             int actualPublishersCount = await _TestRepository.Count<E.Publisher, Guid>();
             Assert.Equal(publishersCount + 1, actualPublishersCount);
-            int actualFileCount = Directory.GetFiles(PathExtensions.Publisher_Images).Count();
+            int actualFileCount = Directory.GetFiles(PathExtensions.Publisher.Images).Count();
             Assert.Equal(fileCounts + 1, actualFileCount);
         }
 

@@ -70,7 +70,7 @@ namespace BookShop.IntegrationTest.Features.Translator.Commands
             //Arrnage 
             updateTranslatorCommand.ImageFile = FileExtensions.CreateIFormFile(Path.Combine(Directory.GetCurrentDirectory(), "Files", "translator-man.png"));
             await _TestRepository.AddPermissionForUser(PermissionConstants.Translator.Update);
-            int imagesCount = Directory.GetFiles(PathExtensions.Translator_Images).Count();
+            int imagesCount = Directory.GetFiles(PathExtensions.Translator.Images).Count();
 
             //Act
             await requestAndGetResult();
@@ -80,7 +80,7 @@ namespace BookShop.IntegrationTest.Features.Translator.Commands
             Assert.True(result.IsSuccess);
             var entity = await _TestRepository.Get<E.Translator, Guid>(updateTranslatorCommand.Id);
             assert_Translator_Updated(entity);
-            int actualImagesCount = Directory.GetFiles(PathExtensions.Translator_Images).Count();
+            int actualImagesCount = Directory.GetFiles(PathExtensions.Translator.Images).Count();
             Assert.Equal(imagesCount + 1, actualImagesCount);
         }
 

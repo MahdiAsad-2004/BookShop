@@ -1,8 +1,12 @@
-﻿using BookShop.Application.Features.Book.Commands.Create;
+﻿using BookShop.Application.Extensions;
+using BookShop.Application.Features.Book.Commands.Create;
 using BookShop.Application.Features.Book.Commands.Update;
 using BookShop.Application.Features.Book.Queries.GetDetail;
 using BookShop.Application.Features.Product.Dtos;
 using BookShop.Application.Features.Product.Queries.GetSummaries;
+using BookShop.WebApi.Mappers;
+using BookShop.WebApi.Models.Book;
+using Microsoft.Extensions.FileProviders;
 
 namespace BookShop.WebApi.Controllers
 {
@@ -11,7 +15,7 @@ namespace BookShop.WebApi.Controllers
     public class BookController : BaseController
     {
         #region constructor
-       
+
         public BookController(IMediator mediator) : base(mediator)
         {
         }
@@ -22,7 +26,7 @@ namespace BookShop.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(
             bool? Available = null, int? startPrice = null, int? endPrice = null, byte? score = null,
-            int? itemCount = null, int? pageNumber = null , ProductSortingOrder? sort = null)
+            int? itemCount = null, int? pageNumber = null, ProductSortingOrder? sort = null)
         {
             PaginatedDtos<ProductSummaryDto> paginatedProductSummaries = await _mediator.Send(new GetProductSummariesQuery
             {
@@ -31,7 +35,7 @@ namespace BookShop.WebApi.Controllers
                 EndPrice = endPrice,
                 SortingOrder = sort,
                 StartPrice = startPrice,
-                Paging = new Paging(itemCount , pageNumber),
+                Paging = new Paging(itemCount, pageNumber),
                 ProductType = ProductType.Book,
             });
             return Ok(paginatedProductSummaries);
@@ -44,7 +48,7 @@ namespace BookShop.WebApi.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
-        
+
 
         [HttpPut]
         public async Task<IActionResult> Update(UpdateBookCommand command)
@@ -61,8 +65,13 @@ namespace BookShop.WebApi.Controllers
             {
                 Id = id,
             });
-            return Ok(result);
+
+            BookDetailModel model = BookMapper.ToDetailModel(result);
+
+            return Ok(model);
         }
+
+
 
 
 

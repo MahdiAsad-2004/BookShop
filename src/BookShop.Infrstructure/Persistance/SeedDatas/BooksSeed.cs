@@ -44,6 +44,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
             counter++;
             DateTime now = DateTime.UtcNow;
             int discountCount = _randomizer.WeightedRandom([0, 1, 2, 3], [0.2f, 0.2f, 0.3f, 0.3f]);
+            Guid productId = Guid.NewGuid();
             var book = new Book
             {
                 Cover = _randomizer.Enum<Cover>(),
@@ -53,7 +54,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                 Cutting = _randomizer.Enum<Cutting>(),
                 DeletedBy = null,
                 Edition = _randomizer.Int(1, 10),
-                Id = Guid.NewGuid(),
+                Id = productId,
                 IsDeleted = false,
                 Language = _randomizer.Enum<Language>(),
                 LastModifiedBy = UsersSeed.SuperAdmin.Id.ToString(),
@@ -74,7 +75,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                     CreateDate = now,
                     DeleteDate = null,
                     DeletedBy = null,
-                    Id = Guid.NewGuid(),
+                    Id = productId,
                     IsDeleted = false,
                     LastModifiedBy = userId,
                     LastModifiedDate = now,

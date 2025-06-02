@@ -169,10 +169,6 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
 
 
-
-
-
-
         public async Task<Product> Get(Guid id, ProductQueryOption? queryOption)
         {
             var query = _dbSet.AsQueryable();
@@ -258,7 +254,6 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             return query.AsEnumerable();
         }
-
 
 
 
@@ -425,6 +420,8 @@ namespace BookShop.Infrastructure.Persistance.Repositories
 
             return new PaginatedEntities<Product>(products , paging , totalItemCount);
         }
+
+
 
         public async Task<bool> IsExist(string title)
         {

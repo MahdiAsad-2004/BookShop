@@ -1,4 +1,5 @@
 ﻿global using E = BookShop.Domain.Entities;
+global using MediatR;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -12,7 +13,6 @@ using BookShop.Application.Behaviours;
 using BookShop.Application.Behaviours.PreProcessors;
 using MediatR.Pipeline;
 using BookShop.Application.Common.Rules;
-using MediatR;
 using BookShop.Application.Features.Book.Commands.Create;
 
 namespace BookShop.Application

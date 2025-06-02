@@ -29,7 +29,7 @@ namespace BookShop.IntegrationTest.Features.Translator.Commands
         {
             //Arrnage 
             await _TestRepository.AddPermissionForUser(PermissionConstants.Translator.Add);
-            int fileCounts = Directory.GetFiles(PathExtensions.Translator.Images).Count();
+            int fileCounts = Directory.GetFiles(PhysicalPath(PathExtensions.Translator.Images)).Count();
             int translatorsCount = await _TestRepository.Count<E.Translator, Guid>();
 
             //Act
@@ -40,7 +40,7 @@ namespace BookShop.IntegrationTest.Features.Translator.Commands
             Assert.True(result.IsSuccess);
             int actualTranslatorsCount = await _TestRepository.Count<E.Translator, Guid>();
             Assert.Equal(translatorsCount + 1, actualTranslatorsCount);
-            int actualFileCount = Directory.GetFiles(PathExtensions.Translator.Images).Count();
+            int actualFileCount = Directory.GetFiles(PhysicalPath(PathExtensions.Translator.Images)).Count();
             Assert.Equal(fileCounts + 1, actualFileCount);
         }
 

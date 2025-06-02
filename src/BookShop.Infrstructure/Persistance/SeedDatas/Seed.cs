@@ -32,7 +32,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
 
         public async Task SeedDatas()
         {
-            string userId = UsersSeed.SuperAdmin.Id.ToString();
+            string userId = UsersSeed.SuperAdminId.ToString();
             using var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetService<BookShopDbContext>();
             IPasswordHasher passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
@@ -42,15 +42,15 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                 {
                     if (dbContext.Users.Any() == false)
                     {
-                        await dbContext.Users.AddAsync(UsersSeed.SuperAdmin);
-                        await dbContext.SaveChangesAsync();
                         UsersSeed usersSeed = new UsersSeed(passwordHasher);
+                        await dbContext.Users.AddAsync(usersSeed.SuperAdmin());
+                        await dbContext.SaveChangesAsync();
                         await dbContext.Users.AddRangeAsync(usersSeed.Get());
                         await dbContext.SaveChangesAsync();
                     }
                     if (dbContext.Permissions.Any() == false)
                     {
-                        await dbContext.Permissions.AddRangeAsync(PermissionsSeed.GetPermissions(UsersSeed.SuperAdmin.Id));
+                        await dbContext.Permissions.AddRangeAsync(PermissionsSeed.GetPermissions(UsersSeed.SuperAdminId));
                         await dbContext.SaveChangesAsync();
                     }
                     if(dbContext.Publishers.Any() == false)

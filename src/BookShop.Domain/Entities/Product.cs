@@ -28,8 +28,12 @@ namespace BookShop.Domain.Entities
             get
             {
                 if (_DiscountedPrice == null)
-                    return GetDscountedPrice();
+                    _DiscountedPrice = GetDiscountedPrice();
                 return _DiscountedPrice;
+
+                //if (_DiscountedPrice == null)
+                //    return GetDiscountedPrice();
+                //return _DiscountedPrice;
             }
             init { _DiscountedPrice = value; }
         }
@@ -52,6 +56,8 @@ namespace BookShop.Domain.Entities
         public Book? Book { get; set; }
         public EBook? EBook { get; set; }
         public Category? Category { get; set; }
+        public IList<CartItem> CartItems { get; set; }
+        public IList<OrderItem> OrderItems { get; set; }
         public IList<Favorite> Favorites { get; set; }
         public IList<Review> Reviews { get; set; }
         //public IList<Product_Category> Product_Categories { get; set; }
@@ -105,7 +111,7 @@ namespace BookShop.Domain.Entities
             return Price;
         }
 
-        private float? GetDscountedPrice()
+        private float? GetDiscountedPrice()
         {
             if (Product_Discounts != null && Product_Discounts.Any())
             {

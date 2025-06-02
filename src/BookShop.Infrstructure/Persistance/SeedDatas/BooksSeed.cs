@@ -48,7 +48,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
             var book = new Book
             {
                 Cover = _randomizer.Enum<Cover>(),
-                CreateBy = UsersSeed.SuperAdmin.Id.ToString(),
+                CreateBy = UsersSeed.SuperAdminId.ToString(),
                 CreateDate = now,
                 DeleteDate = null,
                 Cutting = _randomizer.Enum<Cutting>(),
@@ -57,7 +57,7 @@ namespace BookShop.Infrstructure.Persistance.SeedDatas
                 Id = productId,
                 IsDeleted = false,
                 Language = _randomizer.Enum<Language>(),
-                LastModifiedBy = UsersSeed.SuperAdmin.Id.ToString(),
+                LastModifiedBy = UsersSeed.SuperAdminId.ToString(),
                 LastModifiedDate = now,
                 NumberOfPages = _randomizer.Int(10, 1000),
                 Shabak = string.Empty,

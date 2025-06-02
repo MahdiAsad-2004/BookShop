@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShop.IntegrationTest", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShop.WebApi", "src\BookShop.WebApi\BookShop.WebApi.csproj", "{7CCFFC7D-881A-45D6-A1B9-90809B7F5D08}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "BookShop.AngularApp", "src\BookShop.AngularApp\BookShop.AngularApp.esproj", "{6F41CBD5-0DE8-BFBF-911C-754D9646919A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,12 @@ Global
 		{7CCFFC7D-881A-45D6-A1B9-90809B7F5D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CCFFC7D-881A-45D6-A1B9-90809B7F5D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CCFFC7D-881A-45D6-A1B9-90809B7F5D08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +102,7 @@ Global
 		{2C5778AB-A339-4B17-AC78-A47FAB25D003} = {2622CF8A-DD67-450A-8D8C-794F1FA7B8EC}
 		{04397F62-702E-4A4C-9C69-8383C8C266F1} = {2C5778AB-A339-4B17-AC78-A47FAB25D003}
 		{7CCFFC7D-881A-45D6-A1B9-90809B7F5D08} = {696BA206-FF79-4828-B53D-D3914CE11315}
+		{6F41CBD5-0DE8-BFBF-911C-754D9646919A} = {D5377267-925A-4745-A8EC-9DF6C109D8FF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BB6C397-B648-4918-BA96-0A3FC7FED108}

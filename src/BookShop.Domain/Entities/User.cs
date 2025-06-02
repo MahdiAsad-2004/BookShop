@@ -27,6 +27,8 @@ namespace BookShop.Domain.Entities
         //public IList<UserClaim> UserClaims { get; set; }
         //public IList<User_Role> User_Roles { get; set; }
         public Role? Role { get; set; }
+        public Cart Cart { get; set; }
+        public IList<Order> Orders { get; set; }
         public IList<AuditLog> AuditLogs { get; set; }
         public IList<Favorite> Favorites { get; set; }
         public IList<Review> Reviews { get; set; }

@@ -76,7 +76,7 @@ namespace BookShop.IntegrationTest.Features.Product.FakerData
 
         public static E.Product Create(Guid? id = null, string? title = null, int? price = null,
             ProductType? productType = null, List<Product_Discount>? product_Discounts = null,
-            bool? available = null, int? sellCount = 0, List<E.Review>? reviews = null, E.Category? category = null)
+            bool? available = null, int? sellCount = 0, List<E.Review>? reviews = null, E.Category? category = null, int? numberOfInventory = null)
         {
             id = id ?? Guid.NewGuid();
             string identifire = id.ToString().Substring(0, 3);
@@ -88,7 +88,7 @@ namespace BookShop.IntegrationTest.Features.Product.FakerData
                 ImageName = $"Image-{identifire}",
                 Price = price ?? Random.Shared.Next(1000, 10_000_000),
                 ProductType = productType ?? ProductType.Book,
-                NumberOfInventory = available == false ? 0 : Random.Shared.Next(0, 500),
+                NumberOfInventory = numberOfInventory ?? (available == false ? 0 : Random.Shared.Next(0, 500)),
                 SellCount = sellCount > 0 ? sellCount.Value : Random.Shared.Next(0, 100),
                 Product_Discounts = product_Discounts,
                 Reviews = reviews,

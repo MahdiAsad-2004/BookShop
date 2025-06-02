@@ -31,13 +31,13 @@ namespace BookShop.IntegrationTest.Features.Category.Commands
         {
             //Arrnage 
             await _TestRepository.AddPermissionForUser(PermissionConstants.Categoory.Add);
-            int fileCounts = Directory.GetFiles(PathExtensions.Category.Images).Count();
+            int fileCounts = Directory.GetFiles(PhysicalPath(PathExtensions.Category.Images)).Count();
 
             //Act
             await requestAndGetResult();
 
             //Assert
-            int actualFileCount = Directory.GetFiles(PathExtensions.Category.Images).Count();
+            int actualFileCount = Directory.GetFiles(PhysicalPath(PathExtensions.Category.Images)).Count();
             Assert.NotNull(result);
             Assert.True(result.IsSuccess);
             Assert.Equal(fileCounts + 1, actualFileCount);

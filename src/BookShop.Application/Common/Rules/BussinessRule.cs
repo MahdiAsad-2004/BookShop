@@ -29,6 +29,10 @@ namespace BookShop.Application.Common.Rules
             return _stopOnError && _errorOccured;
         }
 
+        protected void addValidationError(ValidationError validationError)
+        {
+            ValidationErrors.Add(validationError);
+        }
 
 
     }

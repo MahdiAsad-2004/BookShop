@@ -9,11 +9,11 @@ namespace BookShop.Domain.Common.Repository
     {
         Task Add(TEntity entity);
 
-        Task Update(TEntity entity);
+        Task<bool> Update(TEntity entity);
 
-        Task SoftDelete(TEntity entity);
+        Task<bool> SoftDelete(TEntity entity);
 
-        Task SoftDelete(TKey key);
+        Task<bool> SoftDelete(TKey key);
 
 
 

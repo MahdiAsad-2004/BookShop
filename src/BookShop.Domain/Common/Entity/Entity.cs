@@ -1,4 +1,6 @@
 ﻿using BookShop.Domain.Common.Event;
+using BookShop.Domain.Entities;
+using BookShop.Domain.Identity;
 
 namespace BookShop.Domain.Common.Entity
 {
@@ -14,6 +16,7 @@ namespace BookShop.Domain.Common.Entity
         public DateTime? DeleteDate { get; set; } = null;
         public string? DeletedBy { get; set; } = null;
         public bool IsDeleted { get; set; } = false;
+        public byte[] RowVersion { get; set; }
 
 
         private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
@@ -46,6 +49,21 @@ namespace BookShop.Domain.Common.Entity
             await PublishAllDomainEvents(domainEventPublisher);
             ClearDomainEvents();
         }
+
+
+        public void SetPropertiesForCreate(TId id,string userId)
+        {
+            DateTime now = DateTime.UtcNow;
+            Id = id;
+            CreateBy = userId;
+            CreateDate = now;
+            DeleteDate = null;
+            DeletedBy = null;
+            LastModifiedBy = userId;
+            LastModifiedDate = now;
+            IsDeleted = false;
+        }
+
 
     }
 }

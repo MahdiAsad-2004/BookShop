@@ -69,6 +69,12 @@ namespace BookShop.Infrstructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -118,6 +124,12 @@ namespace BookShop.Infrstructure.Migrations
                         .IsRequired()
                         .HasColumnType("NVarChar(30)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("Id");
 
                     b.ToTable("Authors", (string)null);
@@ -157,6 +169,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -201,6 +219,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -264,6 +288,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<Guid>("PublisherId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<string>("Shabak")
                         .HasColumnType("VarChar(20)");
 
@@ -283,6 +313,105 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasIndex("TranslatorId");
 
                     b.ToTable("Books", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Carts", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Category", b =>
@@ -319,6 +448,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -378,6 +513,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -448,6 +589,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<Guid>("PublisherId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<Guid?>("TranslatorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -495,6 +642,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -505,6 +658,192 @@ namespace BookShop.Infrstructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Favorites", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<int>("DeliveryPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiscountPrice")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EstimatedDeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("PackWeight")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ProductPriceSummary")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int>("TotlaPrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TrackingCode")
+                        .HasColumnType("VarChar(50)");
+
+                    b.Property<string>("UsedDiscountCode")
+                        .HasColumnType("VarChar(50)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Product_Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Product_PurchasePrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Product_Title")
+                        .IsRequired()
+                        .HasColumnType("NVarChar(50)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems", (string)null);
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.OrderStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DoneDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("VarChar(36)");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderStatuses", (string)null);
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.PasswordHistory", b =>
@@ -539,6 +878,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("VarChar(300)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -582,6 +927,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("VarChar(30)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -636,6 +987,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<int>("ProductType")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int>("SellCount")
                         .HasColumnType("int");
 
@@ -685,6 +1042,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DiscountId");
@@ -725,6 +1088,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -769,6 +1138,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<bool>("Revoked")
                         .HasColumnType("bit");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("TokenValue")
                         .IsRequired()
@@ -824,6 +1199,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<byte>("Score")
                         .HasColumnType("tinyint");
@@ -884,6 +1265,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("NormalizedName")
                         .HasColumnType("VarChar(30)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("Id");
 
                     b.ToTable("Roles", (string)null);
@@ -927,6 +1314,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("NVarChar(30)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -1011,6 +1404,12 @@ namespace BookShop.Infrstructure.Migrations
                     b.Property<Guid?>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("VarChar(50)");
 
@@ -1059,6 +1458,12 @@ namespace BookShop.Infrstructure.Migrations
 
                     b.Property<Guid>("PermissionId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -1147,6 +1552,36 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("Translator");
                 });
 
+            modelBuilder.Entity("BookShop.Domain.Entities.Cart", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.User", "User")
+                        .WithOne("Cart")
+                        .HasForeignKey("BookShop.Domain.Entities.Cart", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.Category", b =>
                 {
                     b.HasOne("BookShop.Domain.Entities.Category", "Parent")
@@ -1199,6 +1634,47 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.OrderStatus", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Order", "Order")
+                        .WithMany("OrderStatuses")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.PasswordHistory", b =>
@@ -1309,6 +1785,11 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("Author_Books");
                 });
 
+            modelBuilder.Entity("BookShop.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Childs");
@@ -1326,6 +1807,13 @@ namespace BookShop.Infrstructure.Migrations
                     b.Navigation("Author_EBooks");
                 });
 
+            modelBuilder.Entity("BookShop.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("OrderStatuses");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.Permission", b =>
                 {
                     b.Navigation("User_Permissions");
@@ -1335,9 +1823,13 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     b.Navigation("Book");
 
+                    b.Navigation("CartItems");
+
                     b.Navigation("EBook");
 
                     b.Navigation("Favorites");
+
+                    b.Navigation("OrderItems");
 
                     b.Navigation("Product_Discounts");
 
@@ -1367,7 +1859,12 @@ namespace BookShop.Infrstructure.Migrations
                 {
                     b.Navigation("AuditLogs");
 
+                    b.Navigation("Cart")
+                        .IsRequired();
+
                     b.Navigation("Favorites");
+
+                    b.Navigation("Orders");
 
                     b.Navigation("PasswordHistories");
 

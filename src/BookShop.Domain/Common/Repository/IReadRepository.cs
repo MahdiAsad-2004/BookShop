@@ -14,6 +14,8 @@ namespace BookShop.Domain.Common.Repository
 
         Task<TEntity> Get(string key);
 
+        Task<bool> IsExist(TKey key);
+
 
         //Task<IEnumerable<TEntity>> GetAll<TQueryOption>(Action<TQueryOption> configQueryOption)
         //    where TQueryOption : IQueryOption<TEntity, TKey>, new();

@@ -6,8 +6,11 @@ using BookShop.Domain.Entities;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.Identity;
 using BookShop.Infrastructure.Persistance.QueryOptions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
+using System.Security.Cryptography;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BookShop.Infrastructure.Persistance.Repositories.Common
 {
@@ -89,33 +92,73 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             return entity;
         }
 
-        public virtual async Task Update(TEntity entity)
+
+        public Task<bool> IsExist(TKey key)
+        {
+            return _dbSet.AnyAsync(a => a.Id.Equals(key));
+        }
+
+
+        public virtual async Task<bool> Update(TEntity entity)
         {
             entity.LastModifiedDate = DateTime.UtcNow;
             entity.LastModifiedBy = _currentUser.GetId();
             _dbContext.Set<TEntity>().Update(entity);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException concurrencyException)
+            {
+                return false;
+            }
             await entity.PublishAllDomainEventsAndClear(_domainEventPublisher);
+            return true;
         }
 
-        public async Task SoftDelete(TEntity entity)
+        public async Task<bool> SoftDelete(TEntity entity)
         {
             entity.DeleteDate = DateTime.UtcNow;
             entity.DeletedBy = _currentUser.GetId();
             entity.IsDeleted = true;
             _dbContext.Update(entity);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException concurrencyException)
+            {
+                return false;
+            }
             await entity.PublishAllDomainEventsAndClear(_domainEventPublisher);
+            return true;
         }
 
-        public async Task SoftDelete(TKey key)
+        public async Task<bool> SoftDelete(TKey key)
         {
-            TEntity? entity = await _dbContext.Set<TEntity>().FindAsync(key);
-
-            if (entity == null)
-                throw new NotFoundException($"Entity with id '{key}' not found)");
-
-            await SoftDelete(entity);
+            string? tableName = _dbContext.Set<TEntity>().EntityType.GetTableName();
+            if (string.IsNullOrEmpty(tableName))
+            {
+                tableName = _dbContext.Set<TEntity>().EntityType.GetDefaultTableName();
+            }
+            string command = $"""
+                   UPDATE {tableName}
+                   SET 
+                   [IsDeleted] = 1,
+                   [DeleteDate] = '{DateTime.UtcNow}',
+                   [DeletedBy] = '{_currentUser.Id.Value}'
+                   WHERE [Id] = '{key}'
+                """;
+            int rowAffected = 0;
+            try
+            {
+                rowAffected = await _dbContext.Database.ExecuteSqlRawAsync(command);
+            }
+            catch (DbUpdateConcurrencyException concurrencyException)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async void Dispose()
@@ -181,7 +224,7 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
             }
             return query;
         }
-        
+
         internal string? ApplyBaseSort<TBaseSort>(string entityAlias, TBaseSort baseSort)
             where TBaseSort : Enum
         {
@@ -195,6 +238,21 @@ namespace BookShop.Infrastructure.Persistance.Repositories.Common
                 sortOrderQuery = $"Order By {entityAlias}.[CreateDate] Desc";
             }
             return sortOrderQuery;
+        }
+
+
+
+        public static void SetPropertiesForCreate(TEntity entity, TKey key, string userId)
+        {
+            DateTime now = DateTime.UtcNow;
+            entity.Id = key;
+            entity.CreateBy = userId;
+            entity.CreateDate = now;
+            entity.DeleteDate = null;
+            entity.DeletedBy = null;
+            entity.LastModifiedBy = userId;
+            entity.LastModifiedDate = now;
+            entity.IsDeleted = false;
         }
 
     }

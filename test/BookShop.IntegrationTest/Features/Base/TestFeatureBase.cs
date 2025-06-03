@@ -45,29 +45,36 @@ namespace BookShop.IntegrationTest.Features.Base
         }
 
 
+        private ErrorCode[] validation_erroCodes =
+        {
+            ErrorCode.Validation_Failed ,
+            ErrorCode.Duplicate_Entry ,
+            ErrorCode.Not_Found ,
+            ErrorCode.Required_Field ,
+        };
         protected void _Assert_Result_Should_Be_ValidationError<TData>(Result<TData> result)
         {
             Assert.NotNull(result);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Error);
-            Assert.Equal(ErrorCode.Validation, result.Error.Code);
+            Assert.True(validation_erroCodes.Contains(result.Error.Code));
         }
 
 
         protected void _Assert_ValidationError_Conatain<TDate>(Result<TDate> result, string propertyName)
         {
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == propertyName);
+            Assert.Contains(result!.Error!.Details, a => a.Target == propertyName);
         }
 
 
 
         protected void _OutPutValidationErrors<TData>(Result<TData> result)
         {
-            if (result != null && result.Error != null && result.Error.ValidationErrors != null)
+            if (result != null && result.Error != null && result.Error.Details != null)
             {
-                for (int i = 0; i < result.Error.ValidationErrors.Count; i++)
+                for (int i = 0; i < result.Error.Details.Count; i++)
                 {
-                    _TestOutputHelper.WriteLine($"Validation Error {i + 1}: {result.Error.ValidationErrors[i].ErrorMessage}");
+                    _TestOutputHelper.WriteLine($"Validation Error {i + 1}: {result.Error.Details[i].Message}");
                 }
             }
         }

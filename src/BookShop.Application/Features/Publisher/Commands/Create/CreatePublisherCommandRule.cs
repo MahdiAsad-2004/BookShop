@@ -1,5 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
+using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Publisher.Commands.Create
@@ -19,22 +20,22 @@ namespace BookShop.Application.Features.Publisher.Commands.Create
 
 
         [RuleItem]
-        public async Task Check_ImageFile_IsNotNull()
+        public async Task ImageFile_Must_NotNull()
         {
             if (_request.ImageFile == null)
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.ImageFile), "{PropertyName} can not be null"));
+                addErrorDetail(ErrorCode.Required_Field, nameof(_request.ImageFile), "{PropertyName} can not be null");
             }
         }
 
         [RuleItem]
-        public async Task Check_Title_IsNotDuplicate()
+        public async Task Title_Must_Not_Be_Duplicate()
         {
             if (await _publisherRepository.IsExist(_request.Title))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Title), $"Publisher with title '{_request.Title}' already exist"));
+                addErrorDetail(ErrorCode.Duplicate_Entry, nameof(_request.Title), $"Publisher with title '{_request.Title}' already exist");
             }
         }
 

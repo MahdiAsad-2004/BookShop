@@ -1,5 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
+using BookShop.Domain.Enums;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
@@ -25,7 +26,7 @@ namespace BookShop.Application.Features.Favorite.Commands.Remove
             if(await _favoriteRepository.IsExist(_request.FavoriteId) == false)
             {
                 errorOccured();
-                addValidationError(new ValidationError(nameof(_request.FavoriteId), "User favorite was not exist"));
+                addErrorDetail(ErrorCode.Not_Found,nameof(_request.FavoriteId), "User favorite not found");
             }
         }
 

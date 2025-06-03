@@ -1,6 +1,7 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
 using BookShop.Application.Features.Discount.Commands.Create;
+using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Discount.Commands.Update
@@ -19,12 +20,12 @@ namespace BookShop.Application.Features.Discount.Commands.Update
 
 
         [RuleItem]
-        public async Task Check_Name_IsNotDuplicate()
+        public async Task Name_Must_Not_Duplicate()
         {
             if (await _DiscountRepository.IsExist(_request.Name , exceptId:_request.Id))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Discount with name '{_request.Name}' already exist"));
+                addErrorDetail(ErrorCode.Duplicate_Entry, nameof(_request.Name), $"Discount with name '{_request.Name}' already exist");
             }
         }
 

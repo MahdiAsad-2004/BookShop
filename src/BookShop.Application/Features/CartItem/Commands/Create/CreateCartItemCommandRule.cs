@@ -1,5 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
+using BookShop.Domain.Enums;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 using FluentValidation;
@@ -27,7 +28,7 @@ namespace BookShop.Application.Features.CartItem.Commands.Create
             if(await _productRepository.IsExist(_request.ProductId) == false)
             {
                 errorOccured();
-                addValidationError(new ValidationError(nameof(_request.ProductId), $"Product not exist"));
+                addErrorDetail(ErrorCode.Not_Found, nameof(_request.ProductId), $"Product not found");
             }
         }
 

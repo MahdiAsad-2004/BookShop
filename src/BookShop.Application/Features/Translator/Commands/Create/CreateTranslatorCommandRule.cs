@@ -1,5 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
+using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Translator.Commands.Create
@@ -20,22 +21,22 @@ namespace BookShop.Application.Features.Translator.Commands.Create
 
 
         [RuleItem]
-        public async Task Check_ImageFile_IsNotNull()
+        public async Task ImageFile_Must_Not_Null()
         {
             if(_request.ImageFile == null)
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.ImageFile), "{PropertyName} can not be null"));
+                addErrorDetail(ErrorCode.Required_Field, nameof(_request.ImageFile), "{PropertyName} can not be null");
             }
         }
 
         [RuleItem]
-        public async Task Check_Name_IsNotDuplicate()
+        public async Task Name_Must_Not_Duplicate()
         {
             if(await _translatorRepository.IsExist(_request.Name))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Translator with name '{_request.Name}' already exist"));
+                addErrorDetail(ErrorCode.Duplicate_Entry, nameof(_request.Name), $"Translator with name '{_request.Name}' already exist");
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
+using BookShop.Domain.Enums;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
@@ -27,7 +28,7 @@ namespace BookShop.Application.Features.Favorite.Commands.Create
             if(await _productRepository.IsExist(_request.ProductId) == false)
             {
                 errorOccured();
-                addValidationError(new ValidationError(nameof(_request.ProductId), "Product was not exist"));
+                addErrorDetail(ErrorCode.Not_Found, nameof(_request.ProductId), "Product not found");
             }
         }
 
@@ -38,7 +39,7 @@ namespace BookShop.Application.Features.Favorite.Commands.Create
             if(await _userRepository.IsExist(_request.UserId) == false)
             {
                 errorOccured();
-                addValidationError(new ValidationError(nameof(_request.UserId), "User was not exist"));
+                addErrorDetail(ErrorCode.Not_Found,nameof(_request.UserId), "User not found");
             }
         }
 

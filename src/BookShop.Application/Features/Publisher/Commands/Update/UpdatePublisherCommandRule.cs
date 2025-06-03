@@ -1,7 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
-using BookShop.Application.Features.Publisher.Commands.Create;
-using BookShop.Application.Features.Publisher.Commands.Update;
+using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Publisher.Commands.Update
@@ -21,12 +20,12 @@ namespace BookShop.Application.Features.Publisher.Commands.Update
 
 
         [RuleItem]
-        public async Task Check_Title_IsNotDuplicate()
+        public async Task Title_Must_Not_Duplicate()
         {
             if (await _publisherRepository.IsExist(_request.Title,exceptId: _request.Id))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Title), $"Publisher with title '{_request.Title}' already exist"));
+                addErrorDetail(ErrorCode.Duplicate_Entry, nameof(_request.Title), $"Publisher with title '{_request.Title}' already exist");
             }
         }
 

@@ -7,7 +7,7 @@ namespace BookShop.Application.Common.Response
     {
         public bool IsSuccess { get; init; }
         public bool IsFailure => !IsSuccess;
-        public List<ValidationError> ValidationErrors { get; init; }
+        //public List<ValidationError> ValidationErrors { get; init; }
     
     
     }

@@ -88,7 +88,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.Name));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.Name));
             _OutPutValidationErrors(result);
         }
 
@@ -121,8 +121,8 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPercent));
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPrice));
+            Assert.Contains(result!.Error!.Details, a => a.Target == nameof(updateDiscountCommand.DiscountPercent));
+            Assert.Contains(result!.Error!.Details, a => a.Target == nameof(updateDiscountCommand.DiscountPrice));
             _OutPutValidationErrors(result);
         }
 
@@ -138,8 +138,8 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPercent));
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPrice));
+            Assert.Contains(result!.Error!.Details, a => a.Target == nameof(updateDiscountCommand.DiscountPercent));
+            Assert.Contains(result!.Error!.Details, a => a.Target == nameof(updateDiscountCommand.DiscountPrice));
             _OutPutValidationErrors(result);
         }
 
@@ -156,7 +156,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPercent));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.DiscountPercent));
             _OutPutValidationErrors(result);
         }
 
@@ -173,7 +173,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPercent));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.DiscountPercent));
             _OutPutValidationErrors(result);
         }
 
@@ -190,7 +190,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.DiscountPrice));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.DiscountPrice));
             _OutPutValidationErrors(result);
         }
 
@@ -206,7 +206,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.EndDate));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.EndDate));
             _OutPutValidationErrors(result);
         }
 
@@ -222,7 +222,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.StartDate));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.StartDate));
             _OutPutValidationErrors(result);
         }
 
@@ -239,8 +239,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.EndDate));
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.StartDate));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.StartDate));
             _OutPutValidationErrors(result);
         }
 
@@ -256,7 +255,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.MaximumUseCount));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.MaximumUseCount));
             _OutPutValidationErrors(result);
         }
 
@@ -272,7 +271,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.Priority));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.Priority));
             _OutPutValidationErrors(result);
         }
 
@@ -288,7 +287,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.Name));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.Name));
             _OutPutValidationErrors(result);
         }
 
@@ -304,7 +303,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.Name));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.Name));
             _OutPutValidationErrors(result);
         }
 
@@ -320,7 +319,7 @@ namespace BookShop.IntegrationTest.Features.Discount.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(updateDiscountCommand.Name));
+            _Assert_ValidationError_Conatain(result, nameof(updateDiscountCommand.Name));
             _OutPutValidationErrors(result);
         }
 

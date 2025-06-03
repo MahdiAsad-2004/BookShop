@@ -6,13 +6,13 @@ namespace BookShop.Domain.IRepositories
 {
     public interface IFavoriteRepository :
         IRepository,
-        //IReadRepository<Favorite, Guid>,
+        IReadRepository<Favorite, Guid>,
         IWriteRepository<Favorite, Guid>
         //IDeleteRepository<Favorite, Guid>
     {
 
         Task<bool> IsExist(Guid userId, Guid productId);
-
+        
         Task<Favorite[]> GetAll(FavoriteQueryOption queryOption);
 
 

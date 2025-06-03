@@ -110,7 +110,7 @@ namespace BookShop.IntegrationTest.Features.User.Commands
             //Assert
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Error);
-            Assert.Equal(ErrorCode.Authentication, result.Error.Code);
+            Assert.Equal(ErrorCode.Insufficient_Permissions, result.Error.Code);
         }
 
 
@@ -128,7 +128,7 @@ namespace BookShop.IntegrationTest.Features.User.Commands
             //Assert
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Error);
-            Assert.Equal(ErrorCode.Authentication, result.Error.Code);
+            Assert.Equal(ErrorCode.Insufficient_Permissions, result.Error.Code);
         }
 
 
@@ -146,7 +146,7 @@ namespace BookShop.IntegrationTest.Features.User.Commands
             //Assert
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Error);
-            Assert.Equal(ErrorCode.Authentication, result.Error.Code);
+            Assert.Equal(ErrorCode.Insufficient_Permissions, result.Error.Code);
         }
 
 

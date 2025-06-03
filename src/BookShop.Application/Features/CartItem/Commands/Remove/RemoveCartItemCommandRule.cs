@@ -1,5 +1,6 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
+using BookShop.Domain.Enums;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
@@ -24,7 +25,7 @@ namespace BookShop.Application.Features.CartItem.Commands.Remove
             if (await _cartItemRepository.IsExist(_request.CartItemId) == false)
             {
                 errorOccured();
-                addValidationError(new ValidationError(nameof(_request.CartItemId), $"Product was not exist in cart"));
+                addErrorDetail(ErrorCode.Not_Found , nameof(_request.CartItemId), $"Product was not exist in cart");
             }
         }
 

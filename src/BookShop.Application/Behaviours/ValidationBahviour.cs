@@ -3,6 +3,7 @@ using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
 using BookShop.Application.Extensions;
 using BookShop.Domain.Common;
+using BookShop.Domain.Enums;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,7 +45,7 @@ namespace BookShop.Application.Behaviours
                     {
                         ResultData = null,
                         IsSuccess = false,
-                        Error = new Error(ErrorCode.Validation, string.Empty, failures.Errors.ToValidationErrors())
+                        Error = new Error(ErrorCode.Validation_Failed, $"{failures.Errors.Count} validation error occured", failures.Errors.ToErrorDetails())
                     };
                 }
             }
@@ -64,13 +65,18 @@ namespace BookShop.Application.Behaviours
                         break;
                 }   
                 
-                if (_bussinessRule.ValidationErrors.Any())
+                if (_bussinessRule.ErrorDetails.Any())
                 {
+                    ErrorCode mainErrorCode = ErrorCode.Validation_Failed;
+                    if(_bussinessRule.ErrorDetails.Count == 1)
+                    {
+                        mainErrorCode = _bussinessRule.ErrorDetails[0].Code;
+                    }
                     return new TResponse()
                     {
                         ResultData = null,
                         IsSuccess = false,
-                        Error = new Error(ErrorCode.Validation, string.Empty, _bussinessRule.ValidationErrors)
+                        Error = new Error(mainErrorCode, "Request has error", _bussinessRule.ErrorDetails)
                     };
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
 using BookShop.Application.Features.Translator.Commands.Create;
+using BookShop.Domain.Enums;
 using BookShop.Domain.IRepositories;
 
 namespace BookShop.Application.Features.Translator.Commands.Update
@@ -19,12 +20,12 @@ namespace BookShop.Application.Features.Translator.Commands.Update
 
 
         [RuleItem]
-        public async Task Check_Name_IsNotDuplicate()
+        public async Task Name_Must_Not_Duplicate()
         {
             if (await _authorRepository.IsExist(_request.Name,exceptId: _request.Id))
             {
                 errorOccured();
-                ValidationErrors.Add(new Domain.Exceptions.ValidationError(nameof(_request.Name), $"Translator with name '{_request.Name}' already exist"));
+                addErrorDetail(ErrorCode.Duplicate_Entry, nameof(_request.Name), $"Translator with name '{_request.Name}' already exist");
             }
         }
 

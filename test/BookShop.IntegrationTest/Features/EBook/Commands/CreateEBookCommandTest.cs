@@ -196,7 +196,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_Title));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_Title));
             _OutPutValidationErrors(result);
         }
 
@@ -212,7 +212,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_Title));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_Title));
             _OutPutValidationErrors(result);
         }
 
@@ -228,7 +228,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_Title));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_Title));
             _OutPutValidationErrors(result);
         }
 
@@ -244,7 +244,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_ImageFile));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_ImageFile));
             _OutPutValidationErrors(result);
         }
 
@@ -260,7 +260,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_ImageFile));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_ImageFile));
             _OutPutValidationErrors(result);
         }
 
@@ -276,7 +276,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_ImageFile));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_ImageFile));
             _OutPutValidationErrors(result);
         }
 
@@ -292,7 +292,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.AuthorIds));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.AuthorIds));
             _OutPutValidationErrors(result);
         }
 
@@ -308,7 +308,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Edition));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Edition));
             _OutPutValidationErrors(result);
         }
 
@@ -324,7 +324,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.NumberOfPages));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.NumberOfPages));
             _OutPutValidationErrors(result);
         }
 
@@ -340,7 +340,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_DescriptionHtml));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_DescriptionHtml));
             _OutPutValidationErrors(result);
         }
 
@@ -356,7 +356,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_DescriptionHtml));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_DescriptionHtml));
             _OutPutValidationErrors(result);
         }
 
@@ -372,7 +372,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_NumberOfInventory));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_NumberOfInventory));
             _OutPutValidationErrors(result);
         }
 
@@ -388,7 +388,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_Price));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_Price));
             _OutPutValidationErrors(result);
         }
 
@@ -404,7 +404,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.TranslatorId));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.TranslatorId));
             _OutPutValidationErrors(result);
         }
 
@@ -420,7 +420,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.TranslatorId));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.TranslatorId));
             _OutPutValidationErrors(result);
         }
 
@@ -436,7 +436,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_CategoryId));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_CategoryId));
             _OutPutValidationErrors(result);
         }
 
@@ -452,7 +452,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.Product_CategoryId));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.Product_CategoryId));
             _OutPutValidationErrors(result);
         }
 
@@ -468,7 +468,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.PublisherId));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.PublisherId));
             _OutPutValidationErrors(result);
         }
 
@@ -484,7 +484,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.AuthorIds));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.AuthorIds));
             _OutPutValidationErrors(result);
         }
 
@@ -500,7 +500,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.AuthorIds));
+            _Assert_ValidationError_Conatain(result, nameof(createEBookCommand.AuthorIds));
             _OutPutValidationErrors(result);
         }
 
@@ -516,7 +516,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.EBookFile));
+            _Assert_ValidationError_Conatain(result!, nameof(createEBookCommand.EBookFile));
             _OutPutValidationErrors(result);
 
         }
@@ -533,7 +533,7 @@ namespace BookShop.IntegrationTest.Features.EBook.Commands
 
             //Assert
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result!.Error!.ValidationErrors, a => a.PropertyName == nameof(createEBookCommand.EBookFile));
+            _Assert_ValidationError_Conatain(result!, nameof(createEBookCommand.EBookFile));
             _OutPutValidationErrors(result);
 
         }

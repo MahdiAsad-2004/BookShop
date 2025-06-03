@@ -1,6 +1,7 @@
 ﻿using BookShop.Application.Common.Rules;
 using BookShop.Application.Common.Ruless;
 using BookShop.Application.Features.EBook.Commands.Create;
+using BookShop.Domain.Enums;
 using BookShop.Domain.Exceptions;
 using BookShop.Domain.IRepositories;
 
@@ -31,81 +32,78 @@ namespace BookShop.Application.Features.EBook.Commands.Create
 
 
         [RuleItem]
-        public async Task Check_EBookFile_IsNotNull()
+        public async Task EBookFile_Must_Not_Null()
         {
             if(_request.EBookFile == null)
             {
                 errorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(_request.EBookFile),
-                    $"EBook file can not be null"));
+                addErrorDetail(ErrorCode.Required_Field , nameof(_request.EBookFile), $"EBook file can not be null");
             }
         }
 
         [RuleItem]
-        public async Task Check_Product_ImageFile_IsNotNull()
+        public async Task Product_ImageFile_Must_Not_Null()
         {
             if(_request.Product_ImageFile == null)
             {
                 errorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(_request.Product_ImageFile),
-                    $"Image File can not be null"));
+                addErrorDetail(ErrorCode.Required_Field, nameof(_request.Product_ImageFile), $"Image File is required");
             }
         }
 
         [RuleItem]
-        public async Task Check_Product_Title_IsNotDuplicate()
+        public async Task Product_Title_Must_Not_Duplicate()
         {
             if (await _productRepository.IsExist(_request.Product_Title) == true)
             {
                 errorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(_request.Product_Title), $"Product with title '{_request.Product_Title}' already exist"));
+                addErrorDetail(ErrorCode.Duplicate_Entry, nameof(_request.Product_Title), $"Product with title '{_request.Product_Title}' already exist");
             }
         }
 
         [RuleItem]
-        public async Task Check_Product_CategoryId_Exist()
+        public async Task Product_CategoryId_Must_Exist()
         {
             if (_request.Product_CategoryId != null)
             {
                 if (await _categoryRepository.IsExist(_request.Product_CategoryId.Value) == false)
                 {
                     errorOccured();
-                    ValidationErrors.Add(new ValidationError(nameof(_request.Product_CategoryId),
-                        $"Category with id '{_request.Product_CategoryId}' does not exist"));
+                    addErrorDetail(ErrorCode.Not_Found, nameof(_request.Product_CategoryId), $"Category with id '{_request.Product_CategoryId}' not found");
                 }
             }
         }
 
         [RuleItem]
-        public async Task Check_PublisherId_Exist()
+        public async Task PublisherId_Must_Exist()
         {
             if (await _publisherRepository.IsExist(_request.PublisherId) == false)
             {
                 errorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(_request.PublisherId), $"Publisher with id '{_request.PublisherId}' does not exist"));
+                addErrorDetail(ErrorCode.Not_Found, nameof(_request.PublisherId), $"Publisher with id '{_request.PublisherId}' not found");
             }
         }
 
         [RuleItem]
-        public async Task Check_AuthorIds_Exist()
+        public async Task AuthorIds_Must_Exist()
         {
             var a = await _authorRepository.AreExist(_request.AuthorIds);
             if (a == false)
             {
                 errorOccured();
-                ValidationErrors.Add(new ValidationError(nameof(_request.AuthorIds), $"Some Authors does not exist"));
+                addErrorDetail(ErrorCode.Not_Found, nameof(_request.AuthorIds), $"Some Authors not found");
             }
         }
 
         [RuleItem]
-        public async Task Check_TrnaslatorId_Exist()
+        public async Task TrnaslatorId_Must_Exist()
         {
             if (_request.TranslatorId != null)
             {
                 if (await _translatorRepository.IsExist(_request.TranslatorId.Value) == false)
                 {
                     errorOccured();
-                    ValidationErrors.Add(new ValidationError(nameof(_request.TranslatorId), $"Translator with id '{_request.TranslatorId}' does not exist"));
+                    addErrorDetail(ErrorCode.Not_Found, nameof(_request.TranslatorId), $"Translator with id '{_request.TranslatorId}' not found");
                 }
             }
         }

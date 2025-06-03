@@ -3,6 +3,7 @@ using BookShop.Domain.Common;
 using BookShop.Application.Common.Request;
 using BookShop.Domain.IRepositories;
 using BookShop.Domain.Identity;
+using BookShop.Domain.Enums;
 
 namespace BookShop.Application.Features.User.Commands.Login
 {
@@ -37,7 +38,7 @@ namespace BookShop.Application.Features.User.Commands.Login
                     IsSuccess = true,
                 };
             
-            return new Result<LoginCommandResponse>(null, false, error: new Error(ErrorCode.Authentication , "" , null));
+            return new Result<LoginCommandResponse>(null, false, error: new Error(ErrorCode.Invalid_Credentials , "Incorrect username or password"));
         }
     }
 

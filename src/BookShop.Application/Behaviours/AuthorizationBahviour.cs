@@ -1,8 +1,5 @@
 ﻿using BookShop.Application.Authorization;
-using BookShop.Application.Caching;
-using BookShop.Application.Common.Request;
 using BookShop.Domain.Exceptions;
-using MediatR;
 using Serilog;
 using System.Reflection;
 

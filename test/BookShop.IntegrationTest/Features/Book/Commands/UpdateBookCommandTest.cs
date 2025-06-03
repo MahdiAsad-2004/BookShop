@@ -435,7 +435,7 @@ namespace BookShop.IntegrationTest.Features.Book.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.Product_DescriptionHtml));
+            _Assert_ValidationError_Conatain(result, nameof(updateBookCommand.Product_DescriptionHtml));
             _OutPutValidationErrors(result);
         }
 
@@ -515,7 +515,7 @@ namespace BookShop.IntegrationTest.Features.Book.Commands
 
             //
             _Assert_Result_Should_Be_ValidationError(result);
-            Assert.Contains(result.Error!.ValidationErrors, a => a.PropertyName == nameof(updateBookCommand.WeightInGram));
+            _Assert_ValidationError_Conatain(result, nameof(updateBookCommand.WeightInGram));
             _OutPutValidationErrors(result);
         }
 
